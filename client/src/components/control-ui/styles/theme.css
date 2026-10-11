@@ -1,0 +1,887 @@
+:where(:root, [data-skin]) {
+  --background: var(--scale-neutral-1);
+  --foreground: var(--scale-neutral-12);
+  --card: var(--scale-neutral-1);
+  --card-foreground: var(--scale-neutral-12);
+  --popover: var(--scale-neutral-1);
+  --popover-foreground: var(--scale-neutral-12);
+  --primary: oklch(0.2046 0 0);
+  --primary-foreground: oklch(0.9851 0 0);
+  --primary-text: oklch(from var(--primary) var(--scale-lightness-11) c h);
+  --muted: var(--scale-neutral-3);
+  --muted-foreground: var(--scale-neutral-11);
+  --secondary: var(--scale-neutral-3);
+  --secondary-foreground: var(--scale-neutral-12);
+  --accent: var(--scale-neutral-4);
+  --accent-foreground: var(--scale-neutral-12);
+  --destructive: oklch(0.568 0.1961 32);
+  --destructive-foreground: oklch(0.9852 0.0058 85);
+  --destructive-text: oklch(from var(--destructive) var(--scale-lightness-11) c h);
+  --success: var(--scale-green-9);
+  --warning: var(--scale-yellow-9);
+  --info: var(--scale-blue-9);
+  --success-text: oklch(from var(--success) var(--scale-lightness-11) c h);
+  --warning-text: oklch(from var(--warning) var(--scale-lightness-11) c h);
+  --info-text: oklch(from var(--info) var(--scale-lightness-11) c h);
+  --border: oklch(from var(--scale-neutral-6) l c h / var(--ring-opacity));
+  --input: var(--control-rim);
+  --ring: oklch(0.5 0 0);
+  --focus-ring: oklch(from var(--ring) l c h / calc(alpha * 0.7));
+  --control-rim: var(--border);
+  --control-boundary: oklch(from var(--foreground) l c h / 0.6);
+  --image-outline: oklch(0 0 0 / 0.1);
+  --control-fill: oklch(from var(--card) l c h / 0.72);
+  --hover-fill: oklch(from var(--foreground) l c h / 0.06);
+  --active-fill: oklch(from var(--foreground) l c h / 0.08);
+  --canvas: var(--scale-neutral-1);
+  --canvas-grid-dot: oklch(from var(--foreground) l c h / 0.16);
+  --ring-opacity: 1;
+  --scale-neutral-seed: oklch(0.5 0 0);
+  --scale-primary-seed: var(--primary);
+  --scale-red-seed: var(--color-red-500);
+  --scale-orange-seed: var(--color-orange-500);
+  --scale-yellow-seed: var(--color-yellow-500);
+  --scale-green-seed: var(--color-green-500);
+  --scale-blue-seed: var(--color-blue-500);
+  --scale-purple-seed: var(--color-purple-500);
+  --scale-pink-seed: var(--color-pink-500);
+  --scale-neutral-lightness-1: 1;
+  --scale-neutral-lightness-2: 0.97;
+  --scale-neutral-lightness-3: 0.9425;
+  --scale-neutral-lightness-4: 0.9295;
+  --scale-neutral-lightness-5: 0.91;
+  --scale-neutral-lightness-6: 0.8851;
+  --scale-neutral-lightness-7: 0.83;
+  --scale-neutral-lightness-8: 0.74;
+  --scale-neutral-lightness-9: 0.62;
+  --scale-neutral-lightness-10: 0.57;
+  --scale-neutral-lightness-11: 0.52;
+  --scale-neutral-lightness-12: 0.1448;
+  --scale-lightness-1: 0.99;
+  --scale-lightness-2: 0.975;
+  --scale-lightness-3: 0.95;
+  --scale-lightness-4: 0.92;
+  --scale-lightness-5: 0.89;
+  --scale-lightness-6: 0.85;
+  --scale-lightness-7: 0.8;
+  --scale-lightness-8: 0.72;
+  --scale-lightness-11: 0.44;
+  --scale-lightness-12: 0.34;
+  --scale-chroma-1: 0.06;
+  --scale-chroma-2: 0.12;
+  --scale-chroma-3: 0.2;
+  --scale-chroma-4: 0.28;
+  --scale-chroma-5: 0.36;
+  --scale-chroma-6: 0.45;
+  --scale-chroma-7: 0.55;
+  --scale-chroma-8: 0.7;
+  --scale-chroma-9: 1;
+  --scale-chroma-10: 1;
+  --scale-chroma-11: 1;
+  --scale-chroma-12: 0.7;
+  --scale-neutral-1: oklch(from var(--scale-neutral-seed) var(--scale-neutral-lightness-1) calc(c * var(--scale-chroma-1)) h);
+  --scale-neutral-2: oklch(from var(--scale-neutral-seed) var(--scale-neutral-lightness-2) calc(c * var(--scale-chroma-2)) h);
+  --scale-neutral-3: oklch(from var(--scale-neutral-seed) var(--scale-neutral-lightness-3) calc(c * var(--scale-chroma-3)) h);
+  --scale-neutral-4: oklch(from var(--scale-neutral-seed) var(--scale-neutral-lightness-4) calc(c * var(--scale-chroma-4)) h);
+  --scale-neutral-5: oklch(from var(--scale-neutral-seed) var(--scale-neutral-lightness-5) calc(c * var(--scale-chroma-5)) h);
+  --scale-neutral-6: oklch(from var(--scale-neutral-seed) var(--scale-neutral-lightness-6) calc(c * var(--scale-chroma-6)) h);
+  --scale-neutral-7: oklch(from var(--scale-neutral-seed) var(--scale-neutral-lightness-7) calc(c * var(--scale-chroma-7)) h);
+  --scale-neutral-8: oklch(from var(--scale-neutral-seed) var(--scale-neutral-lightness-8) calc(c * var(--scale-chroma-8)) h);
+  --scale-neutral-9: oklch(from var(--scale-neutral-seed) var(--scale-neutral-lightness-9) calc(c * var(--scale-chroma-9)) h);
+  --scale-neutral-10: oklch(from var(--scale-neutral-seed) var(--scale-neutral-lightness-10) calc(c * var(--scale-chroma-10)) h);
+  --scale-neutral-11: oklch(from var(--scale-neutral-seed) var(--scale-neutral-lightness-11) calc(c * var(--scale-chroma-11)) h);
+  --scale-neutral-12: oklch(from var(--scale-neutral-seed) var(--scale-neutral-lightness-12) calc(c * var(--scale-chroma-12)) h);
+  --scale-primary-1: oklch(from var(--scale-primary-seed) var(--scale-lightness-1) calc(c * var(--scale-chroma-1)) h);
+  --scale-primary-2: oklch(from var(--scale-primary-seed) var(--scale-lightness-2) calc(c * var(--scale-chroma-2)) h);
+  --scale-primary-3: oklch(from var(--scale-primary-seed) var(--scale-lightness-3) calc(c * var(--scale-chroma-3)) h);
+  --scale-primary-4: oklch(from var(--scale-primary-seed) var(--scale-lightness-4) calc(c * var(--scale-chroma-4)) h);
+  --scale-primary-5: oklch(from var(--scale-primary-seed) var(--scale-lightness-5) calc(c * var(--scale-chroma-5)) h);
+  --scale-primary-6: oklch(from var(--scale-primary-seed) var(--scale-lightness-6) calc(c * var(--scale-chroma-6)) h);
+  --scale-primary-7: oklch(from var(--scale-primary-seed) var(--scale-lightness-7) calc(c * var(--scale-chroma-7)) h);
+  --scale-primary-8: oklch(from var(--scale-primary-seed) var(--scale-lightness-8) calc(c * var(--scale-chroma-8)) h);
+  --scale-primary-9: var(--scale-primary-seed);
+  --scale-primary-10: oklch(from var(--scale-primary-seed) calc(l - 0.05) c h);
+  --scale-primary-11: oklch(from var(--scale-primary-seed) var(--scale-lightness-11) calc(c * var(--scale-chroma-11)) h);
+  --scale-primary-12: oklch(from var(--scale-primary-seed) var(--scale-lightness-12) calc(c * var(--scale-chroma-12)) h);
+  --scale-red-1: oklch(from var(--scale-red-seed) var(--scale-lightness-1) calc(c * var(--scale-chroma-1)) h);
+  --scale-red-2: oklch(from var(--scale-red-seed) var(--scale-lightness-2) calc(c * var(--scale-chroma-2)) h);
+  --scale-red-3: oklch(from var(--scale-red-seed) var(--scale-lightness-3) calc(c * var(--scale-chroma-3)) h);
+  --scale-red-4: oklch(from var(--scale-red-seed) var(--scale-lightness-4) calc(c * var(--scale-chroma-4)) h);
+  --scale-red-5: oklch(from var(--scale-red-seed) var(--scale-lightness-5) calc(c * var(--scale-chroma-5)) h);
+  --scale-red-6: oklch(from var(--scale-red-seed) var(--scale-lightness-6) calc(c * var(--scale-chroma-6)) h);
+  --scale-red-7: oklch(from var(--scale-red-seed) var(--scale-lightness-7) calc(c * var(--scale-chroma-7)) h);
+  --scale-red-8: oklch(from var(--scale-red-seed) var(--scale-lightness-8) calc(c * var(--scale-chroma-8)) h);
+  --scale-red-9: var(--scale-red-seed);
+  --scale-red-10: oklch(from var(--scale-red-seed) calc(l - 0.05) c h);
+  --scale-red-11: oklch(from var(--scale-red-seed) var(--scale-lightness-11) calc(c * var(--scale-chroma-11)) h);
+  --scale-red-12: oklch(from var(--scale-red-seed) var(--scale-lightness-12) calc(c * var(--scale-chroma-12)) h);
+  --scale-orange-1: oklch(from var(--scale-orange-seed) var(--scale-lightness-1) calc(c * var(--scale-chroma-1)) h);
+  --scale-orange-2: oklch(from var(--scale-orange-seed) var(--scale-lightness-2) calc(c * var(--scale-chroma-2)) h);
+  --scale-orange-3: oklch(from var(--scale-orange-seed) var(--scale-lightness-3) calc(c * var(--scale-chroma-3)) h);
+  --scale-orange-4: oklch(from var(--scale-orange-seed) var(--scale-lightness-4) calc(c * var(--scale-chroma-4)) h);
+  --scale-orange-5: oklch(from var(--scale-orange-seed) var(--scale-lightness-5) calc(c * var(--scale-chroma-5)) h);
+  --scale-orange-6: oklch(from var(--scale-orange-seed) var(--scale-lightness-6) calc(c * var(--scale-chroma-6)) h);
+  --scale-orange-7: oklch(from var(--scale-orange-seed) var(--scale-lightness-7) calc(c * var(--scale-chroma-7)) h);
+  --scale-orange-8: oklch(from var(--scale-orange-seed) var(--scale-lightness-8) calc(c * var(--scale-chroma-8)) h);
+  --scale-orange-9: var(--scale-orange-seed);
+  --scale-orange-10: oklch(from var(--scale-orange-seed) calc(l - 0.05) c h);
+  --scale-orange-11: oklch(from var(--scale-orange-seed) var(--scale-lightness-11) calc(c * var(--scale-chroma-11)) h);
+  --scale-orange-12: oklch(from var(--scale-orange-seed) var(--scale-lightness-12) calc(c * var(--scale-chroma-12)) h);
+  --scale-yellow-1: oklch(from var(--scale-yellow-seed) var(--scale-lightness-1) calc(c * var(--scale-chroma-1)) h);
+  --scale-yellow-2: oklch(from var(--scale-yellow-seed) var(--scale-lightness-2) calc(c * var(--scale-chroma-2)) h);
+  --scale-yellow-3: oklch(from var(--scale-yellow-seed) var(--scale-lightness-3) calc(c * var(--scale-chroma-3)) h);
+  --scale-yellow-4: oklch(from var(--scale-yellow-seed) var(--scale-lightness-4) calc(c * var(--scale-chroma-4)) h);
+  --scale-yellow-5: oklch(from var(--scale-yellow-seed) var(--scale-lightness-5) calc(c * var(--scale-chroma-5)) h);
+  --scale-yellow-6: oklch(from var(--scale-yellow-seed) var(--scale-lightness-6) calc(c * var(--scale-chroma-6)) h);
+  --scale-yellow-7: oklch(from var(--scale-yellow-seed) var(--scale-lightness-7) calc(c * var(--scale-chroma-7)) h);
+  --scale-yellow-8: oklch(from var(--scale-yellow-seed) var(--scale-lightness-8) calc(c * var(--scale-chroma-8)) h);
+  --scale-yellow-9: var(--scale-yellow-seed);
+  --scale-yellow-10: oklch(from var(--scale-yellow-seed) calc(l - 0.05) c h);
+  --scale-yellow-11: oklch(from var(--scale-yellow-seed) var(--scale-lightness-11) calc(c * var(--scale-chroma-11)) h);
+  --scale-yellow-12: oklch(from var(--scale-yellow-seed) var(--scale-lightness-12) calc(c * var(--scale-chroma-12)) h);
+  --scale-green-1: oklch(from var(--scale-green-seed) var(--scale-lightness-1) calc(c * var(--scale-chroma-1)) h);
+  --scale-green-2: oklch(from var(--scale-green-seed) var(--scale-lightness-2) calc(c * var(--scale-chroma-2)) h);
+  --scale-green-3: oklch(from var(--scale-green-seed) var(--scale-lightness-3) calc(c * var(--scale-chroma-3)) h);
+  --scale-green-4: oklch(from var(--scale-green-seed) var(--scale-lightness-4) calc(c * var(--scale-chroma-4)) h);
+  --scale-green-5: oklch(from var(--scale-green-seed) var(--scale-lightness-5) calc(c * var(--scale-chroma-5)) h);
+  --scale-green-6: oklch(from var(--scale-green-seed) var(--scale-lightness-6) calc(c * var(--scale-chroma-6)) h);
+  --scale-green-7: oklch(from var(--scale-green-seed) var(--scale-lightness-7) calc(c * var(--scale-chroma-7)) h);
+  --scale-green-8: oklch(from var(--scale-green-seed) var(--scale-lightness-8) calc(c * var(--scale-chroma-8)) h);
+  --scale-green-9: var(--scale-green-seed);
+  --scale-green-10: oklch(from var(--scale-green-seed) calc(l - 0.05) c h);
+  --scale-green-11: oklch(from var(--scale-green-seed) var(--scale-lightness-11) calc(c * var(--scale-chroma-11)) h);
+  --scale-green-12: oklch(from var(--scale-green-seed) var(--scale-lightness-12) calc(c * var(--scale-chroma-12)) h);
+  --scale-blue-1: oklch(from var(--scale-blue-seed) var(--scale-lightness-1) calc(c * var(--scale-chroma-1)) h);
+  --scale-blue-2: oklch(from var(--scale-blue-seed) var(--scale-lightness-2) calc(c * var(--scale-chroma-2)) h);
+  --scale-blue-3: oklch(from var(--scale-blue-seed) var(--scale-lightness-3) calc(c * var(--scale-chroma-3)) h);
+  --scale-blue-4: oklch(from var(--scale-blue-seed) var(--scale-lightness-4) calc(c * var(--scale-chroma-4)) h);
+  --scale-blue-5: oklch(from var(--scale-blue-seed) var(--scale-lightness-5) calc(c * var(--scale-chroma-5)) h);
+  --scale-blue-6: oklch(from var(--scale-blue-seed) var(--scale-lightness-6) calc(c * var(--scale-chroma-6)) h);
+  --scale-blue-7: oklch(from var(--scale-blue-seed) var(--scale-lightness-7) calc(c * var(--scale-chroma-7)) h);
+  --scale-blue-8: oklch(from var(--scale-blue-seed) var(--scale-lightness-8) calc(c * var(--scale-chroma-8)) h);
+  --scale-blue-9: var(--scale-blue-seed);
+  --scale-blue-10: oklch(from var(--scale-blue-seed) calc(l - 0.05) c h);
+  --scale-blue-11: oklch(from var(--scale-blue-seed) var(--scale-lightness-11) calc(c * var(--scale-chroma-11)) h);
+  --scale-blue-12: oklch(from var(--scale-blue-seed) var(--scale-lightness-12) calc(c * var(--scale-chroma-12)) h);
+  --scale-purple-1: oklch(from var(--scale-purple-seed) var(--scale-lightness-1) calc(c * var(--scale-chroma-1)) h);
+  --scale-purple-2: oklch(from var(--scale-purple-seed) var(--scale-lightness-2) calc(c * var(--scale-chroma-2)) h);
+  --scale-purple-3: oklch(from var(--scale-purple-seed) var(--scale-lightness-3) calc(c * var(--scale-chroma-3)) h);
+  --scale-purple-4: oklch(from var(--scale-purple-seed) var(--scale-lightness-4) calc(c * var(--scale-chroma-4)) h);
+  --scale-purple-5: oklch(from var(--scale-purple-seed) var(--scale-lightness-5) calc(c * var(--scale-chroma-5)) h);
+  --scale-purple-6: oklch(from var(--scale-purple-seed) var(--scale-lightness-6) calc(c * var(--scale-chroma-6)) h);
+  --scale-purple-7: oklch(from var(--scale-purple-seed) var(--scale-lightness-7) calc(c * var(--scale-chroma-7)) h);
+  --scale-purple-8: oklch(from var(--scale-purple-seed) var(--scale-lightness-8) calc(c * var(--scale-chroma-8)) h);
+  --scale-purple-9: var(--scale-purple-seed);
+  --scale-purple-10: oklch(from var(--scale-purple-seed) calc(l - 0.05) c h);
+  --scale-purple-11: oklch(from var(--scale-purple-seed) var(--scale-lightness-11) calc(c * var(--scale-chroma-11)) h);
+  --scale-purple-12: oklch(from var(--scale-purple-seed) var(--scale-lightness-12) calc(c * var(--scale-chroma-12)) h);
+  --scale-pink-1: oklch(from var(--scale-pink-seed) var(--scale-lightness-1) calc(c * var(--scale-chroma-1)) h);
+  --scale-pink-2: oklch(from var(--scale-pink-seed) var(--scale-lightness-2) calc(c * var(--scale-chroma-2)) h);
+  --scale-pink-3: oklch(from var(--scale-pink-seed) var(--scale-lightness-3) calc(c * var(--scale-chroma-3)) h);
+  --scale-pink-4: oklch(from var(--scale-pink-seed) var(--scale-lightness-4) calc(c * var(--scale-chroma-4)) h);
+  --scale-pink-5: oklch(from var(--scale-pink-seed) var(--scale-lightness-5) calc(c * var(--scale-chroma-5)) h);
+  --scale-pink-6: oklch(from var(--scale-pink-seed) var(--scale-lightness-6) calc(c * var(--scale-chroma-6)) h);
+  --scale-pink-7: oklch(from var(--scale-pink-seed) var(--scale-lightness-7) calc(c * var(--scale-chroma-7)) h);
+  --scale-pink-8: oklch(from var(--scale-pink-seed) var(--scale-lightness-8) calc(c * var(--scale-chroma-8)) h);
+  --scale-pink-9: var(--scale-pink-seed);
+  --scale-pink-10: oklch(from var(--scale-pink-seed) calc(l - 0.05) c h);
+  --scale-pink-11: oklch(from var(--scale-pink-seed) var(--scale-lightness-11) calc(c * var(--scale-chroma-11)) h);
+  --scale-pink-12: oklch(from var(--scale-pink-seed) var(--scale-lightness-12) calc(c * var(--scale-chroma-12)) h);
+  --badge-fill-alpha: 0.16;
+  --badge-border-alpha: 0.2;
+  --badge-hover-alpha: 0.24;
+  --badge-neutral: oklch(from var(--foreground) l c h / 0.08);
+  --badge-neutral-foreground: var(--foreground);
+  --badge-neutral-border: oklch(from var(--foreground) l c h / 0.1);
+  --badge-neutral-hover: oklch(from var(--foreground) l c h / 0.12);
+  --badge-red: oklch(from var(--scale-red-9) l c h / var(--badge-fill-alpha));
+  --badge-red-foreground: var(--scale-red-11);
+  --badge-red-border: oklch(from var(--scale-red-9) l c h / var(--badge-border-alpha));
+  --badge-red-hover: oklch(from var(--scale-red-9) l c h / var(--badge-hover-alpha));
+  --badge-orange: oklch(from var(--scale-orange-9) l c h / var(--badge-fill-alpha));
+  --badge-orange-foreground: var(--scale-orange-11);
+  --badge-orange-border: oklch(from var(--scale-orange-9) l c h / var(--badge-border-alpha));
+  --badge-orange-hover: oklch(from var(--scale-orange-9) l c h / var(--badge-hover-alpha));
+  --badge-yellow: oklch(from var(--scale-yellow-9) l c h / var(--badge-fill-alpha));
+  --badge-yellow-foreground: var(--scale-yellow-11);
+  --badge-yellow-border: oklch(from var(--scale-yellow-9) l c h / var(--badge-border-alpha));
+  --badge-yellow-hover: oklch(from var(--scale-yellow-9) l c h / var(--badge-hover-alpha));
+  --badge-green: oklch(from var(--scale-green-9) l c h / var(--badge-fill-alpha));
+  --badge-green-foreground: var(--scale-green-11);
+  --badge-green-border: oklch(from var(--scale-green-9) l c h / var(--badge-border-alpha));
+  --badge-green-hover: oklch(from var(--scale-green-9) l c h / var(--badge-hover-alpha));
+  --badge-blue: oklch(from var(--scale-blue-9) l c h / var(--badge-fill-alpha));
+  --badge-blue-foreground: var(--scale-blue-11);
+  --badge-blue-border: oklch(from var(--scale-blue-9) l c h / var(--badge-border-alpha));
+  --badge-blue-hover: oklch(from var(--scale-blue-9) l c h / var(--badge-hover-alpha));
+  --badge-purple: oklch(from var(--scale-purple-9) l c h / var(--badge-fill-alpha));
+  --badge-purple-foreground: var(--scale-purple-11);
+  --badge-purple-border: oklch(from var(--scale-purple-9) l c h / var(--badge-border-alpha));
+  --badge-purple-hover: oklch(from var(--scale-purple-9) l c h / var(--badge-hover-alpha));
+  --badge-pink: oklch(from var(--scale-pink-9) l c h / var(--badge-fill-alpha));
+  --badge-pink-foreground: var(--scale-pink-11);
+  --badge-pink-border: oklch(from var(--scale-pink-9) l c h / var(--badge-border-alpha));
+  --badge-pink-hover: oklch(from var(--scale-pink-9) l c h / var(--badge-hover-alpha));
+  --chart-blue: var(--scale-blue-9);
+  --chart-purple: var(--scale-purple-9);
+  --chart-pink: var(--scale-pink-9);
+  --chart-orange: var(--scale-orange-9);
+  --chart-green: var(--scale-green-9);
+  --chart-yellow: var(--scale-yellow-9);
+  --chart-red: var(--scale-red-9);
+  --chart-neutral: var(--scale-neutral-9);
+  --sidebar: var(--canvas);
+  --sidebar-foreground: var(--foreground);
+  --sidebar-primary: var(--primary);
+  --sidebar-accent: var(--hover-fill);
+  --sidebar-accent-foreground: var(--foreground);
+  --sidebar-border: var(--border);
+
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-body: var(--font-sans);
+  --font-display: var(--font-sans);
+  --text-micro: 0.625rem;
+  --text-caption: 0.6875rem;
+  --text-label: 0.75rem;
+  --text-body: 0.875rem;
+  --text-body-lg: 1rem;
+  --text-heading-4: 0.9375rem;
+  --text-heading-4--line-height: 1.4;
+  --text-heading-4--font-weight: 600;
+  --text-heading-3: 1.125rem;
+  --text-heading-3--line-height: 1.35;
+  --text-heading-3--font-weight: 600;
+  --text-heading-2: 1.375rem;
+  --text-heading-2--line-height: 1.25;
+  --text-heading-2--font-weight: 600;
+  --text-heading-1: 1.875rem;
+  --text-heading-1--line-height: 1.15;
+  --text-heading-1--font-weight: 700;
+  --text-heading-1--letter-spacing: -0.018em;
+  --text-display: 2.25rem;
+  --text-display--line-height: 1.1;
+  --text-display--font-weight: 600;
+  --text-display--letter-spacing: -0.026em;
+
+  --radius: 0px;
+  --radius-control: calc(var(--radius) * 2);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.6);
+  --radius-popup-item-fit: min(var(--radius-popup-item), calc(var(--control-h-xs) / 2));
+  --radius-field: calc(var(--radius) * 2.2);
+  --radius-composer: calc(
+    min(var(--radius-control), calc(var(--control-h-xs) / 2)) +
+    clamp(0px, min(var(--radius-control), calc(var(--control-h-xs) / 2)) * 1000, var(--composer-padding) + var(--control-rim-width))
+  );
+  --radius-panel: calc(var(--radius) * 2.6);
+  --radius-scene: calc(var(--radius) * 2.8);
+  --corner-shape: round;
+  --radius-popup-item: calc(var(--radius-control) * 0.6);
+  --radius-popover: calc(var(--radius-popup-item-fit) + clamp(0px, var(--radius-popup-item-fit) * 1000, var(--popover-padding)));
+
+  --composer-padding: calc(var(--spacing) * 2.5);
+  --popover-padding: 0.25rem;
+  --padding-x: 16px;
+  --padding-y: 10px;
+  --control-h: 36px;
+  --control-h-xs: round(var(--control-h) * 0.78, 1px);
+  --control-h-sm: round(var(--control-h) * 0.89, 1px);
+  --control-h-md: var(--control-h);
+  --control-h-lg: round(var(--control-h) * 1.11, 1px);
+  --sidebar-width: 16rem;
+  --sidebar-width-icon: 3rem;
+  --z-overlay: 70;
+  --z-modal: 71;
+  --z-popup: 80;
+  --z-tooltip: 90;
+  --z-toast: 95;
+  --focus-ring-width: 2px;
+  --focus-ring-style: solid;
+  --focus-ring-offset: 2px;
+  --control-rim-width: 1px;
+  --touch-target: 44px;
+  --target-min: 24px;
+  --text-input-min: 16px;
+
+  --shadow-color: oklch(0.2986 0 0);
+  --shadow-highlight: oklch(1 0 0 / 0.62);
+  --shadow-size: 0;
+  --shadow-opacity: 1;
+  --shadow-y: 1;
+  --shadow-control-multiplier: 1;
+  --shadow-panel-multiplier: 2;
+  --shadow-popover-multiplier: 4;
+  --shadow-modal-multiplier: 5;
+  --shadow-ambient-multiplier: 8;
+
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-emphasized: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast: 150ms;
+  --duration-base: 200ms;
+  --duration-slow: 300ms;
+  --duration-loop: 1000ms;
+
+  --popover-opacity: 1;
+  --backdrop-blur-popover: 0px;
+  --overlay-opacity: 0.2;
+  --backdrop-blur-overlay: 0px;
+  --scroll-fade-size: 0px;
+  --disabled-opacity: 0.45;
+}
+
+:where(.dark:root, .dark[data-skin], .dark [data-skin]) {
+  --scale-neutral-lightness-1: 0.1448;
+  --scale-neutral-lightness-2: 0.2046;
+  --scale-neutral-lightness-3: 0.2668;
+  --scale-neutral-lightness-4: 0.2864;
+  --scale-neutral-lightness-5: 0.297;
+  --scale-neutral-lightness-6: 0.3082;
+  --scale-neutral-lightness-7: 0.37;
+  --scale-neutral-lightness-8: 0.46;
+  --scale-neutral-lightness-9: 0.56;
+  --scale-neutral-lightness-10: 0.62;
+  --scale-neutral-lightness-11: 0.7405;
+  --scale-neutral-lightness-12: 0.9851;
+  --scale-lightness-1: 0.18;
+  --scale-lightness-2: 0.21;
+  --scale-lightness-3: 0.25;
+  --scale-lightness-4: 0.29;
+  --scale-lightness-5: 0.33;
+  --scale-lightness-6: 0.38;
+  --scale-lightness-7: 0.44;
+  --scale-lightness-8: 0.52;
+  --scale-lightness-11: 0.86;
+  --scale-lightness-12: 0.93;
+
+  --primary: oklch(0.9851 0 0);
+  --primary-foreground: oklch(0.2046 0 0);
+  --card: var(--scale-neutral-2);
+  --popover: var(--scale-neutral-2);
+
+  --destructive: oklch(0.551 0.1799 32);
+  --destructive-foreground: oklch(0.9645 0.008 84);
+  --ring: oklch(0.66 0 0);
+  --shadow-color: oklch(0 0 0);
+  --shadow-highlight: oklch(1 0 0 / 0.055);
+  --badge-neutral: oklch(from var(--foreground) l c h / 0.1);
+  --badge-neutral-border: oklch(from var(--foreground) l c h / 0.12);
+  --badge-neutral-hover: oklch(from var(--foreground) l c h / 0.14);
+  --badge-fill-alpha: 0.2;
+  --badge-border-alpha: 0.24;
+  --badge-hover-alpha: 0.28;
+  --image-outline: oklch(1 0 0 / 0.1);
+}
+
+@custom-variant dark (&:is(.dark *));
+
+/* biome-ignore-start lint/complexity/noImportantStyles: Reduced motion must override skin and inline motion. */
+
+@media (prefers-reduced-motion: reduce) {
+  :where(:root),
+  [data-skin] {
+    --duration-fast: 0ms !important;
+    --duration-base: 0ms !important;
+    --duration-slow: 0ms !important;
+  }
+
+  :where(:root, :root *, [data-skin], [data-skin] *):where(:not([data-motion-essential], [data-motion-essential] *)),
+  :where(:root, :root *, [data-skin], [data-skin] *):where(:not([data-motion-essential], [data-motion-essential] *))::before,
+  :where(:root, :root *, [data-skin], [data-skin] *):where(:not([data-motion-essential], [data-motion-essential] *))::after {
+    scroll-behavior: auto !important;
+    transition-delay: 0ms !important;
+    transition-duration: 0ms !important;
+    animation-delay: 0ms !important;
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+:root[data-motion="reduced"],
+[data-motion="reduced"][data-skin],
+[data-motion="reduced"] [data-skin] {
+  --duration-fast: 0ms !important;
+  --duration-base: 0ms !important;
+  --duration-slow: 0ms !important;
+}
+
+:where([data-motion="reduced"], [data-motion="reduced"] *):where(:not([data-motion-essential], [data-motion-essential] *)),
+:where([data-motion="reduced"], [data-motion="reduced"] *):where(:not([data-motion-essential], [data-motion-essential] *))::before,
+:where([data-motion="reduced"], [data-motion="reduced"] *):where(:not([data-motion-essential], [data-motion-essential] *))::after {
+  scroll-behavior: auto !important;
+  transition-delay: 0ms !important;
+  transition-duration: 0ms !important;
+  animation-delay: 0ms !important;
+  animation-duration: 1ms !important;
+  animation-iteration-count: 1 !important;
+}
+/* biome-ignore-end lint/complexity/noImportantStyles: Reduced motion must override skin and inline motion. */
+
+@theme static {
+  --breakpoint-lg: 64rem;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-canvas: var(--canvas);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: oklch(from var(--popover) l c h / var(--popover-opacity));
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-text: var(--primary-text);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-destructive-text: var(--destructive-text);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-info: var(--info);
+  --color-success-text: var(--success-text);
+  --color-warning-text: var(--warning-text);
+  --color-info-text: var(--info-text);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-chart-blue: var(--chart-blue);
+  --color-chart-purple: var(--chart-purple);
+  --color-chart-pink: var(--chart-pink);
+  --color-chart-orange: var(--chart-orange);
+  --color-chart-green: var(--chart-green);
+  --color-chart-yellow: var(--chart-yellow);
+  --color-chart-red: var(--chart-red);
+  --color-chart-neutral: var(--chart-neutral);
+
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+  --radius-2xl: var(--radius-2xl);
+  --radius-control: var(--radius-control);
+  --radius-field: var(--radius-field);
+  --radius-panel: var(--radius-panel);
+  --radius-scene: var(--radius-scene);
+
+  --spacing-control: var(--control-h);
+  --spacing-control-xs: var(--control-h-xs);
+  --spacing-control-sm: var(--control-h-sm);
+  --spacing-control-md: var(--control-h-md);
+  --spacing-control-lg: var(--control-h-lg);
+
+  --text-micro: var(--text-micro);
+  --text-caption: var(--text-caption);
+  --text-label: var(--text-label);
+  --text-body: var(--text-body);
+  --text-body-lg: var(--text-body-lg);
+  --text-heading-4: var(--text-heading-4);
+  --text-heading-4--line-height: var(--text-heading-4--line-height);
+  --text-heading-4--font-weight: var(--text-heading-4--font-weight);
+  --text-heading-3: var(--text-heading-3);
+  --text-heading-3--line-height: var(--text-heading-3--line-height);
+  --text-heading-3--font-weight: var(--text-heading-3--font-weight);
+  --text-heading-2: var(--text-heading-2);
+  --text-heading-2--line-height: var(--text-heading-2--line-height);
+  --text-heading-2--font-weight: var(--text-heading-2--font-weight);
+  --text-heading-1: var(--text-heading-1);
+  --text-heading-1--line-height: var(--text-heading-1--line-height);
+  --text-heading-1--font-weight: var(--text-heading-1--font-weight);
+  --text-heading-1--letter-spacing: var(--text-heading-1--letter-spacing);
+  --text-display: var(--text-display);
+  --text-display--line-height: var(--text-display--line-height);
+  --text-display--font-weight: var(--text-display--font-weight);
+  --text-display--letter-spacing: var(--text-display--letter-spacing);
+
+  --font-body: var(--font-body);
+  --font-display: var(--font-display);
+
+  --shadow-sm:
+    inset 0 1px 0
+    oklch(from var(--shadow-highlight) l c h / calc(alpha * var(--shadow-opacity) * min(var(--shadow-size), 1))),
+    0 calc(1px * var(--shadow-size) * var(--shadow-control-multiplier) * var(--shadow-y))
+    calc(1px * var(--shadow-size) * var(--shadow-control-multiplier))
+    calc(-0.5px * var(--shadow-size) * var(--shadow-control-multiplier))
+    oklch(from var(--shadow-color) l c h / calc(0.05 * var(--shadow-opacity))),
+    0 calc(2px * var(--shadow-size) * var(--shadow-control-multiplier) * var(--shadow-y))
+    calc(4px * var(--shadow-size) * var(--shadow-control-multiplier))
+    calc(-1px * var(--shadow-size) * var(--shadow-control-multiplier))
+    oklch(from var(--shadow-color) l c h / calc(0.05 * var(--shadow-opacity))),
+    0 calc(4px * var(--shadow-size) * var(--shadow-control-multiplier) * var(--shadow-y))
+    calc(10px * var(--shadow-size) * var(--shadow-control-multiplier))
+    calc(-2px * var(--shadow-size) * var(--shadow-control-multiplier))
+    oklch(from var(--shadow-color) l c h / calc(0.05 * var(--shadow-opacity)));
+  --shadow-md:
+    inset 0 1px 0
+    oklch(from var(--shadow-highlight) l c h / calc(alpha * var(--shadow-opacity) * min(var(--shadow-size), 1))),
+    0 calc(1px * var(--shadow-size) * var(--shadow-panel-multiplier) * var(--shadow-y))
+    calc(1.5px * var(--shadow-size) * var(--shadow-panel-multiplier))
+    calc(-0.5px * var(--shadow-size) * var(--shadow-panel-multiplier))
+    oklch(from var(--shadow-color) l c h / calc(0.05 * var(--shadow-opacity))),
+    0 calc(2.5px * var(--shadow-size) * var(--shadow-panel-multiplier) * var(--shadow-y))
+    calc(5px * var(--shadow-size) * var(--shadow-panel-multiplier))
+    calc(-1.5px * var(--shadow-size) * var(--shadow-panel-multiplier))
+    oklch(from var(--shadow-color) l c h / calc(0.05 * var(--shadow-opacity))),
+    0 calc(5px * var(--shadow-size) * var(--shadow-panel-multiplier) * var(--shadow-y))
+    calc(10px * var(--shadow-size) * var(--shadow-panel-multiplier))
+    calc(-2.5px * var(--shadow-size) * var(--shadow-panel-multiplier))
+    oklch(from var(--shadow-color) l c h / calc(0.05 * var(--shadow-opacity)));
+  --shadow-pop:
+    inset 0 1px 0
+    oklch(from var(--shadow-highlight) l c h / calc(alpha * var(--shadow-opacity) * min(var(--shadow-size), 1))),
+    0 calc(0.5px * var(--shadow-size) * var(--shadow-popover-multiplier) * var(--shadow-y))
+    calc(0.75px * var(--shadow-size) * var(--shadow-popover-multiplier))
+    calc(-0.25px * var(--shadow-size) * var(--shadow-popover-multiplier))
+    oklch(from var(--shadow-color) l c h / calc(0.04 * var(--shadow-opacity))),
+    0 calc(1.5px * var(--shadow-size) * var(--shadow-popover-multiplier) * var(--shadow-y))
+    calc(3px * var(--shadow-size) * var(--shadow-popover-multiplier))
+    calc(-0.75px * var(--shadow-size) * var(--shadow-popover-multiplier))
+    oklch(from var(--shadow-color) l c h / calc(0.05 * var(--shadow-opacity))),
+    0 calc(3px * var(--shadow-size) * var(--shadow-popover-multiplier) * var(--shadow-y))
+    calc(6px * var(--shadow-size) * var(--shadow-popover-multiplier))
+    calc(-1.5px * var(--shadow-size) * var(--shadow-popover-multiplier))
+    oklch(from var(--shadow-color) l c h / calc(0.06 * var(--shadow-opacity))),
+    0 calc(6px * var(--shadow-size) * var(--shadow-popover-multiplier) * var(--shadow-y))
+    calc(14px * var(--shadow-size) * var(--shadow-popover-multiplier))
+    calc(-3px * var(--shadow-size) * var(--shadow-popover-multiplier))
+    oklch(from var(--shadow-color) l c h / calc(0.07 * var(--shadow-opacity)));
+  --shadow-modal:
+    inset 0 1px 0
+    oklch(from var(--shadow-highlight) l c h / calc(alpha * var(--shadow-opacity) * min(var(--shadow-size), 1))),
+    0 calc(0.6px * var(--shadow-size) * var(--shadow-modal-multiplier) * var(--shadow-y))
+    calc(1px * var(--shadow-size) * var(--shadow-modal-multiplier))
+    calc(-0.3px * var(--shadow-size) * var(--shadow-modal-multiplier))
+    oklch(from var(--shadow-color) l c h / calc(0.05 * var(--shadow-opacity))),
+    0 calc(1.6px * var(--shadow-size) * var(--shadow-modal-multiplier) * var(--shadow-y))
+    calc(3.2px * var(--shadow-size) * var(--shadow-modal-multiplier))
+    calc(-0.8px * var(--shadow-size) * var(--shadow-modal-multiplier))
+    oklch(from var(--shadow-color) l c h / calc(0.06 * var(--shadow-opacity))),
+    0 calc(3.4px * var(--shadow-size) * var(--shadow-modal-multiplier) * var(--shadow-y))
+    calc(7px * var(--shadow-size) * var(--shadow-modal-multiplier))
+    calc(-1.6px * var(--shadow-size) * var(--shadow-modal-multiplier))
+    oklch(from var(--shadow-color) l c h / calc(0.07 * var(--shadow-opacity))),
+    0 calc(7px * var(--shadow-size) * var(--shadow-modal-multiplier) * var(--shadow-y))
+    calc(16px * var(--shadow-size) * var(--shadow-modal-multiplier))
+    calc(-3px * var(--shadow-size) * var(--shadow-modal-multiplier))
+    oklch(from var(--shadow-color) l c h / calc(0.1 * var(--shadow-opacity)));
+  --shadow-soft:
+    0 calc(0.75px * var(--shadow-size) * var(--shadow-ambient-multiplier) * var(--shadow-y))
+    calc(2px * var(--shadow-size) * var(--shadow-ambient-multiplier)) calc(-0.75px * var(--shadow-size) * var(--shadow-ambient-multiplier))
+    oklch(from var(--shadow-color) l c h / calc(0.03 * var(--shadow-opacity))),
+    0 calc(2px * var(--shadow-size) * var(--shadow-ambient-multiplier) * var(--shadow-y))
+    calc(5px * var(--shadow-size) * var(--shadow-ambient-multiplier)) calc(-1.5px * var(--shadow-size) * var(--shadow-ambient-multiplier))
+    oklch(from var(--shadow-color) l c h / calc(0.05 * var(--shadow-opacity))),
+    0 calc(4.5px * var(--shadow-size) * var(--shadow-ambient-multiplier) * var(--shadow-y))
+    calc(12px * var(--shadow-size) * var(--shadow-ambient-multiplier)) calc(-2.5px * var(--shadow-size) * var(--shadow-ambient-multiplier))
+    oklch(from var(--shadow-color) l c h / calc(0.05 * var(--shadow-opacity)));
+
+  --shadow-overlay:
+    0 0 calc(3.2px * var(--shadow-size) * var(--shadow-modal-multiplier)) calc(-0.8px * var(--shadow-size) * var(--shadow-modal-multiplier))
+    oklch(from var(--shadow-color) l c h / calc(0.03 * var(--shadow-opacity))),
+    0 0 calc(11.2px * var(--shadow-size) * var(--shadow-modal-multiplier))
+    calc(-1.6px * var(--shadow-size) * var(--shadow-modal-multiplier))
+    oklch(from var(--shadow-color) l c h / calc(0.07 * var(--shadow-opacity)));
+
+  --shadow-inset:
+    inset 0 calc(1px * var(--shadow-size) * var(--shadow-control-multiplier) * var(--shadow-y))
+    calc(2px * var(--shadow-size) * var(--shadow-control-multiplier))
+    oklch(from var(--shadow-color) l c h / calc(0.06 * var(--shadow-opacity))),
+    inset 0 0 calc(4px * var(--shadow-size) * var(--shadow-control-multiplier))
+    oklch(from var(--shadow-color) l c h / calc(0.04 * var(--shadow-opacity)));
+
+  --default-transition-duration: var(--duration-fast);
+  --default-transition-timing-function: var(--ease-standard);
+}
+
+@utility text-display {
+  font-family: var(--font-display);
+  text-wrap: balance;
+}
+
+@utility text-heading-1 {
+  font-family: var(--font-display);
+  text-wrap: balance;
+}
+
+@utility text-heading-2 {
+  font-family: var(--font-display);
+  text-wrap: balance;
+}
+
+@utility text-heading-3 {
+  font-family: var(--font-display);
+  text-wrap: balance;
+}
+
+@utility text-heading-4 {
+  font-family: var(--font-display);
+  text-wrap: balance;
+}
+
+@layer base {
+  *,
+  ::after,
+  ::before {
+    border-color: var(--border);
+    background-origin: border-box;
+  }
+
+  @supports (corner-shape: squircle) {
+    :where([data-control-ui][data-slot]) {
+      corner-shape: var(--corner-shape);
+    }
+  }
+
+  body {
+    font-synthesis: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html {
+    background-color: var(--background);
+  }
+
+  :root:has([data-control-family="sidebar"][data-slot="wrapper"] [data-control-family="sidebar"][data-variant="inset"][data-state]) {
+    background-color: var(--sidebar);
+  }
+
+  :where(
+    [data-control-family]:is(
+      a[href],
+      button,
+      input,
+      label,
+      select,
+      summary,
+      textarea,
+      [role="button"],
+      [role="checkbox"],
+      [role="menuitem"],
+      [role="menuitemcheckbox"],
+      [role="menuitemradio"],
+      [role="option"],
+      [role="radio"],
+      [role="switch"],
+      [role="tab"]
+    )
+  ) {
+    touch-action: manipulation;
+  }
+}
+
+@layer components {
+  :where([data-control-family]):focus-visible,
+  :where([data-control-family][data-control="true"]):has(:focus-visible),
+  :where([data-control-family][data-focus-ring="within"]):has(:focus-visible) {
+    outline: var(--focus-ring-width) var(--focus-ring-style) var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
+  }
+
+  :where(
+    [data-control-family][data-control="true"] [data-control-family],
+    [data-control-family][data-focus-ring="within"] [data-control-family]
+  ):focus-visible {
+    outline-width: 0;
+  }
+
+  :where([data-control-family][data-highlighted]):focus-visible {
+    outline-offset: calc(var(--focus-ring-width) * -1);
+  }
+
+  @media (forced-colors: active) {
+    :where([data-control-family]):focus-visible,
+    :where([data-control-family][data-control="true"]):has(:focus-visible),
+    :where([data-control-family][data-focus-ring="within"]):has(:focus-visible) {
+      outline-color: Highlight;
+    }
+  }
+
+  :where([data-icon-dir="inline"]:dir(rtl)) {
+    scale: -1 1;
+  }
+
+  :where([data-control-ui="chat-message"][data-slot="root"], [data-control-ui="chat-composer"][data-slot="root"]) {
+    opacity: 1;
+    filter: none;
+    translate: 0 0;
+    scale: 1;
+    transition:
+      opacity var(--duration-slow) var(--ease-emphasized),
+      filter var(--duration-slow) var(--ease-emphasized),
+      translate var(--duration-slow) var(--ease-emphasized),
+      scale var(--duration-slow) var(--ease-emphasized);
+  }
+
+  @starting-style {
+    :where([data-control-ui="chat-message"][data-slot="root"]) {
+      opacity: 0;
+      filter: blur(8px);
+      translate: 0 0.5rem;
+      scale: 0.985;
+    }
+
+    :where([data-control-ui="chat-composer"][data-slot="root"]) {
+      opacity: 0;
+      filter: blur(10px);
+      translate: 0 0.75rem;
+    }
+  }
+
+  :where([data-slide="panel"]) {
+    translate: 0 0;
+
+    transition: translate var(--duration-slow) var(--ease-emphasized);
+  }
+
+  :where([data-slide="panel"][inert]) {
+    display: none;
+  }
+
+  :where([data-slide="panel"][data-starting-style][data-activation-direction="left"]) {
+    translate: -0.35rem 0;
+  }
+
+  :where([data-slide="panel"][data-starting-style][data-activation-direction="right"]) {
+    translate: 0.35rem 0;
+  }
+
+  :where([data-slide="panel"][data-starting-style][data-activation-direction="up"]) {
+    translate: 0 -0.35rem;
+  }
+
+  :where([data-slide="panel"][data-starting-style][data-activation-direction="down"]) {
+    translate: 0 0.35rem;
+  }
+
+  @supports ((anchor-name: --aui-slide-panel) and (anchor-scope: --aui-slide-panel)) {
+    :where([data-slide="scope"]) {
+      anchor-scope: --aui-slide-panel;
+    }
+
+    :where([data-slide="panel"]:not([inert])) {
+      anchor-name: --aui-slide-panel;
+    }
+
+    :where([data-slide="panel"][inert][data-ending-style]) {
+      display: block;
+      position: absolute;
+      position-anchor: --aui-slide-panel;
+      width: anchor-size(width);
+      height: anchor-size(height);
+      overflow: clip;
+    }
+
+    :where(:has(> [data-slide="panel"][data-ending-style])) {
+      position: relative;
+      overflow: clip;
+    }
+
+    :where([data-slide="panel"][inert][data-ending-style][data-activation-direction="left"]) {
+      top: anchor(top);
+      left: anchor(right);
+      animation: aui-slide-exit-hold var(--duration-slow) var(--ease-emphasized) both;
+    }
+
+    :where([data-slide="panel"][inert][data-ending-style][data-activation-direction="right"]) {
+      top: anchor(top);
+      right: anchor(left);
+      animation: aui-slide-exit-hold var(--duration-slow) var(--ease-emphasized) both;
+    }
+
+    :where([data-slide="panel"][inert][data-ending-style][data-activation-direction="up"]) {
+      left: anchor(left);
+      top: anchor(bottom);
+      animation: aui-slide-exit-hold var(--duration-slow) var(--ease-emphasized) both;
+    }
+
+    :where([data-slide="panel"][inert][data-ending-style][data-activation-direction="down"]) {
+      left: anchor(left);
+      bottom: anchor(top);
+      animation: aui-slide-exit-hold var(--duration-slow) var(--ease-emphasized) both;
+    }
+
+    :where([data-slide="panel"][data-starting-style][data-activation-direction="left"]) {
+      translate: -100% 0;
+    }
+
+    :where([data-slide="panel"][data-starting-style][data-activation-direction="right"]) {
+      translate: 100% 0;
+    }
+
+    :where([data-slide="panel"][data-starting-style][data-activation-direction="up"]) {
+      translate: 0 -100%;
+    }
+
+    :where([data-slide="panel"][data-starting-style][data-activation-direction="down"]) {
+      translate: 0 100%;
+    }
+
+    @supports (height: calc-size(auto, size)) {
+      :where([data-slide="panel"]:not([inert])) {
+        height: calc-size(auto, size);
+        transition:
+          translate var(--duration-slow) var(--ease-emphasized),
+          height var(--duration-slow) var(--ease-emphasized);
+      }
+
+      :where([data-slide="panel"][data-starting-style]) {
+        height: var(--aui-slide-prev-height, calc-size(auto, size));
+      }
+    }
+  }
+
+  @keyframes aui-slide-exit-hold {
+    from {
+      opacity: 0.999;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+/* Measured panel and list dimensions are consumed locally. */
+@property --collapsible-panel-height {
+  syntax: "<length> | auto";
+  inherits: false;
+  initial-value: auto;
+}
+
+@property --collapsible-panel-width {
+  syntax: "<length> | auto";
+  inherits: false;
+  initial-value: auto;
+}
+
+@property --accordion-panel-height {
+  syntax: "<length> | auto";
+  inherits: false;
+  initial-value: auto;
+}
+
+@property --accordion-panel-width {
+  syntax: "<length> | auto";
+  inherits: false;
+  initial-value: auto;
+}
+
+@property --cmdk-list-height {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}

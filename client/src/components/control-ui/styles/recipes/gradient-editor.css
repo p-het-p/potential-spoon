@@ -1,0 +1,156 @@
+@layer components {
+  :where([data-control-family="gradient-editor"][data-slot="value-row"]) {
+    gap: calc(var(--spacing) * 2);
+  }
+
+  :where([data-control-family="gradient-editor"][data-slot="root"]) {
+    gap: calc(var(--spacing) * 3);
+    --cui-gradient-editor-add-border-color: var(--border);
+    --cui-gradient-editor-add-border-width: var(--control-rim-width);
+    --cui-gradient-editor-add-radius: 9999px;
+    --cui-gradient-editor-preview-radius: var(--radius-field);
+    --cui-gradient-editor-preview-ring-color: oklch(from var(--border) l c h / 0.6);
+    --cui-gradient-editor-stop-border-color: oklch(1 0 0);
+    --cui-gradient-editor-stop-border-width: 2px;
+    --cui-gradient-editor-stop-radius: 9999px;
+    --cui-gradient-editor-stop-shadow: 0 0 0 1px oklch(from var(--foreground) l c h / 0.4);
+    --cui-gradient-editor-track-radius: 9999px;
+  }
+  :where([data-control-family="gradient-editor"][data-slot="preview"]),
+  :where([data-control-family="gradient-editor"][data-slot="track"]) {
+    background-image: var(--_gradient-editor-image), repeating-conic-gradient(var(--border) 0 25%, transparent 0 50%);
+    background-size:
+      auto,
+      calc(var(--spacing) * 2.5) calc(var(--spacing) * 2.5);
+  }
+
+  :where([data-control-family="gradient-editor"][data-slot="preview"]) {
+    block-size: calc(var(--spacing) * 32);
+    border-radius: var(--cui-gradient-editor-preview-radius);
+    box-shadow: inset 0 0 0 1px var(--cui-gradient-editor-preview-ring-color);
+  }
+
+  :where([data-control-family="gradient-editor"][data-slot="track"]) {
+    block-size: calc(var(--spacing) * 6);
+    touch-action: pan-y;
+    border: 0;
+    border-radius: var(--cui-gradient-editor-track-radius);
+    box-shadow: inset 0 0 0 1px oklch(from var(--border) l c h / 0.6);
+  }
+
+  :where([data-control-family="gradient-editor"][data-slot="stop"]) {
+    inline-size: calc(var(--spacing) * 5);
+    block-size: calc(var(--spacing) * 5);
+    touch-action: pan-y;
+    border: var(--cui-gradient-editor-stop-border-width) solid var(--cui-gradient-editor-stop-border-color);
+    border-radius: var(--cui-gradient-editor-stop-radius);
+    box-shadow: var(--cui-gradient-editor-stop-shadow);
+    transition: scale var(--duration-fast) var(--ease-standard);
+  }
+
+  :where([data-control-family="gradient-editor"][data-slot="stop-add"]) {
+    inline-size: calc(var(--spacing) * 7);
+    block-size: calc(var(--spacing) * 7);
+    border: var(--cui-gradient-editor-add-border-width) dashed var(--cui-gradient-editor-add-border-color);
+    border-radius: var(--cui-gradient-editor-add-radius);
+    color: var(--muted-foreground);
+  }
+
+  @media (hover: hover) {
+    :where([data-control-family="gradient-editor"][data-slot="stop-add"]:hover:not(:disabled)) {
+      border-color: oklch(from var(--foreground) l c h / 0.4);
+      color: var(--foreground);
+    }
+  }
+
+  :where([data-control-family="gradient-editor"][data-slot="stop"][data-selected="true"]) {
+    scale: 115% 115%;
+  }
+
+  :where([data-control-family="gradient-editor"][data-slot="stop"])::after {
+    content: "";
+    position: absolute;
+    inset: 50%;
+    translate: -50% -50%;
+    inline-size: max(100%, var(--target-min));
+    block-size: max(100%, var(--target-min));
+  }
+
+  @media (pointer: coarse) {
+    :where([data-control-family="gradient-editor"][data-slot="stop-add"]) {
+      position: relative;
+    }
+
+    :where([data-control-family="gradient-editor"][data-slot="stop-add"])::after {
+      content: "";
+      position: absolute;
+      inset: 50%;
+      translate: -50% -50%;
+      inline-size: max(100%, var(--touch-target));
+      block-size: max(100%, var(--touch-target));
+    }
+
+    :where([data-control-family="gradient-editor"][data-slot="stop"])::after {
+      block-size: max(100%, var(--touch-target));
+    }
+  }
+}
+
+@property --cui-gradient-editor-preview-radius {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --cui-gradient-editor-preview-ring-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-gradient-editor-track-radius {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --cui-gradient-editor-stop-radius {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --cui-gradient-editor-stop-border-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-gradient-editor-stop-border-width {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --cui-gradient-editor-stop-shadow {
+  syntax: "*";
+  inherits: true;
+}
+
+@property --cui-gradient-editor-add-radius {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --cui-gradient-editor-add-border-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-gradient-editor-add-border-width {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 0px;
+}

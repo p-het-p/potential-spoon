@@ -1,0 +1,55 @@
+"use client";
+
+import { useRender } from "@base-ui/react/use-render";
+import type { ComponentProps, CSSProperties } from "react";
+import { createContext, use } from "react";
+import type { RenderProp } from "@/components/control-ui/control-props";
+import type { ControlSize } from "@/components/control-ui/control-variants";
+import type { FieldKnobStyle } from "@/components/control-ui/knob-contracts/field-knobs";
+import { cn } from "@/components/control-ui/lib/cn";
+
+export type InputGroupProps = Omit<ComponentProps<"div">, "style"> & { style?: CSSProperties & FieldKnobStyle } & {
+  render?: RenderProp<ComponentProps<"div">>;
+  size?: ControlSize;
+};
+
+export type InputGroupAddonProps = ComponentProps<"span"> & { style?: CSSProperties & FieldKnobStyle };
+
+const InputGroupSurfaceContext = createContext(false);
+
+export function useIsInsideInputGroup() {
+  return use(InputGroupSurfaceContext);
+}
+
+export function InputGroup({ size = "md", className, render, children, ...props }: InputGroupProps) {
+  const classes = cn("flex min-w-0 w-full items-center overflow-hidden", className);
+
+  const group = useRender({
+    defaultTagName: "div",
+    render,
+    props: {
+      ...props,
+      "data-control-ui": "input-group",
+      "data-slot": "root",
+      "data-control-family": "field",
+      "data-control": "true",
+      "data-size": size,
+      className: classes,
+      children,
+    },
+  });
+  return <InputGroupSurfaceContext value={true}>{group}</InputGroupSurfaceContext>;
+}
+
+export function InputGroupAddon({ className, ...props }: InputGroupAddonProps) {
+  return (
+    <span
+      {...props}
+      data-control-ui="input-group"
+      data-control-family="field"
+      data-field-kind="input-group"
+      data-slot="addon"
+      className={cn("inline-flex shrink-0 items-center", className)}
+    />
+  );
+}

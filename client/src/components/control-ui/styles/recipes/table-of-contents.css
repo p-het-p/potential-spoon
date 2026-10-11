@@ -1,0 +1,279 @@
+@layer components {
+  :where([data-control-family="table-of-contents"][data-slot="root"]) {
+    --cui-table-of-contents-background: var(--card);
+    --cui-table-of-contents-border-color: var(--border);
+    --cui-table-of-contents-border-width: var(--control-rim-width);
+    --cui-table-of-contents-radius: var(--radius-panel);
+    --cui-table-of-contents-shadow: var(--shadow-sm);
+    --cui-table-of-contents-backdrop-filter: none;
+    --cui-table-of-contents-padding: calc(var(--spacing) * 4);
+    --cui-table-of-contents-label-foreground: var(--muted-foreground);
+    --cui-table-of-contents-label-font-size: var(--text-caption);
+    --cui-table-of-contents-label-font-weight: var(--font-weight-medium);
+    --cui-table-of-contents-label-gap: calc(var(--spacing) * 3);
+    --cui-table-of-contents-item-foreground: var(--muted-foreground);
+    --cui-table-of-contents-item-hover-foreground: var(--foreground);
+    --cui-table-of-contents-item-active-foreground: var(--primary-text);
+    --cui-table-of-contents-item-font-size: var(--text-body);
+    --cui-table-of-contents-item-line-height: var(--leading-normal);
+    --cui-table-of-contents-item-font-weight: var(--font-weight-normal);
+    --cui-table-of-contents-item-root-font-weight: var(--font-weight-medium);
+    --cui-table-of-contents-item-padding-block: calc(var(--spacing) * 1.5);
+    --cui-table-of-contents-item-padding-inline: calc(var(--spacing) * 3);
+    --cui-table-of-contents-item-indent-size: calc(var(--spacing) * 2);
+    --cui-table-of-contents-rail-stroke: var(--border);
+    --cui-table-of-contents-rail-size: 1px;
+    --cui-table-of-contents-trail-stroke: var(--primary-text);
+    --cui-table-of-contents-trail-size: 2px;
+    --cui-table-of-contents-indicator-foreground: var(--cui-table-of-contents-trail-stroke);
+    --cui-table-of-contents-scroll-inset: calc(var(--spacing) * 20);
+    border: var(--cui-table-of-contents-border-width) solid var(--cui-table-of-contents-border-color);
+    border-radius: var(--cui-table-of-contents-radius);
+    background-color: var(--cui-table-of-contents-background);
+    box-shadow: var(--cui-table-of-contents-shadow);
+    -webkit-backdrop-filter: var(--cui-table-of-contents-backdrop-filter);
+    backdrop-filter: var(--cui-table-of-contents-backdrop-filter);
+    padding: var(--cui-table-of-contents-padding);
+    font-size: var(--cui-table-of-contents-item-font-size);
+    line-height: var(--cui-table-of-contents-item-line-height);
+    scroll-margin-block-start: var(--cui-table-of-contents-scroll-inset);
+  }
+
+  :where([data-control-family="table-of-contents"][data-slot="label"]) {
+    margin-block-end: var(--cui-table-of-contents-label-gap);
+    color: var(--cui-table-of-contents-label-foreground);
+    font-size: var(--cui-table-of-contents-label-font-size);
+    font-weight: var(--cui-table-of-contents-label-font-weight);
+  }
+
+  :where([data-control-family="table-of-contents"][data-slot="rail"]) {
+    fill: none;
+    stroke: var(--cui-table-of-contents-rail-stroke);
+    stroke-width: var(--cui-table-of-contents-rail-size);
+    stroke-linejoin: round;
+  }
+
+  :where([data-control-family="table-of-contents"][data-slot="trail"]) {
+    fill: none;
+    stroke: var(--cui-table-of-contents-trail-stroke);
+    stroke-width: var(--cui-table-of-contents-trail-size);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: var(--_toc-trail-length) var(--_toc-rail-length);
+    stroke-dashoffset: calc(-1 * var(--_toc-trail-start));
+    opacity: 0;
+    transition-property: stroke-dasharray, stroke-dashoffset, opacity;
+    transition-duration: var(--duration-base);
+    transition-timing-function: var(--ease-standard);
+  }
+
+  :where([data-control-family="table-of-contents"][data-slot="indicator"]) {
+    display: grid;
+    place-items: center;
+    color: var(--cui-table-of-contents-indicator-foreground);
+    offset-distance: var(--_toc-indicator-distance);
+    offset-rotate: 0deg;
+    opacity: 0;
+    transition-property: offset-distance, opacity;
+    transition-duration: var(--duration-base);
+    transition-timing-function: var(--ease-standard);
+  }
+
+  :where([data-control-family="table-of-contents"][data-slot="trail"][data-visible]),
+  :where([data-control-family="table-of-contents"][data-slot="indicator"][data-visible]) {
+    opacity: 1;
+  }
+
+  :where([data-control-family="table-of-contents"][data-slot="item"]) {
+    padding-block: var(--cui-table-of-contents-item-padding-block);
+    padding-inline: var(--cui-table-of-contents-item-padding-inline);
+    padding-inline-start: calc(
+      var(--cui-table-of-contents-item-padding-inline) +
+      var(--_toc-depth) *
+      var(--cui-table-of-contents-item-indent-size)
+    );
+    color: var(--cui-table-of-contents-item-foreground);
+    font-size: var(--cui-table-of-contents-item-font-size);
+    font-weight: var(--cui-table-of-contents-item-font-weight);
+    line-height: var(--cui-table-of-contents-item-line-height);
+    overflow-wrap: anywhere;
+  }
+
+  :where([data-control-family="table-of-contents"][data-slot="item"][data-depth="0"]) {
+    font-weight: var(--cui-table-of-contents-item-root-font-weight);
+  }
+
+  @media (hover: hover) {
+    :where([data-control-family="table-of-contents"][data-slot="item"]:hover) {
+      color: var(--cui-table-of-contents-item-hover-foreground);
+    }
+  }
+
+  :where([data-control-family="table-of-contents"][data-slot="item"]:focus-visible) {
+    color: var(--cui-table-of-contents-item-hover-foreground);
+  }
+
+  :where([data-control-family="table-of-contents"][data-slot="item"][data-active]) {
+    color: var(--cui-table-of-contents-item-active-foreground);
+  }
+}
+
+@property --cui-table-of-contents-background {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-table-of-contents-border-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-table-of-contents-border-width {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --cui-table-of-contents-radius {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --cui-table-of-contents-shadow {
+  syntax: "*";
+  inherits: true;
+}
+
+@property --cui-table-of-contents-backdrop-filter {
+  syntax: "*";
+  inherits: true;
+}
+
+@property --cui-table-of-contents-padding {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --cui-table-of-contents-label-foreground {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-table-of-contents-label-font-size {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --cui-table-of-contents-label-font-weight {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 400;
+}
+
+@property --cui-table-of-contents-label-gap {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --cui-table-of-contents-item-foreground {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-table-of-contents-item-hover-foreground {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-table-of-contents-item-active-foreground {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-table-of-contents-item-font-size {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --cui-table-of-contents-item-line-height {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 1.5;
+}
+
+@property --cui-table-of-contents-item-font-weight {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 400;
+}
+
+@property --cui-table-of-contents-item-root-font-weight {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 400;
+}
+
+@property --cui-table-of-contents-item-padding-block {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --cui-table-of-contents-item-padding-inline {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --cui-table-of-contents-item-indent-size {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --cui-table-of-contents-rail-stroke {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-table-of-contents-rail-size {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --cui-table-of-contents-trail-stroke {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-table-of-contents-trail-size {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --cui-table-of-contents-indicator-foreground {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-table-of-contents-scroll-inset {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 0px;
+}

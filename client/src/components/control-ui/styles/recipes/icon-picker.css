@@ -1,0 +1,136 @@
+@layer components {
+  :where([data-control-family="icon-picker"][data-slot="root"]) {
+    --cui-icon-picker-cell-size: calc(var(--spacing) * 10);
+    --cui-icon-picker-cell-radius: var(--radius-control);
+    --cui-icon-picker-icon-size: calc(var(--spacing) * 4);
+    --cui-icon-picker-foreground: var(--foreground);
+    --cui-icon-picker-cell-hover-background: var(--accent);
+    --cui-icon-picker-cell-pressed-background: var(--accent);
+    inline-size: calc(var(--_icon-picker-columns) * var(--cui-icon-picker-cell-size) + var(--spacing) * 4);
+    max-inline-size: 100%;
+    color: var(--cui-icon-picker-foreground);
+  }
+  :where([data-control-family="icon-picker"][data-slot="content"]) {
+    padding: calc(var(--spacing) * 2);
+    max-block-size: 16rem;
+  }
+  :where([data-control-family="icon-picker"][data-slot="grid"]) {
+    display: grid;
+    grid-template-columns: repeat(var(--_icon-picker-columns), minmax(0, 1fr));
+  }
+  :where([data-control-family="icon-picker"][data-slot="icon"]) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    block-size: var(--cui-icon-picker-cell-size);
+    min-inline-size: 0;
+    border-radius: var(--cui-icon-picker-cell-radius);
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    transition: background-color var(--duration-fast) var(--ease-standard);
+    animation: icon-picker-icon-enter var(--duration-slow) var(--ease-emphasized) both;
+  }
+  @supports (order: sibling-index()) {
+    :where([data-control-family="icon-picker"][data-slot="icon"]) {
+      --_icon-picker-cell-index: calc(sibling-index() - 1);
+      animation-delay: calc(
+        min(
+          mod(var(--_icon-picker-cell-index), var(--_icon-picker-columns)) +
+          round(down, var(--_icon-picker-cell-index) / var(--_icon-picker-columns)),
+          16
+        ) *
+        var(--duration-fast) /
+        8
+      );
+    }
+  }
+  :where([data-control-family="icon-picker"][data-slot="icon"]:hover) {
+    background: var(--cui-icon-picker-cell-hover-background);
+  }
+  :where([data-control-family="icon-picker"][data-slot="icon"][aria-pressed="true"]) {
+    background: var(--cui-icon-picker-cell-pressed-background);
+  }
+  :where([data-control-family="icon-picker"][data-slot="icon"] svg) {
+    inline-size: var(--cui-icon-picker-icon-size);
+    block-size: var(--cui-icon-picker-icon-size);
+  }
+  :where([data-control-family="icon-picker"][data-slot="colors"]) {
+    display: flex;
+    gap: calc(var(--spacing) * 1);
+    padding: calc(var(--spacing) * 1) calc(var(--spacing) * 2) 0;
+    overflow-x: auto;
+  }
+  :where([data-control-family="icon-picker"][data-slot="color"]) {
+    display: grid;
+    place-items: center;
+    flex: 1 0 calc(var(--spacing) * 9);
+    block-size: calc(var(--spacing) * 10);
+    border-radius: var(--cui-icon-picker-cell-radius, var(--radius-control));
+    cursor: pointer;
+  }
+  :where([data-control-family="icon-picker"][data-slot="color"] > span) {
+    inline-size: calc(var(--spacing) * 6);
+    block-size: calc(var(--spacing) * 6);
+    border-radius: 50%;
+    background: currentColor;
+  }
+  :where([data-control-family="icon-picker"][data-slot="color"][data-checked] > span) {
+    outline: 2px solid var(--foreground);
+    outline-offset: 3px;
+  }
+  :where([data-control-family="icon-picker"][data-slot="empty"]) {
+    display: grid;
+    place-items: center;
+    min-block-size: calc(var(--spacing) * 20);
+    color: var(--muted-foreground);
+    font-size: var(--text-label);
+  }
+  @media (pointer: coarse) {
+    :where([data-control-family="icon-picker"][data-slot="root"]) {
+      --cui-icon-picker-cell-size: 44px;
+    }
+    :where([data-control-family="icon-picker"][data-slot="color"]) {
+      min-inline-size: 44px;
+      block-size: 44px;
+    }
+  }
+}
+@property --cui-icon-picker-cell-size {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 0px;
+}
+@property --cui-icon-picker-cell-radius {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 0px;
+}
+@property --cui-icon-picker-icon-size {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 0px;
+}
+@property --cui-icon-picker-foreground {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+@property --cui-icon-picker-cell-hover-background {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-icon-picker-cell-pressed-background {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@keyframes icon-picker-icon-enter {
+  from {
+    opacity: 0;
+    scale: 0.5;
+  }
+}

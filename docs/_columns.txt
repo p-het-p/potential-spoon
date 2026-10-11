@@ -1,0 +1,136 @@
+﻿table_schema|table_name|column_name|ordinal_position|column_default|is_nullable|data_type|udt_name|character_maximum_length|numeric_precision|numeric_scale
+public|announcements|id|1|nextval('announcements_id_seq'::regclass)|NO|bigint|int8||64|0
+public|announcements|title|2||NO|character varying|varchar|200||
+public|announcements|body|3||NO|text|text|||
+public|announcements|is_public|4|true|NO|boolean|bool|||
+public|announcements|published_at|5|now()|NO|timestamp with time zone|timestamptz|||
+public|announcements|created_at|6|now()|NO|timestamp with time zone|timestamptz|||
+public|cart_items|cart_item_id|1|nextval('cart_items_cart_item_id_seq'::regclass)|NO|bigint|int8||64|0
+public|cart_items|cart_id|2||NO|bigint|int8||64|0
+public|cart_items|product_id|3||NO|bigint|int8||64|0
+public|cart_items|quantity|4|1|NO|integer|int4||32|0
+public|cart_items|unit_price|5||NO|numeric|numeric||10|2
+public|cart_items|added_at|6|now()|NO|timestamp with time zone|timestamptz|||
+public|carts|cart_id|1|nextval('carts_cart_id_seq'::regclass)|NO|bigint|int8||64|0
+public|carts|user_id|2||YES|uuid|uuid|||
+public|carts|attendee_id|3||YES|bigint|int8||64|0
+public|carts|status|4|'active'::character varying|NO|character varying|varchar|20||
+public|carts|created_at|5|now()|NO|timestamp with time zone|timestamptz|||
+public|carts|updated_at|6|now()|NO|timestamp with time zone|timestamptz|||
+public|club_info|id|1|1|NO|smallint|int2||16|0
+public|club_info|name|2||NO|character varying|varchar|150||
+public|club_info|description|3||YES|text|text|||
+public|club_info|contact_email|4||YES|character varying|varchar|255||
+public|club_info|website_url|5||YES|character varying|varchar|255||
+public|club_info|updated_at|6|now()|NO|timestamp with time zone|timestamptz|||
+public|email_verifications|verification_id|1|nextval('email_verifications_verification_id_seq'::regclass)|NO|bigint|int8||64|0
+public|email_verifications|attendee_id|2||NO|bigint|int8||64|0
+public|email_verifications|otp_hash|3||NO|text|text|||
+public|email_verifications|expires_at|4||NO|timestamp with time zone|timestamptz|||
+public|email_verifications|verified_at|5||YES|timestamp with time zone|timestamptz|||
+public|email_verifications|created_at|6|now()|NO|timestamp with time zone|timestamptz|||
+public|event_tickets|ticket_id|1|nextval('event_tickets_ticket_id_seq'::regclass)|NO|bigint|int8||64|0
+public|event_tickets|order_id|2||NO|bigint|int8||64|0
+public|event_tickets|order_item_id|3||YES|bigint|int8||64|0
+public|event_tickets|event_id|4||NO|bigint|int8||64|0
+public|event_tickets|ticket_number|5||NO|character varying|varchar|100||
+public|event_tickets|qr_token|6||NO|character varying|varchar|255||
+public|event_tickets|status|7|'active'::character varying|NO|character varying|varchar|20||
+public|event_tickets|issued_at|8|now()|NO|timestamp with time zone|timestamptz|||
+public|event_tickets|checked_in_at|9||YES|timestamp with time zone|timestamptz|||
+public|events|id|1|nextval('events_id_seq'::regclass)|NO|bigint|int8||64|0
+public|events|title|2||NO|character varying|varchar|200||
+public|events|description|3||YES|text|text|||
+public|events|venue|4||YES|character varying|varchar|200||
+public|events|starts_at|5||NO|timestamp with time zone|timestamptz|||
+public|events|ends_at|6||YES|timestamp with time zone|timestamptz|||
+public|events|capacity|7||NO|integer|int4||32|0
+public|events|is_public|8|true|NO|boolean|bool|||
+public|events|created_by|9||YES|uuid|uuid|||
+public|events|created_at|10|now()|NO|timestamp with time zone|timestamptz|||
+public|membership_plans|id|1|nextval('membership_plans_id_seq'::regclass)|NO|integer|int4||32|0
+public|membership_plans|name|2||NO|character varying|varchar|100||
+public|membership_plans|dues_amount|3||NO|numeric|numeric||10|2
+public|membership_plans|duration_days|4||NO|integer|int4||32|0
+public|membership_plans|is_active|5|true|NO|boolean|bool|||
+public|memberships|id|1|nextval('memberships_id_seq'::regclass)|NO|bigint|int8||64|0
+public|memberships|user_id|2||NO|uuid|uuid|||
+public|memberships|plan_id|3||NO|integer|int4||32|0
+public|memberships|student_id|4||YES|character varying|varchar|50||
+public|memberships|department|5||YES|character varying|varchar|100||
+public|memberships|status|6|'pending'::membership_status|NO|USER-DEFINED|membership_status|||
+public|memberships|start_date|7||YES|date|date|||
+public|memberships|end_date|8||YES|date|date|||
+public|memberships|registered_at|9|now()|NO|timestamp with time zone|timestamptz|||
+public|non_member_attendees|attendee_id|1|nextval('non_member_attendees_attendee_id_seq'::regclass)|NO|bigint|int8||64|0
+public|non_member_attendees|full_name|2||NO|character varying|varchar|150||
+public|non_member_attendees|email|3||NO|character varying|varchar|255||
+public|non_member_attendees|phone|4||YES|character varying|varchar|20||
+public|non_member_attendees|email_verified|5|false|NO|boolean|bool|||
+public|non_member_attendees|email_verified_at|6||YES|timestamp with time zone|timestamptz|||
+public|non_member_attendees|created_at|7|now()|NO|timestamp with time zone|timestamptz|||
+public|order_items|order_item_id|1|nextval('order_items_order_item_id_seq'::regclass)|NO|bigint|int8||64|0
+public|order_items|order_id|2||NO|bigint|int8||64|0
+public|order_items|product_id|3||NO|bigint|int8||64|0
+public|order_items|product_name|4||NO|character varying|varchar|150||
+public|order_items|quantity|5||NO|integer|int4||32|0
+public|order_items|unit_price|6||NO|numeric|numeric||10|2
+public|order_items|total_price|7||NO|numeric|numeric||10|2
+public|orders|order_id|1|nextval('orders_order_id_seq'::regclass)|NO|bigint|int8||64|0
+public|orders|user_id|2||YES|uuid|uuid|||
+public|orders|attendee_id|3||YES|bigint|int8||64|0
+public|orders|total_amount|4||NO|numeric|numeric||10|2
+public|orders|currency|5|'INR'::character varying|NO|character varying|varchar|3||
+public|orders|status|6|'pending'::character varying|NO|character varying|varchar|20||
+public|orders|created_at|7|now()|NO|timestamp with time zone|timestamptz|||
+public|orders|completed_at|8||YES|timestamp with time zone|timestamptz|||
+public|payments|id|1|nextval('payments_id_seq'::regclass)|NO|bigint|int8||64|0
+public|payments|purpose|2||NO|USER-DEFINED|payment_purpose|||
+public|payments|user_id|3||YES|uuid|uuid|||
+public|payments|payer_name|4||YES|character varying|varchar|150||
+public|payments|payer_email|5||YES|character varying|varchar|255||
+public|payments|amount|6||NO|numeric|numeric||10|2
+public|payments|currency|7|'INR'::bpchar|NO|character|bpchar|3||
+public|payments|status|8|'pending'::payment_status|NO|USER-DEFINED|payment_status|||
+public|payments|provider_ref|9||YES|character varying|varchar|100||
+public|payments|membership_id|10||YES|bigint|int8||64|0
+public|payments|created_at|11|now()|NO|timestamp with time zone|timestamptz|||
+public|payments|paid_at|12||YES|timestamp with time zone|timestamptz|||
+public|payments|order_id|13||YES|bigint|int8||64|0
+public|payments|razorpay_order_id|14||YES|character varying|varchar|100||
+public|payments|razorpay_payment_id|15||YES|character varying|varchar|100||
+public|payments|razorpay_signature|16||YES|character varying|varchar|255||
+public|products|product_id|1|nextval('products_product_id_seq'::regclass)|NO|bigint|int8||64|0
+public|products|name|2||NO|character varying|varchar|150||
+public|products|description|3||YES|text|text|||
+public|products|product_type|4||NO|character varying|varchar|30||
+public|products|member_price|5||NO|numeric|numeric||10|2
+public|products|non_member_price|6||YES|numeric|numeric||10|2
+public|products|stock_quantity|7||YES|integer|int4||32|0
+public|products|is_active|8|true|NO|boolean|bool|||
+public|products|created_at|9|now()|NO|timestamp with time zone|timestamptz|||
+public|products|event_id|10||YES|bigint|int8||64|0
+public|users|user_id|1|gen_random_uuid()|NO|uuid|uuid|||
+public|users|email|2||NO|character varying|varchar|255||
+public|users|password_hash|3||NO|text|text|||
+public|users|full_name|4||NO|character varying|varchar|150||
+public|users|phone|5||YES|character varying|varchar|30||
+public|users|role|6|'member'::user_role|NO|USER-DEFINED|user_role|||
+public|users|created_at|7|now()|NO|timestamp with time zone|timestamptz|||
+public|v_member_dashboard|user_id|1||YES|uuid|uuid|||
+public|v_member_dashboard|full_name|2||YES|character varying|varchar|150||
+public|v_member_dashboard|email|3||YES|character varying|varchar|255||
+public|v_member_dashboard|membership_status|4||YES|USER-DEFINED|membership_status|||
+public|v_member_dashboard|plan_name|5||YES|character varying|varchar|100||
+public|v_member_dashboard|start_date|6||YES|date|date|||
+public|v_member_dashboard|end_date|7||YES|date|date|||
+public|v_public_events|id|1||YES|bigint|int8||64|0
+public|v_public_events|title|2||YES|character varying|varchar|200||
+public|v_public_events|description|3||YES|text|text|||
+public|v_public_events|venue|4||YES|character varying|varchar|200||
+public|v_public_events|starts_at|5||YES|timestamp with time zone|timestamptz|||
+public|v_public_events|ends_at|6||YES|timestamp with time zone|timestamptz|||
+public|v_public_events|capacity|7||YES|integer|int4||32|0
+public|v_public_events|seats_left|8||YES|bigint|int8||64|0
+public|v_public_events|non_member_price|9||YES|numeric|numeric|||
+(134 rows)

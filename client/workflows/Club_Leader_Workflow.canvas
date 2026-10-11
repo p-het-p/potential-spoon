@@ -1,0 +1,39 @@
+{
+	"nodes":[
+		{"id":"area-choice","type":"text","text":"## 3. Choose Management Area\n\nSelect the area that needs attention.","x":0,"y":730,"width":390,"height":120},
+		{"id":"members","type":"text","text":"## A. Manage Members\n\n- Review membership registrations\n- Check dues/payment status\n- Track membership expiry and renewals\n- Help authorized staff verify active membership","x":-760,"y":970,"width":350,"height":200},
+		{"id":"events","type":"text","text":"## B. Manage Events\n\n- Create/update event details\n- Set ticket types and member/non-member prices\n- Configure seat capacity\n- Monitor ticket sales\n- Arrange ticket checking and attendance tracking","x":-360,"y":970,"width":350,"height":270},
+		{"id":"announcements","type":"text","text":"## D. Publish Announcements\n\n- Draft a club announcement\n- Select the intended audience\n- Publish it so members can access it\n- Keep a record/history of announcements","x":440,"y":970,"width":350,"height":210},
+		{"id":"merchandise","type":"text","text":"## E. Manage Merchandise\n\n- Maintain hoodie/T-shirt listings\n- Collect sizes and quantities through orders\n- Review orders and payment status\n- Monitor available inventory","x":840,"y":970,"width":350,"height":270},
+		{"id":"fundraiser","type":"text","text":"## F. Organize Fundraisers\n\n- Plan the fundraising activity\n- Break the work into tasks\n- Assign who prepares items, buys supplies, and manages the stall\n- Track task progress and fundraiser results","x":1240,"y":970,"width":350,"height":270},
+		{"id":"leader-start","type":"text","text":"# Club Leader Workflow\n\nThe club leader oversees membership, events, volunteers, announcements, merchandise, and fundraising, coordinating with the treasurer on finances.","x":0,"y":-240,"width":390,"height":170,"color":"5"},
+		{"id":"sign-in","type":"text","text":"## 1. Sign In\n\nOpen the club management system and sign in using an authorized leadership account.","x":0,"y":80,"width":390,"height":140},
+		{"id":"dashboard","type":"text","text":"## 2. Club Leader Dashboard\n\nReview club activity and choose an area to manage:\n- Members and memberships\n- Events and tickets\n- Volunteers and tasks\n- Announcements\n- Merchandise\n- Fundraisers","x":0,"y":320,"width":390,"height":320,"color":"5"},
+		{"id":"finance","type":"text","text":"## 5. Coordinate with Treasurer\n\nShare relevant activity and sales information with the treasurer. The treasurer maintains the financial records and prepares the income/expense summary.","x":50,"y":2040,"width":390,"height":180},
+		{"id":"more-work","type":"text","text":"## More management needed?\n\nDecide whether to manage another area or finish the session.","x":50,"y":2280,"width":390,"height":120},
+		{"id":"sign-out","type":"text","text":"## 6. Sign Out\n\nEnd the leadership session.","x":520,"y":2280,"width":320,"height":110},
+		{"id":"review","type":"text","text":"## 4. Review Club Status\n\nCheck updates across the areas being managed:\n- Membership and renewals\n- Event ticket sales/attendance\n- Volunteer task progress\n- Merchandise orders/inventory\n- Fundraiser progress","x":50,"y":1600,"width":390,"height":300,"color":"5"},
+		{"id":"volunteers","type":"text","text":"## C. Manage Volunteers\n\n- Create tasks and instructions\n- Assign responsible volunteers\n- Set deadlines\n- Track progress and follow up on delays\n- Review task completion","x":40,"y":970,"width":350,"height":220}
+	],
+	"edges":[
+		{"id":"e1","fromNode":"leader-start","fromSide":"bottom","toNode":"sign-in","toSide":"top","label":"Open system"},
+		{"id":"e2","fromNode":"sign-in","fromSide":"bottom","toNode":"dashboard","toSide":"top","label":"Successful sign-in"},
+		{"id":"e3","fromNode":"dashboard","fromSide":"bottom","toNode":"area-choice","toSide":"top","label":"Select area"},
+		{"id":"e4","fromNode":"area-choice","fromSide":"left","toNode":"members","toSide":"top","label":"Members"},
+		{"id":"e5","fromNode":"area-choice","fromSide":"left","toNode":"events","toSide":"top","label":"Events"},
+		{"id":"e6","fromNode":"area-choice","fromSide":"bottom","toNode":"volunteers","toSide":"top","label":"Volunteers"},
+		{"id":"e7","fromNode":"area-choice","fromSide":"right","toNode":"announcements","toSide":"top","label":"Announcements"},
+		{"id":"e8","fromNode":"area-choice","fromSide":"bottom","toNode":"merchandise","toSide":"top","label":"Merchandise"},
+		{"id":"e9","fromNode":"area-choice","fromSide":"right","toNode":"fundraiser","toSide":"top","label":"Fundraiser"},
+		{"id":"e10","fromNode":"members","fromSide":"bottom","toNode":"review","toSide":"left","label":"Done"},
+		{"id":"e11","fromNode":"events","fromSide":"bottom","toNode":"review","toSide":"left","label":"Done"},
+		{"id":"e12","fromNode":"volunteers","fromSide":"bottom","toNode":"review","toSide":"top","label":"Done"},
+		{"id":"e13","fromNode":"announcements","fromSide":"bottom","toNode":"review","toSide":"right","label":"Done"},
+		{"id":"e14","fromNode":"merchandise","fromSide":"bottom","toNode":"review","toSide":"right","label":"Done"},
+		{"id":"e15","fromNode":"fundraiser","fromSide":"bottom","toNode":"review","toSide":"right","label":"Done"},
+		{"id":"e16","fromNode":"review","fromSide":"bottom","toNode":"finance","toSide":"top","label":"Review summary"},
+		{"id":"e17","fromNode":"finance","fromSide":"bottom","toNode":"more-work","toSide":"top","label":"Coordination complete"},
+		{"id":"e18","fromNode":"more-work","fromSide":"right","toNode":"sign-out","toSide":"left","label":"No"},
+		{"id":"e19","fromNode":"more-work","fromSide":"top","toNode":"dashboard","toSide":"right","label":"Yes — manage another area"}
+	]
+}

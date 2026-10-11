@@ -1,0 +1,14 @@
+export const rangeKnobs = [
+  "--cui-range-level-warning-background",
+  "--cui-range-level-clip-background",
+  "--cui-range-indeterminate-size",
+  "--cui-range-track-radius",
+  "--cui-range-track-background",
+  "--cui-range-indicator-radius",
+  "--cui-range-indicator-background",
+  "--cui-range-thumb-radius",
+  "--cui-range-thumb-background",
+  "--cui-range-thumb-border-color",
+  "--cui-range-thumb-shadow",
+] as const;
+export type RangeKnobStyle = Partial<Record<(typeof rangeKnobs)[number], string>>;

@@ -1,0 +1,251 @@
+@layer components {
+  :where([data-control-family="user-ask"][data-slot="root"]) {
+    --cui-user-ask-background: var(--popover);
+    --cui-user-ask-backdrop-filter: blur(var(--backdrop-blur-popover));
+    --cui-user-ask-border-color: var(--control-rim);
+    --cui-user-ask-border-width: var(--control-rim-width);
+    --cui-user-ask-foreground: var(--popover-foreground);
+    --cui-user-ask-padding: calc(var(--spacing) * 3);
+    --cui-user-ask-radius: var(--radius-popover);
+    --cui-user-ask-shadow: var(--shadow-pop);
+    --cui-user-ask-indicator-background: var(--muted);
+    --cui-user-ask-indicator-foreground: var(--muted-foreground);
+    --cui-user-ask-indicator-radius: 9999px;
+    --cui-user-ask-indicator-multiple-radius: var(--radius-sm);
+    --cui-user-ask-input-background: transparent;
+    --cui-user-ask-input-foreground: var(--foreground);
+    --cui-user-ask-option-hover-background: var(--hover-fill);
+    --cui-user-ask-option-radius: max(
+      var(--radius-sm),
+      min(var(--radius-popup-item-fit), calc(var(--cui-user-ask-radius) - var(--cui-user-ask-padding)))
+    );
+    --cui-user-ask-option-selected-background: var(--active-fill);
+    border-radius: var(--cui-user-ask-radius);
+    background: var(--cui-user-ask-background);
+    color: var(--cui-user-ask-foreground);
+    box-shadow:
+      inset 0 0 0 var(--cui-user-ask-border-width) var(--cui-user-ask-border-color),
+      var(--cui-user-ask-shadow);
+    -webkit-backdrop-filter: var(--cui-user-ask-backdrop-filter);
+    backdrop-filter: var(--cui-user-ask-backdrop-filter);
+    padding: var(--cui-user-ask-padding);
+    font-size: var(--text-body);
+    transition-property: opacity, translate;
+    transition-duration: var(--duration-base);
+    transition-timing-function: var(--ease-emphasized);
+  }
+
+  @starting-style {
+    :where([data-control-family="user-ask"][data-slot="root"]) {
+      opacity: 0;
+      translate: 0 calc(var(--spacing) * 2);
+    }
+  }
+
+  :where([data-control-family="user-ask"][data-slot="header"]) {
+    gap: calc(var(--spacing) * 3);
+    padding-inline: calc(var(--spacing) * 1);
+    padding-block-end: calc(var(--spacing) * 2);
+  }
+
+  :where([data-control-family="user-ask"][data-slot="title"]) {
+    color: var(--foreground);
+    font-size: var(--text-body);
+  }
+
+  :where([data-control-family="user-ask"][data-slot="pagination"]) {
+    gap: calc(var(--spacing) * 1);
+    color: var(--muted-foreground);
+    font-size: var(--text-micro);
+  }
+
+  :where([data-control-family="user-ask"][data-slot="question"]) {
+    gap: calc(var(--spacing) * 0.5);
+  }
+
+  :where([data-control-family="user-ask"][data-slot="option"]) {
+    gap: calc(var(--spacing) * 2.5);
+    padding-inline: calc(var(--spacing) * 2);
+    padding-block: calc(var(--spacing) * 1.5);
+    border-radius: var(--cui-user-ask-option-radius);
+    text-align: start;
+  }
+
+  :where([data-control-family="user-ask"][data-slot="option"][data-selected]) {
+    background: var(--cui-user-ask-option-selected-background);
+  }
+
+  @media (hover: hover) {
+    :where([data-control-family="user-ask"][data-slot="option"]:not(:disabled):hover) {
+      background: var(--cui-user-ask-option-hover-background);
+    }
+  }
+
+  :where([data-control-family="user-ask"][data-slot="option"]:focus-visible) {
+    background: var(--cui-user-ask-option-hover-background);
+  }
+
+  @media (pointer: coarse) {
+    :where([data-control-family="user-ask"][data-slot="option"]) {
+      min-block-size: var(--touch-target);
+    }
+  }
+
+  :where([data-control-family="user-ask"][data-slot="option"]:disabled) {
+    opacity: var(--disabled-opacity);
+  }
+
+  :where([data-control-family="user-ask"][data-slot="option-indicator"]) {
+    margin-block-start: 1px;
+    inline-size: calc(var(--spacing) * 5);
+    block-size: calc(var(--spacing) * 5);
+    border-radius: var(--cui-user-ask-indicator-radius);
+    background: var(--cui-user-ask-indicator-background);
+    color: var(--cui-user-ask-indicator-foreground);
+    font-size: var(--text-micro);
+  }
+
+  :where([data-control-family="user-ask"][data-slot="option-indicator"][data-selected]) {
+    background: var(--primary);
+    color: var(--primary-foreground);
+  }
+
+  :where([data-control-family="user-ask"][data-slot="option-indicator"][data-multiple]) {
+    border-radius: var(--cui-user-ask-indicator-multiple-radius);
+  }
+
+  :where([data-control-family="user-ask"][data-slot="option-label"]) {
+    color: var(--foreground);
+  }
+
+  :where([data-control-family="user-ask"]:is([data-slot="recommended"], [data-slot="option-description"], [data-slot="freeform-label"])) {
+    color: var(--muted-foreground);
+  }
+
+  :where([data-control-family="user-ask"][data-slot="option-description"]) {
+    padding-block-start: calc(var(--spacing) * 0.5);
+    font-size: var(--text-caption);
+  }
+
+  :where([data-control-family="user-ask"][data-slot="footer"]) {
+    gap: calc(var(--spacing) * 2);
+    padding-inline: calc(var(--spacing) * 1);
+    padding-block-start: calc(var(--spacing) * 3);
+  }
+
+  :where([data-control-family="button"][data-user-ask-dismiss="true"]) {
+    gap: calc(var(--spacing) * 1.5);
+  }
+
+  :where([data-control-family="user-ask"][data-slot="option-input"]) {
+    --_user-ask-input-placeholder-paint: var(--muted-foreground);
+    border: 0;
+    background: var(--cui-user-ask-input-background);
+    color: var(--cui-user-ask-input-foreground);
+  }
+
+  :where([data-control-family="user-ask"][data-slot="option-input"])::placeholder {
+    color: var(--_user-ask-input-placeholder-paint);
+    font-weight: var(--font-weight-normal);
+  }
+}
+
+@property --cui-user-ask-radius {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --cui-user-ask-padding {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --cui-user-ask-backdrop-filter {
+  syntax: "*";
+  inherits: true;
+}
+
+@property --cui-user-ask-indicator-radius {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --cui-user-ask-indicator-multiple-radius {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --cui-user-ask-background {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-user-ask-foreground {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-user-ask-border-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-user-ask-border-width {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --cui-user-ask-shadow {
+  syntax: "*";
+  inherits: true;
+}
+
+@property --cui-user-ask-option-radius {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --cui-user-ask-option-hover-background {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-user-ask-option-selected-background {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-user-ask-indicator-background {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-user-ask-indicator-foreground {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-user-ask-input-background {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-user-ask-input-foreground {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}

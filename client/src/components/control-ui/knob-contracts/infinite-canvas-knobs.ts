@@ -1,0 +1,14 @@
+export const infiniteCanvasKnobs = [
+  "--cui-infinite-canvas-radius",
+  "--cui-infinite-canvas-background",
+  "--cui-infinite-canvas-grid-dot-color",
+  "--cui-infinite-canvas-border-color",
+  "--cui-infinite-canvas-padding",
+  "--cui-infinite-canvas-controls-item-radius",
+  "--cui-infinite-canvas-controls-padding",
+  "--cui-infinite-canvas-controls-radius",
+  "--cui-infinite-canvas-controls-background",
+  "--cui-infinite-canvas-controls-border-color",
+  "--cui-infinite-canvas-controls-shadow",
+] as const;
+export type InfiniteCanvasKnobStyle = Partial<Record<(typeof infiniteCanvasKnobs)[number], string>>;

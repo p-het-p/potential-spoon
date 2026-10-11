@@ -1,0 +1,189 @@
+@layer components {
+  :where([data-control-family="tree"][data-slot="root"]) {
+    --cui-tree-item-trigger-radius: var(--radius-popup-item);
+    --cui-tree-item-trigger-background: transparent;
+    --cui-tree-item-trigger-foreground: var(--foreground);
+    --cui-tree-item-trigger-hover-background: var(--hover-fill);
+    --cui-tree-item-trigger-hover-foreground: var(--foreground);
+    --cui-tree-item-trigger-selected-background: var(--active-fill);
+    --cui-tree-item-trigger-selected-foreground: var(--foreground);
+    --cui-tree-item-trigger-font-size: var(--text-body);
+    --cui-tree-item-trigger-selected-font-weight: var(--font-weight-normal);
+    --cui-tree-indent-inset: 1.25rem;
+  }
+
+  :where([data-control-family="tree"][data-slot="list"]) {
+    --_tree-focus-ring-width: var(--focus-ring-width);
+  }
+
+  :where([data-control-family="tree"][data-slot="item"]) {
+    --focus-ring-width: 0px;
+  }
+
+  :where([data-control-family="tree"][data-slot="item"]:focus-visible > [data-slot="item-trigger"]) {
+    outline: var(--_tree-focus-ring-width) var(--focus-ring-style) var(--focus-ring);
+    outline-offset: calc(var(--_tree-focus-ring-width) * -1);
+  }
+
+  :where([data-control-family="tree"][data-slot="root"] > [data-control-family="track-highlight"]) {
+    --cui-track-highlight-radius: var(--cui-tree-item-trigger-radius);
+    --cui-track-highlight-background: var(--cui-tree-item-trigger-selected-background);
+    --cui-track-highlight-hover-background: var(--cui-tree-item-trigger-hover-background);
+  }
+
+  :where([data-control-family="tree"][data-slot="item-trigger"]) {
+    gap: calc(var(--spacing) * 1.5);
+    padding-block: calc(var(--spacing) * 1);
+    padding-inline-start: calc(var(--_tree-level, 1) * var(--cui-tree-indent-inset));
+    padding-inline-end: calc(var(--spacing) * 2);
+    border-radius: var(--cui-tree-item-trigger-radius);
+    background-color: var(--cui-tree-item-trigger-background);
+    color: var(--cui-tree-item-trigger-foreground);
+    font-size: var(--cui-tree-item-trigger-font-size);
+    font-weight: var(--font-weight-normal);
+  }
+
+  @media (hover: hover) {
+    :where([data-control-family="tree"][data-slot="item-trigger"]:hover) {
+      background-color: var(--cui-tree-item-trigger-hover-background);
+      color: var(--cui-tree-item-trigger-hover-foreground);
+    }
+  }
+
+  :where([data-control-family="tree"][data-slot="item-trigger"][data-selected]) {
+    background-color: var(--cui-tree-item-trigger-selected-background);
+    color: var(--cui-tree-item-trigger-selected-foreground);
+    font-weight: var(--cui-tree-item-trigger-selected-font-weight);
+  }
+
+  :where([data-control-family="tree"][data-slot="item-trigger"][aria-disabled="true"]) {
+    opacity: var(--disabled-opacity);
+  }
+
+  :where(
+    [data-control-family="tree"][data-indicator="slide"] [data-control-family="tree"][data-slot="item-trigger"]:is(:hover, [data-selected])
+  ) {
+    background-color: transparent;
+  }
+
+  :where([data-control-family="tree"][data-slot="item-indicator"]) {
+    inline-size: calc(var(--spacing) * 4);
+    block-size: calc(var(--spacing) * 4);
+    color: var(--muted-foreground);
+  }
+
+  :where([data-control-family="tree"][data-slot="item-indicator"][data-state]) {
+    transition: rotate var(--duration-base) var(--ease-standard);
+  }
+
+  :where([data-control-family="tree"][data-slot="item-indicator"][data-state="open"]) {
+    rotate: 90deg;
+  }
+
+  :where([data-control-family="tree"][data-slot="item-indicator"][data-state="open"]:has(> [data-icon-dir="inline"]):dir(rtl)) {
+    rotate: -90deg;
+  }
+
+  @media (forced-colors: active) {
+    :where([data-control-family="tree"][data-slot="item-trigger"][data-selected]) {
+      forced-color-adjust: none;
+      background-color: Highlight;
+      color: HighlightText;
+    }
+  }
+
+  :where([data-control-family="tree"][data-slot="item-content"]) {
+    height: var(--collapsible-panel-height);
+    opacity: 1;
+    transition-property: height, opacity;
+    transition-duration: var(--duration-base);
+    transition-timing-function: var(--ease-emphasized);
+  }
+
+  :where([data-control-family="tree"][data-slot="item-content"]:is([data-starting-style], [data-ending-style])) {
+    height: 0;
+    overflow: clip;
+    opacity: 0;
+  }
+
+  @supports (transition-behavior: allow-discrete) {
+    :where([data-control-family="tree"][data-slot="item-content"]) {
+      transition-property: height, opacity, overflow;
+      transition-timing-function: var(--ease-emphasized), var(--ease-emphasized), step-end;
+      transition-behavior: normal, normal, allow-discrete;
+    }
+
+    :where([data-control-family="tree"][data-slot="item-content"][data-ending-style]) {
+      transition-timing-function: var(--ease-emphasized), var(--ease-emphasized), step-start;
+    }
+  }
+
+  :where([data-control-family="tree"][data-slot="item-group"]) {
+    translate: 0 0;
+    transition: translate var(--duration-base) var(--ease-emphasized);
+  }
+
+  :where([data-control-family="tree"][data-slot="item-content"]:is([data-starting-style], [data-ending-style]) > [data-slot="item-group"]) {
+    translate: 0 calc(var(--spacing) * -1);
+  }
+}
+
+@property --cui-tree-item-trigger-radius {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --cui-tree-item-trigger-foreground {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-tree-item-trigger-hover-background {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-tree-item-trigger-hover-foreground {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-tree-item-trigger-selected-background {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-tree-item-trigger-selected-foreground {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-tree-item-trigger-font-size {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --cui-tree-item-trigger-selected-font-weight {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 400;
+}
+
+@property --cui-tree-indent-inset {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --cui-tree-item-trigger-background {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}

@@ -1,0 +1,233 @@
+@layer components {
+  :where([data-control-family="scroll-area"][data-slot="root"]) {
+    --cui-scroll-area-thumb-radius: 9999px;
+    --cui-scroll-area-thumb-background: oklch(from var(--foreground) l c h / 0.4);
+    --cui-scroll-area-corner-background: transparent;
+  }
+
+  :where([data-control-family="scroll-area"][data-slot="root"][data-scrollbar-gutter="stable"]) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: minmax(0, 1fr) auto;
+  }
+
+  :where([data-control-family="scroll-area"][data-slot="root"][data-scrollbar-gutter="stable"] > [data-scroll-area-viewport]),
+  :where([data-control-family="scroll-area"][data-slot="root"][data-scrollbar-gutter="stable"] > [data-control-family="progressive-blur"]) {
+    grid-area: 1 / 1;
+    min-inline-size: 0;
+    min-block-size: 0;
+  }
+
+  :where(
+    [data-control-family="scroll-area"][data-slot="root"][data-scrollbar-gutter="stable"]
+      > [data-slot="scrollbar"][data-orientation="vertical"]
+  ) {
+    grid-area: 1 / 2;
+  }
+
+  :where(
+    [data-control-family="scroll-area"][data-slot="root"][data-scrollbar-gutter="stable"]
+      > [data-slot="scrollbar"][data-orientation="horizontal"]
+  ) {
+    grid-area: 2 / 1;
+  }
+
+  :where([data-control-family="scroll-area"][data-slot="root"][data-scrollbar-gutter="stable"] > [data-slot="corner"]) {
+    grid-area: 2 / 2;
+  }
+
+  :where(
+    [data-control-family="scroll-area"][data-slot="root"][data-scrollbar-gutter="stable"]
+      > [data-slot="scrollbar"][data-orientation="vertical"]:not([data-has-overflow-y])
+      > [data-slot="thumb"]
+  ),
+  :where(
+    [data-control-family="scroll-area"][data-slot="root"][data-scrollbar-gutter="stable"]
+      > [data-slot="scrollbar"][data-orientation="horizontal"]:not([data-has-overflow-x])
+      > [data-slot="thumb"]
+  ) {
+    display: none;
+  }
+
+  @supports (corner-shape: squircle) {
+    @container not style(--corner-shape: round) {
+      :where([data-control-family="scroll-area"][data-slot="root"] > [data-control-family="progressive-blur"]) {
+        display: none;
+      }
+    }
+  }
+
+  :where([data-control-family="scroll-area"][data-slot="root"] > [data-scroll-area-viewport]) {
+    position: relative;
+    z-index: 0;
+    border-radius: inherit;
+    outline: none;
+  }
+
+  :where(
+    [data-control-family="scroll-area"][data-slot="root"][data-mask]:is(
+        [data-overflow-x-start],
+        [data-overflow-x-end],
+        [data-overflow-y-start],
+        [data-overflow-y-end]
+      )
+      > [data-scroll-area-viewport]
+  ) {
+    mask-image:
+      linear-gradient(
+        to bottom,
+        oklch(0 0 0 / 0),
+        oklch(0 0 0) min(50%, var(--_scroll-area-fade-top)),
+        oklch(0 0 0) calc(100% - min(50%, var(--_scroll-area-fade-bottom))),
+        oklch(0 0 0 / 0)
+      ),
+      linear-gradient(
+        to right,
+        oklch(0 0 0 / 0),
+        oklch(0 0 0) min(50%, var(--_scroll-area-fade-left)),
+        oklch(0 0 0) calc(100% - min(50%, var(--_scroll-area-fade-right))),
+        oklch(0 0 0 / 0)
+      );
+    mask-composite: intersect;
+  }
+
+  :where(
+    [data-control-family="scroll-area"][data-slot="root"]:not([data-lock-axis="y"], [data-lock-axis="both"]) > [data-scroll-area-viewport]
+  ) {
+    --_scroll-area-fade-top: min(var(--scroll-fade-size), var(--scroll-area-overflow-y-start, 0px));
+    --_scroll-area-fade-bottom: min(var(--scroll-fade-size), var(--scroll-area-overflow-y-end, 0px));
+  }
+
+  :where(
+    [data-control-family="scroll-area"][data-slot="root"]:not([data-lock-axis="x"], [data-lock-axis="both"]):dir(ltr)
+      > [data-scroll-area-viewport]
+  ) {
+    --_scroll-area-fade-left: min(var(--scroll-fade-size), var(--scroll-area-overflow-x-start, 0px));
+    --_scroll-area-fade-right: min(var(--scroll-fade-size), var(--scroll-area-overflow-x-end, 0px));
+  }
+
+  :where(
+    [data-control-family="scroll-area"][data-slot="root"]:not([data-lock-axis="x"], [data-lock-axis="both"]):dir(rtl)
+      > [data-scroll-area-viewport]
+  ) {
+    --_scroll-area-fade-left: min(var(--scroll-fade-size), var(--scroll-area-overflow-x-end, 0px));
+    --_scroll-area-fade-right: min(var(--scroll-fade-size), var(--scroll-area-overflow-x-start, 0px));
+  }
+
+  :where(
+    [data-control-family="scroll-area"][data-slot="root"][data-overflow-y-start] > [data-control-family="progressive-blur"][data-side="top"]
+  ),
+  :where(
+    [data-control-family="scroll-area"][data-slot="root"][data-overflow-y-end]
+      > [data-control-family="progressive-blur"][data-side="bottom"]
+  ),
+  :where(
+    [data-control-family="scroll-area"][data-slot="root"][data-overflow-x-start]
+      > [data-control-family="progressive-blur"][data-side="inline-start"]
+  ),
+  :where(
+    [data-control-family="scroll-area"][data-slot="root"][data-overflow-x-end]
+      > [data-control-family="progressive-blur"][data-side="inline-end"]
+  ) {
+    --_progressive-blur-visibility: visible;
+    --_progressive-blur-enter: 1;
+  }
+
+  @media (prefers-reduced-transparency: reduce), (forced-colors: active) {
+    :where([data-control-family="scroll-area"][data-slot="root"][data-mask] > [data-scroll-area-viewport]) {
+      mask-image: none;
+    }
+  }
+
+  :where(
+    [data-control-family="scroll-area"][data-slot="root"][data-mask] > [data-scroll-area-viewport]:is(:focus-visible, :has(:focus-visible))
+  ) {
+    mask-image: none;
+  }
+
+  :where(
+    [data-control-family="scroll-area"][data-slot="root"]
+      > [data-scroll-area-viewport]:is(:focus-visible, :has(:focus-visible))
+      ~ [data-control-family="progressive-blur"]
+  ) {
+    --_progressive-blur-visibility: hidden;
+    --_progressive-blur-enter: 0;
+  }
+
+  :where([data-control-family="scroll-area"][data-slot="scrollbar"][data-orientation="vertical"]) {
+    inline-size: calc(var(--spacing) * 1.5);
+  }
+
+  :where([data-control-family="scroll-area"][data-slot="scrollbar"][data-orientation="horizontal"]) {
+    block-size: calc(var(--spacing) * 1.5);
+  }
+
+  :where([data-control-family="scroll-area"][data-slot="scrollbar"]) {
+    z-index: 1;
+    opacity: 0;
+  }
+
+  :where([data-control-family="scroll-area"][data-slot="scrollbar"][data-visibility="always"]),
+  :where([data-control-family="scroll-area"][data-slot="scrollbar"][data-visibility="hover"]:is([data-hovering], [data-scrolling])),
+  :where([data-control-family="scroll-area"][data-slot="scrollbar"][data-visibility="scroll"][data-scrolling]),
+  :where([data-control-family="scroll-area"][data-slot="root"] > [data-scroll-area-viewport]:focus-visible ~ [data-slot="scrollbar"]) {
+    opacity: 1;
+  }
+
+  @media (hover: none) {
+    :where([data-control-family="scroll-area"][data-slot="scrollbar"]) {
+      opacity: 1;
+    }
+  }
+
+  :where([data-control-family="scroll-area"][data-slot="thumb"]) {
+    border-radius: var(--cui-scroll-area-thumb-radius);
+    background: var(--cui-scroll-area-thumb-background);
+  }
+
+  :where([data-control-family="scroll-area"][data-slot="corner"]) {
+    background: var(--cui-scroll-area-corner-background);
+  }
+}
+
+@property --_scroll-area-fade-top {
+  syntax: "<length-percentage>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+@property --_scroll-area-fade-bottom {
+  syntax: "<length-percentage>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+@property --_scroll-area-fade-left {
+  syntax: "<length-percentage>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+@property --_scroll-area-fade-right {
+  syntax: "<length-percentage>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+@property --cui-scroll-area-thumb-radius {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --cui-scroll-area-thumb-background {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-scroll-area-corner-background {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}

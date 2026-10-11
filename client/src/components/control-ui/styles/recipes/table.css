@@ -1,0 +1,127 @@
+@layer components {
+  :where([data-control-family="table"][data-slot="root"]) {
+    --cui-table-background: transparent;
+    --cui-table-foreground: var(--foreground);
+    --cui-table-border-color: var(--border);
+    --cui-table-footer-background: oklch(from var(--foreground) l c h / 0.03);
+    --cui-table-header-foreground: var(--muted-foreground);
+    --cui-table-row-hover-background: oklch(from var(--foreground) l c h / 0.03);
+    --cui-table-row-selected-background: oklch(from var(--foreground) l c h / 0.05);
+    background: var(--cui-table-background);
+    color: var(--cui-table-foreground);
+    border-collapse: collapse;
+    font-size: var(--text-body);
+  }
+
+  :where([data-control-family="table"][data-slot="header"] [data-slot="row"]) {
+    border-bottom-color: var(--cui-table-border-color);
+  }
+
+  :where([data-control-family="table"][data-slot="footer"]) {
+    border-top-color: var(--cui-table-border-color);
+    background: var(--cui-table-footer-background);
+    border-top-style: solid;
+    border-top-width: 1px;
+    font-weight: var(--font-weight-medium);
+  }
+
+  :where([data-control-family="table"][data-slot="row"]) {
+    border-bottom-color: var(--cui-table-border-color);
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+  }
+
+  @media (hover: hover) {
+    :where(
+        [data-control-family="table"][data-slot="row"]:is(
+          [data-interactive],
+          [tabindex],
+          [role="button"],
+          :has(a, button, [role="checkbox"])
+        ):hover
+      ) {
+      background: var(--cui-table-row-hover-background);
+    }
+  }
+
+  :where([data-control-family="table"][data-slot="row"][data-state="selected"]) {
+    background: var(--cui-table-row-selected-background);
+  }
+
+  :where([data-control-family="table"][data-slot="head"]) {
+    block-size: calc(var(--spacing) * 10);
+    padding-inline: calc(var(--spacing) * 2);
+    color: var(--cui-table-header-foreground);
+    text-align: start;
+    font-weight: var(--font-weight-medium);
+  }
+
+  :where([data-control-family="table"][data-slot="caption"]) {
+    margin-block-start: calc(var(--spacing) * 4);
+    color: var(--muted-foreground);
+    font-size: var(--text-body);
+    text-wrap: pretty;
+  }
+
+  :where([data-control-family="table"][data-slot="footer"] > tr:last-child) {
+    border-bottom-style: solid;
+    border-bottom-width: 0px;
+  }
+
+  :where([data-control-family="table"][data-slot="body"] tr:last-child) {
+    border-style: solid;
+    border-width: 0px;
+  }
+
+  :where([data-control-family="table"][data-slot="header"] tr) {
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+  }
+
+  :where([data-control-family="table"][data-slot="cell"]) {
+    padding: calc(var(--spacing) * 2);
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@property --cui-table-background {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-table-foreground {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-table-border-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-table-row-hover-background {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-table-row-selected-background {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-table-header-foreground {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-table-footer-background {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}

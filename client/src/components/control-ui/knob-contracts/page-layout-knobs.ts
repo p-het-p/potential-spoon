@@ -1,0 +1,17 @@
+export const pageLayoutKnobs = [
+  "--cui-page-layout-article-size",
+  "--cui-page-layout-aside-size",
+  "--cui-page-layout-padding-inline",
+  "--cui-page-layout-padding-block",
+  "--cui-page-layout-column-gap",
+  "--cui-page-layout-header-start-gap",
+  "--cui-page-layout-header-gap",
+  "--cui-page-layout-header-column-gap",
+  "--cui-page-layout-header-row-gap",
+  "--cui-page-layout-size",
+  "--cui-page-layout-sticky-gap",
+  "--cui-page-layout-background",
+  "--cui-page-layout-sticky-header-background",
+  "--cui-page-layout-sticky-header-backdrop-filter",
+] as const;
+export type PageLayoutKnobStyle = Partial<Record<(typeof pageLayoutKnobs)[number], string>>;

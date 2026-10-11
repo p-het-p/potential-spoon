@@ -1,0 +1,120 @@
+@layer components {
+  :where([data-control-family="badge"][data-slot="root"]) {
+    gap: calc(var(--spacing) * 1);
+    padding: calc(var(--spacing) * 0.5) calc(var(--spacing) * 2);
+    --cui-badge-radius: var(--radius-control);
+    --cui-badge-background: var(--_badge-color-background);
+    --cui-badge-foreground: var(--_badge-color-foreground);
+    --cui-badge-border-color: transparent;
+    --cui-badge-font-size: var(--text-caption);
+    --_badge-color-background: var(--badge-neutral);
+    --_badge-color-foreground: var(--badge-neutral-foreground);
+    --_badge-color-border: var(--badge-neutral-border);
+    --_badge-color-background-hover: var(--badge-neutral-hover);
+    --_badge-hover-background: var(--_badge-color-background-hover);
+    border-color: var(--cui-badge-border-color);
+    border-radius: var(--cui-badge-radius);
+    background: var(--cui-badge-background);
+    color: var(--cui-badge-foreground);
+    font-size: var(--cui-badge-font-size);
+    font-variant-numeric: tabular-nums;
+  }
+
+  :where([data-control-family="badge"][data-slot="root"][data-size="sm"]) {
+    --cui-badge-font-size: var(--text-micro);
+    block-size: calc(var(--spacing) * 4);
+    padding: 0 calc(var(--spacing) * 1.5);
+  }
+
+  :where([data-control-family="badge"][data-slot="root"][data-variant="outline"]) {
+    --cui-badge-background: transparent;
+    --cui-badge-border-color: var(--_badge-color-border);
+    --_badge-hover-background: var(--_badge-color-background);
+  }
+
+  @media (hover: hover) {
+    :where(a[data-control-family="badge"][data-slot="root"]:hover),
+    :where(button[data-control-family="badge"][data-slot="root"]:not(:disabled):hover) {
+      background: var(--_badge-hover-background);
+    }
+  }
+
+  :where([data-control-family="badge"][data-slot="root"][data-color="red"]) {
+    --_badge-color-background: var(--badge-red);
+    --_badge-color-foreground: var(--badge-red-foreground);
+    --_badge-color-border: var(--badge-red-border);
+    --_badge-color-background-hover: var(--badge-red-hover);
+  }
+
+  :where([data-control-family="badge"][data-slot="root"][data-color="orange"]) {
+    --_badge-color-background: var(--badge-orange);
+    --_badge-color-foreground: var(--badge-orange-foreground);
+    --_badge-color-border: var(--badge-orange-border);
+    --_badge-color-background-hover: var(--badge-orange-hover);
+  }
+
+  :where([data-control-family="badge"][data-slot="root"][data-color="yellow"]) {
+    --_badge-color-background: var(--badge-yellow);
+    --_badge-color-foreground: var(--badge-yellow-foreground);
+    --_badge-color-border: var(--badge-yellow-border);
+    --_badge-color-background-hover: var(--badge-yellow-hover);
+  }
+
+  :where([data-control-family="badge"][data-slot="root"][data-color="green"]) {
+    --_badge-color-background: var(--badge-green);
+    --_badge-color-foreground: var(--badge-green-foreground);
+    --_badge-color-border: var(--badge-green-border);
+    --_badge-color-background-hover: var(--badge-green-hover);
+  }
+
+  :where([data-control-family="badge"][data-slot="root"][data-color="blue"]) {
+    --_badge-color-background: var(--badge-blue);
+    --_badge-color-foreground: var(--badge-blue-foreground);
+    --_badge-color-border: var(--badge-blue-border);
+    --_badge-color-background-hover: var(--badge-blue-hover);
+  }
+
+  :where([data-control-family="badge"][data-slot="root"][data-color="purple"]) {
+    --_badge-color-background: var(--badge-purple);
+    --_badge-color-foreground: var(--badge-purple-foreground);
+    --_badge-color-border: var(--badge-purple-border);
+    --_badge-color-background-hover: var(--badge-purple-hover);
+  }
+
+  :where([data-control-family="badge"][data-slot="root"][data-color="pink"]) {
+    --_badge-color-background: var(--badge-pink);
+    --_badge-color-foreground: var(--badge-pink-foreground);
+    --_badge-color-border: var(--badge-pink-border);
+    --_badge-color-background-hover: var(--badge-pink-hover);
+  }
+}
+
+@property --cui-badge-radius {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --cui-badge-background {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-badge-foreground {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-badge-border-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-badge-font-size {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 0px;
+}

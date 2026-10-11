@@ -1,0 +1,19 @@
+export const codeDiffKnobs = [
+  "--cui-code-diff-radius",
+  "--cui-code-diff-shadow",
+  "--cui-code-diff-background",
+  "--cui-code-diff-border-color",
+  "--cui-code-diff-border-width",
+  "--cui-code-diff-header-background",
+  "--cui-code-diff-header-border-color",
+  "--cui-code-diff-foreground",
+  "--cui-code-diff-add-background",
+  "--cui-code-diff-del-background",
+  "--cui-code-diff-expand-button-radius",
+  "--cui-code-diff-expand-button-background",
+  "--cui-code-diff-expand-button-foreground",
+  "--cui-code-diff-expand-button-shadow",
+  "--cui-code-diff-expand-button-hover-background",
+  "--cui-code-diff-expand-button-hover-foreground",
+] as const;
+export type CodeDiffKnobStyle = Partial<Record<(typeof codeDiffKnobs)[number], string>>;

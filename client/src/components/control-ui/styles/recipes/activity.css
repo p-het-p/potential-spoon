@@ -1,0 +1,156 @@
+@layer components {
+  :where([data-control-family="activity"][data-slot="root"]) {
+    --cui-activity-row-foreground: var(--muted-foreground);
+    --cui-activity-trigger-hover-background: oklch(from var(--muted) l c h / 0.45);
+    --cui-activity-trigger-radius: var(--radius-control);
+    --cui-activity-code-background: oklch(from var(--muted) l c h / 0.5);
+    --cui-activity-code-radius: var(--radius-control);
+    margin-block: calc(var(--spacing) * 1);
+    font-size: var(--text-body);
+  }
+
+  :where([data-control-family="activity"][data-slot="row"]),
+  :where([data-control-family="activity"][data-slot="trigger"]) {
+    min-block-size: calc(var(--spacing) * 8);
+    gap: calc(var(--spacing) * 2);
+    padding-inline: calc(var(--spacing) * 1.5);
+    padding-block: calc(var(--spacing) * 1);
+    color: var(--cui-activity-row-foreground);
+  }
+
+  :where([data-control-family="activity"][data-slot="trigger"]) {
+    border-radius: var(--cui-activity-trigger-radius);
+  }
+
+  @media (hover: hover) {
+    :where([data-control-family="activity"][data-slot="trigger"]:hover) {
+      background: var(--cui-activity-trigger-hover-background);
+      color: var(--foreground);
+    }
+  }
+
+  :where([data-control-family="activity"][data-slot="trigger"]:focus-visible) {
+    background: var(--cui-activity-trigger-hover-background);
+  }
+
+  :where([data-control-family="activity"][data-slot="chevron"]) {
+    inline-size: calc(var(--spacing) * 3.5);
+    block-size: calc(var(--spacing) * 3.5);
+    color: oklch(from var(--muted-foreground) l c h / 0.75);
+    transition: rotate var(--duration-base) var(--ease-standard);
+  }
+
+  :where([data-control-family="activity"][data-slot="trigger"][data-state="open"] [data-slot="chevron"]) {
+    rotate: 90deg;
+  }
+
+  :where([data-control-family="activity"][data-slot="icon"]) {
+    inline-size: calc(var(--spacing) * 4);
+    block-size: calc(var(--spacing) * 4);
+    color: var(--muted-foreground);
+  }
+
+  :where([data-control-family="activity"][data-slot="content-grid"]) {
+    gap: calc(var(--spacing) * 3);
+    padding-block: calc(var(--spacing) * 0.5) calc(var(--spacing) * 2);
+    padding-inline: calc(var(--spacing) * 7.5) calc(var(--spacing) * 1);
+  }
+
+  :where([data-control-family="activity"][data-slot="detail"]) {
+    gap: calc(var(--spacing) * 1);
+  }
+
+  :where([data-control-family="activity"][data-slot="root"][data-activity-state="running"] [data-slot="icon"]) {
+    color: var(--foreground);
+  }
+
+  :where([data-control-family="activity"][data-slot="root"][data-activity-state="running"] [data-slot="icon"][data-status-icon] svg) {
+    animation: cui-spin var(--duration-loop) linear infinite;
+  }
+
+  :where([data-control-family="activity"][data-slot="root"][data-activity-state="error"] [data-slot="icon"]) {
+    color: var(--destructive-text);
+  }
+
+  :where([data-control-family="activity"][data-slot="title"]) {
+    color: currentColor;
+    font-size: var(--text-label);
+    font-weight: var(--font-weight-normal);
+  }
+
+  :where([data-control-family="activity"][data-slot="status"]) {
+    color: var(--muted-foreground);
+    font-size: var(--text-caption);
+  }
+
+  :where([data-control-family="activity"][data-slot="status"][data-status="error"]) {
+    color: var(--destructive-text);
+  }
+
+  :where([data-control-family="activity"][data-slot="detail-label"]) {
+    color: var(--muted-foreground);
+    font-size: var(--text-micro);
+    font-weight: var(--font-weight-medium);
+    letter-spacing: 0.08em;
+  }
+
+  :where([data-control-family="activity"][data-slot="detail-content"]) {
+    color: var(--foreground);
+    font-size: var(--text-label);
+    line-height: calc(var(--spacing) * 5);
+    font-family: var(--font-mono);
+  }
+
+  :where([data-control-family="activity"][data-slot="detail-content"][data-format="code"]) {
+    padding-inline: calc(var(--spacing) * 2);
+    padding-block: calc(var(--spacing) * 1.5);
+    background: var(--cui-activity-code-background);
+    border-radius: var(--cui-activity-code-radius);
+    font-size: var(--text-caption);
+  }
+
+  @media (pointer: coarse) {
+    :where([data-control-family="activity"][data-slot="trigger"]) {
+      position: relative;
+    }
+
+    :where([data-control-family="activity"][data-slot="trigger"])::after {
+      content: "";
+      position: absolute;
+      inset-inline: 0;
+      inset-block-start: 50%;
+      translate: 0 -50%;
+      block-size: max(100%, var(--touch-target));
+    }
+  }
+}
+
+@property --cui-activity-row-foreground {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-activity-trigger-radius {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --cui-activity-trigger-hover-background {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-activity-code-background {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-activity-code-radius {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 0px;
+}

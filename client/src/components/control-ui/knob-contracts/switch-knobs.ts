@@ -1,0 +1,22 @@
+export const switchKnobs = [
+  "--cui-switch-thumb-shadow",
+  "--cui-switch-radius",
+  "--cui-switch-shadow",
+  "--cui-switch-background",
+  "--cui-switch-border-color",
+  "--cui-switch-border-width",
+  "--cui-switch-checked-border-color",
+  "--cui-switch-hover-background",
+  "--cui-switch-checked-background",
+  "--cui-switch-checked-hover-background",
+  "--cui-switch-thumb-radius",
+  "--cui-switch-thumb-background",
+  "--cui-switch-inline-size",
+  "--cui-switch-height",
+  "--cui-switch-padding",
+  "--cui-switch-thumb-inline-size",
+  "--cui-switch-thumb-press-inline-size",
+  "--cui-switch-thumb-press-scale",
+  "--cui-switch-thumb-backdrop-filter",
+] as const;
+export type SwitchKnobStyle = Partial<Record<(typeof switchKnobs)[number], string>>;

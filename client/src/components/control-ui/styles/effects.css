@@ -1,0 +1,100 @@
+/* Every utility here reads theme tokens, so a theme rewrite restyles the effects too. Tailwind only emits an @utility that scanned source references. */
+
+/* apply to a sized block */
+@utility shimmer {
+  background-image: linear-gradient(100deg, var(--muted) 30%, oklch(from var(--muted-foreground) l c h / 0.25) 50%, var(--muted) 70%);
+  background-size: 220% 100%;
+  animation: shimmer calc(var(--duration-slow) * 5) var(--ease-standard) infinite;
+}
+
+/* shimmer-text — same sweep clipped to text ("AI is generating" treatment); subtle --muted-foreground↔--foreground stops keep it readable. */
+@utility shimmer-text {
+  background-image: linear-gradient(100deg, var(--muted-foreground) 35%, var(--foreground) 50%, var(--muted-foreground) 65%);
+  background-size: 220% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: shimmer calc(var(--duration-slow) * 6) var(--ease-standard) infinite;
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 180% 0;
+  }
+  to {
+    background-position: -80% 0;
+  }
+}
+
+/* halftone — "media is being generated" fill for a box whose final size is already reserved (image gen placeholder).
+ * The lattice never moves and the mask is a fixed corner-to-corner fade; the dots themselves breathe, which is what
+ * reads as halftone. A travelling mask was tried and rejected: it leaves the box blank for most of the cycle.
+ * Registration required to interpolate the radius — browsers without @property hold the resting dot, never a broken box.
+ * Token-parameterized (pack re-values, no fork): --halftone-color, -dot (resting radius), -gap (lattice pitch). */
+@property --cui-halftone-pulse {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 1;
+}
+
+@utility halftone {
+  --halftone-radius: calc(var(--halftone-dot, 1.4px) * var(--cui-halftone-pulse));
+  background-image: radial-gradient(
+    circle at center,
+    var(--halftone-color, oklch(from var(--muted-foreground) l c h / 0.7)) var(--halftone-radius),
+    transparent calc(var(--halftone-radius) + 0.4px)
+  );
+  background-size: var(--halftone-gap, 11px) var(--halftone-gap, 11px);
+  -webkit-mask-image: linear-gradient(to top left, transparent 0%, oklch(0 0 0) 30%, oklch(0 0 0) 70%, transparent 100%);
+  mask-image: linear-gradient(to top left, transparent 0%, oklch(0 0 0) 30%, oklch(0 0 0) 70%, transparent 100%);
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  animation: aui-halftone calc(var(--duration-slow) * 6) var(--ease-standard) infinite;
+}
+
+@keyframes aui-halftone {
+  0%,
+  100% {
+    --cui-halftone-pulse: 0.55;
+  }
+  50% {
+    --cui-halftone-pulse: 1.5;
+  }
+}
+
+/* progress-sweep — retro alt to shimmer-text: hard-edged --primary blocks marching L-to-R, clipped to text (Minecraft/Windows XP bar).
+ * Token-parameterized (pack re-values, no fork): --progress-sweep-color, -block/-step (lit width/repeat period, gap=step−block), -fade (dim gap alpha).
+ * text-shadow cleared — glyph shadow would paint over transparent fill (same reason as the fill reset). */
+@utility progress-sweep {
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--progress-sweep-color, var(--primary)) 0 var(--progress-sweep-block, 8px),
+    oklch(from var(--progress-sweep-color, var(--primary)) l c h / var(--progress-sweep-fade, 0.4)) var(--progress-sweep-block, 8px)
+      var(--progress-sweep-step, 12px)
+  );
+  background-size: 200% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  text-shadow: none;
+  animation: aui-progress-sweep calc(var(--duration-slow) * 12) linear infinite;
+}
+
+@keyframes aui-progress-sweep {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes cui-spin {
+  to {
+    rotate: 360deg;
+  }
+}

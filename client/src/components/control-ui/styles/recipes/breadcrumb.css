@@ -1,0 +1,77 @@
+@layer components {
+  :where([data-control-family="breadcrumb"][data-slot="root"]) {
+    --cui-breadcrumb-list-foreground: var(--muted-foreground);
+    --cui-breadcrumb-page-foreground: var(--foreground);
+    --cui-breadcrumb-link-hover-foreground: var(--foreground);
+  }
+
+  :where([data-control-family="breadcrumb"][data-slot="page"]) {
+    font-weight: var(--font-weight-normal);
+    color: var(--cui-breadcrumb-page-foreground);
+  }
+
+  :where([data-control-family="breadcrumb"][data-slot="list"]) {
+    gap: calc(var(--spacing) * 1.5);
+    font-size: var(--text-body);
+    line-height: calc(var(--spacing) * 5);
+    color: var(--cui-breadcrumb-list-foreground);
+  }
+
+  @media (width >= 40rem) {
+    :where([data-control-family="breadcrumb"][data-slot="list"]) {
+      gap: calc(var(--spacing) * 2.5);
+    }
+  }
+
+  :where([data-control-family="breadcrumb"][data-slot="item"]) {
+    gap: calc(var(--spacing) * 1.5);
+  }
+
+  :where([data-control-family="breadcrumb"][data-slot="link"]) {
+    transition: color var(--duration-fast) var(--ease-standard);
+  }
+
+  @media (hover: hover) {
+    :where([data-control-family="breadcrumb"][data-slot="link"]:hover:not([aria-disabled="true"])) {
+      color: var(--cui-breadcrumb-link-hover-foreground);
+    }
+  }
+
+  :where([data-control-family="breadcrumb"][data-slot="ellipsis"]) {
+    inline-size: calc(var(--spacing) * 9);
+    block-size: calc(var(--spacing) * 9);
+  }
+
+  @media (pointer: coarse) {
+    :where([data-control-family="breadcrumb"][data-slot="link"]) {
+      position: relative;
+    }
+
+    :where([data-control-family="breadcrumb"][data-slot="link"])::after {
+      content: "";
+      position: absolute;
+      inset: 50% 50%;
+      translate: -50% -50%;
+      inline-size: 100%;
+      block-size: max(100%, var(--touch-target));
+    }
+  }
+}
+
+@property --cui-breadcrumb-list-foreground {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-breadcrumb-page-foreground {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-breadcrumb-link-hover-foreground {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}

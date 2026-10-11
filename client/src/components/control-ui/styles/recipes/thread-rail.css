@@ -1,0 +1,272 @@
+@layer components {
+  :where([data-control-family="thread-rail"][data-slot="root"]) {
+    --cui-thread-rail-item-radius: 9999px;
+    --cui-thread-rail-item-background: transparent;
+    --cui-thread-rail-line-radius: 9999px;
+    --cui-thread-rail-popover-radius: var(--radius-popover);
+    --cui-thread-rail-popover-background: var(--popover);
+    --cui-thread-rail-popover-border-color: var(--border);
+    --cui-thread-rail-popover-border-width: var(--control-rim-width);
+    --cui-thread-rail-popover-shadow: var(--shadow-pop);
+    --cui-thread-rail-popover-backdrop-blur: var(--backdrop-blur-popover);
+    --_thread-rail-pitch: calc(var(--spacing) * 2 + 1px);
+    --_thread-rail-inset: calc(var(--spacing) * 2 + var(--_thread-rail-pitch) / 2);
+    position: relative;
+    inline-size: calc(var(--spacing) * 4);
+  }
+
+  :where([data-control-family="thread-rail"][data-slot="item"]) {
+    padding-block: calc(var(--spacing) * 1);
+    border-radius: var(--cui-thread-rail-item-radius);
+    background: var(--cui-thread-rail-item-background);
+  }
+
+  :where([data-control-family="thread-rail"][data-slot="line"]) {
+    block-size: 1px;
+    inline-size: calc(var(--spacing) * 2);
+    border-radius: var(--cui-thread-rail-line-radius);
+    background: oklch(from var(--foreground) l c h / 0.2);
+  }
+
+  :where([data-control-family="thread-rail"][data-slot="line"])::before {
+    content: "";
+    position: absolute;
+    inset-block: calc(var(--spacing) * -1);
+    inset-inline-start: 0;
+    inline-size: calc(var(--spacing) * 4);
+  }
+
+  :where([data-control-family="thread-rail"][data-slot="item"][data-in-view] [data-control-family="thread-rail"][data-slot="line"]) {
+    background: oklch(from var(--foreground) l c h / 0.6);
+  }
+
+  :where(
+    [data-control-family="thread-rail"][data-slot="item"]:has(+ [data-control-family="thread-rail"][data-slot="item"]:focus-within)
+      [data-control-family="thread-rail"][data-slot="line"]
+  ),
+  :where(
+    [data-control-family="thread-rail"][data-slot="item"]:focus-within
+      + [data-control-family="thread-rail"][data-slot="item"]
+      [data-control-family="thread-rail"][data-slot="line"]
+  ) {
+    inline-size: calc(var(--spacing) * 3);
+    background: oklch(from var(--foreground) l c h / 0.45);
+  }
+
+  @media (hover: hover) {
+    :where(
+        [data-control-family="thread-rail"][data-slot="item"]:has(+ [data-control-family="thread-rail"][data-slot="item"]:hover)
+          [data-control-family="thread-rail"][data-slot="line"]
+      ),
+    :where(
+        [data-control-family="thread-rail"][data-slot="item"]:hover
+          + [data-control-family="thread-rail"][data-slot="item"]
+          [data-control-family="thread-rail"][data-slot="line"]
+      ) {
+      inline-size: calc(var(--spacing) * 3);
+      background: oklch(from var(--foreground) l c h / 0.45);
+    }
+  }
+
+  :where([data-control-family="thread-rail"][data-slot="item"]:focus-within [data-control-family="thread-rail"][data-slot="line"]) {
+    inline-size: calc(var(--spacing) * 4);
+    background: var(--foreground);
+  }
+
+  @media (hover: hover) {
+    :where([data-control-family="thread-rail"][data-slot="item"]:hover [data-control-family="thread-rail"][data-slot="line"]) {
+      inline-size: calc(var(--spacing) * 4);
+      background: var(--foreground);
+    }
+  }
+
+  :where([data-control-family="thread-rail"][data-slot="item"][data-rail-current] [data-control-family="thread-rail"][data-slot="line"]) {
+    anchor-name: --_thread-rail-active;
+  }
+
+  :where([data-control-family="thread-rail"][data-slot="popover"]) {
+    position: absolute;
+    inset-inline-start: 100%;
+    margin-inline-start: calc(var(--spacing) * 3);
+    inset-block-start: 0;
+    translate: 0 calc(var(--_thread-rail-inset) + var(--_thread-rail-active-index, 0) * var(--_thread-rail-pitch) - 50%);
+    transform-origin: left center;
+    scale: 0.98;
+    opacity: 0;
+    border-radius: var(--cui-thread-rail-popover-radius);
+    background: var(--cui-thread-rail-popover-background);
+    padding: 0px;
+    box-shadow:
+      inset 0 0 0 var(--cui-thread-rail-popover-border-width) var(--cui-thread-rail-popover-border-color),
+      var(--cui-thread-rail-popover-shadow);
+    color: var(--popover-foreground);
+    -webkit-backdrop-filter: blur(var(--cui-thread-rail-popover-backdrop-blur));
+    backdrop-filter: blur(var(--cui-thread-rail-popover-backdrop-blur));
+    transition:
+      inset-block-start var(--duration-slow) var(--ease-standard),
+      translate var(--duration-slow) var(--ease-standard),
+      height var(--duration-slow) var(--ease-standard),
+      opacity var(--duration-base) var(--ease-standard),
+      scale var(--duration-base) var(--ease-standard);
+    text-align: start;
+  }
+
+  :where([data-control-family="thread-rail"][data-slot="popover"]:dir(rtl)),
+  :where([data-control-family="thread-rail"][data-slot="popover-layer"]:dir(rtl)) {
+    transform-origin: right center;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    :where(
+        [data-control-family="thread-rail"][data-slot="root"]:has([data-control-family="thread-rail"][data-slot="item"]:hover)
+          [data-control-family="thread-rail"][data-slot="popover"]
+      ) {
+      scale: 1;
+      opacity: 1;
+    }
+  }
+
+  :where([data-control-family="thread-rail"][data-slot="root"]:focus-within [data-control-family="thread-rail"][data-slot="popover"]) {
+    scale: 1;
+    opacity: 1;
+  }
+
+  @starting-style {
+    :where(
+        [data-control-family="thread-rail"][data-slot="root"]:has([data-control-family="thread-rail"][data-slot="item"]:hover)
+          [data-control-family="thread-rail"][data-slot="popover"]
+      ),
+    :where([data-control-family="thread-rail"][data-slot="root"]:focus-within [data-control-family="thread-rail"][data-slot="popover"]) {
+      scale: 0.98;
+      opacity: 0;
+    }
+  }
+
+  @supports (inset-block-start: anchor(--_thread-rail-active center)) {
+    :where([data-control-family="thread-rail"][data-slot="popover"]) {
+      inset-block-start: anchor(--_thread-rail-active center);
+      translate: 0 -50%;
+    }
+  }
+
+  :where([data-control-family="thread-rail"][data-slot="popover-layer"]) {
+    padding: calc(var(--spacing) * 3.5);
+    position: absolute;
+    inset-inline: 0;
+    inset-block-start: 0;
+    transform-origin: left center;
+    scale: 0.96;
+    opacity: 0;
+    filter: blur(4px);
+    transition:
+      opacity var(--duration-base) var(--ease-standard),
+      scale var(--duration-base) var(--ease-standard),
+      filter var(--duration-base) var(--ease-standard);
+  }
+
+  :where(
+    [data-control-family="thread-rail"][data-slot="root"]:is(
+        :has([data-control-family="thread-rail"][data-slot="item"]:hover),
+        :focus-within
+      )
+      [data-control-family="thread-rail"][data-slot="popover-layer"][data-active]
+  ) {
+    scale: 1;
+    opacity: 1;
+    filter: blur(0);
+  }
+
+  :where([data-control-family="thread-rail"][data-slot="title"]) {
+    color: var(--foreground);
+    font-size: var(--text-body);
+    font-weight: var(--font-weight-medium);
+  }
+
+  :where([data-control-family="thread-rail"][data-slot="summary"]),
+  :where([data-control-family="thread-rail"][data-slot="file"]),
+  :where([data-control-family="thread-rail"][data-slot="file-icon"]),
+  :where([data-control-family="thread-rail"][data-slot="more"]) {
+    color: var(--muted-foreground);
+    font-size: var(--text-label);
+  }
+
+  :where([data-control-family="thread-rail"][data-slot="file"]) {
+    gap: calc(var(--spacing) * 1.5);
+  }
+
+  :where([data-control-family="thread-rail"][data-slot="file-icon"]) {
+    inline-size: calc(var(--spacing) * 3.5);
+    block-size: calc(var(--spacing) * 3.5);
+    opacity: 0.7;
+    line-height: 1;
+  }
+
+  :where([data-control-family="thread-rail"][data-slot="more"]) {
+    font-weight: var(--font-weight-medium);
+  }
+
+  :where([data-control-family="thread-rail"][data-slot="footer"]) {
+    margin-block-start: calc(var(--spacing) * 3);
+    gap: calc(var(--spacing) * 2);
+    padding-block-start: calc(var(--spacing) * 2.5);
+    border-block-start: var(--control-rim-width) solid oklch(from var(--border) l c h / 0.6);
+  }
+
+  :where([data-control-family="thread-rail"][data-slot="summary"]) {
+    margin-block-start: calc(var(--spacing) * 1.5);
+    line-height: calc(var(--spacing) * 5);
+  }
+}
+
+@property --cui-thread-rail-item-radius {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --cui-thread-rail-item-background {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-thread-rail-line-radius {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --cui-thread-rail-popover-radius {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --cui-thread-rail-popover-background {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-thread-rail-popover-border-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-thread-rail-popover-border-width {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --cui-thread-rail-popover-shadow {
+  syntax: "*";
+  inherits: true;
+}
+
+@property --cui-thread-rail-popover-backdrop-blur {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 0px;
+}

@@ -1,0 +1,155 @@
+@layer components {
+  :where([data-control-family="alert"][data-slot="root"]) {
+    --cui-alert-radius: var(--radius-lg);
+    --cui-alert-background: var(--card);
+    --cui-alert-border-color: var(--border);
+    --cui-alert-shadow: none;
+    --cui-alert-foreground: var(--card-foreground);
+    --cui-alert-description-foreground: var(--muted-foreground);
+    --cui-alert-border-width: var(--control-rim-width);
+    --cui-alert-padding: calc(var(--spacing) * 3);
+    --cui-alert-padding-inline: calc(var(--spacing) * 4);
+    --cui-alert-gap: calc(var(--spacing) * 0.5);
+    --cui-alert-icon-gap: calc(var(--spacing) * 3);
+    --cui-alert-icon-size: calc(var(--spacing) * 4);
+    --cui-alert-font-size: var(--text-body);
+    --cui-alert-title-font-weight: var(--font-weight-medium);
+    --cui-alert-description-gap: var(--spacing);
+    grid-template-columns: 0 minmax(0, 1fr);
+    row-gap: var(--cui-alert-gap);
+    padding: var(--cui-alert-padding) var(--cui-alert-padding-inline);
+    border: var(--cui-alert-border-width) solid var(--cui-alert-border-color);
+    border-radius: var(--cui-alert-radius);
+    background: var(--cui-alert-background);
+    box-shadow: var(--cui-alert-shadow);
+    color: var(--cui-alert-foreground);
+    font-size: var(--cui-alert-font-size);
+    line-height: var(--leading-normal);
+    overflow-wrap: anywhere;
+  }
+
+  :where([data-control-family="alert"][data-slot="root"][data-variant="destructive"]) {
+    --cui-alert-foreground: var(--destructive-text);
+    --cui-alert-border-color: oklch(from var(--destructive) l c h / 0.5);
+    --cui-alert-description-foreground: oklch(from var(--destructive-text) l c h / 0.9);
+  }
+
+  :where([data-control-family="alert"][data-slot="root"]:has(> svg)) {
+    grid-template-columns: var(--cui-alert-icon-size) minmax(0, 1fr);
+    column-gap: var(--cui-alert-icon-gap);
+  }
+
+  :where([data-control-family="alert"][data-slot="description"]) {
+    gap: var(--cui-alert-description-gap);
+    color: var(--cui-alert-description-foreground);
+    font-size: var(--cui-alert-font-size);
+    line-height: var(--leading-normal);
+    text-wrap: pretty;
+  }
+
+  :where([data-control-family="alert"][data-slot="description"] p) {
+    line-height: var(--leading-relaxed);
+  }
+
+  :where([data-control-family="alert"][data-slot="title"]) {
+    font-weight: var(--cui-alert-title-font-weight);
+    letter-spacing: var(--tracking-tight);
+    text-wrap: balance;
+  }
+
+  :where([data-control-family="alert"][data-slot="root"] > svg) {
+    color: currentcolor;
+    inline-size: var(--cui-alert-icon-size);
+    block-size: var(--cui-alert-icon-size);
+    margin-block-start: max(0px, calc((1lh - var(--cui-alert-icon-size)) / 2));
+  }
+}
+
+@property --cui-alert-radius {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --cui-alert-background {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-alert-border-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-alert-shadow {
+  syntax: "*";
+  inherits: true;
+}
+
+@property --cui-alert-foreground {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-alert-description-foreground {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-alert-border-width {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --cui-alert-padding {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --cui-alert-padding-inline {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --cui-alert-gap {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --cui-alert-icon-gap {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --cui-alert-icon-size {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --cui-alert-font-size {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --cui-alert-description-gap {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --cui-alert-title-font-weight {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 400;
+}

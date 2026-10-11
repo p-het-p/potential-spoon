@@ -1,0 +1,25 @@
+{
+	"nodes":[
+		{"id":"2acddfaeabb902ee","type":"text","text":"## 2. Explore Public Pages\n\n- Club information\n- Upcoming events\n- Public announcements\n- Event details and ticket options","x":-1860,"y":195,"width":340,"height":180},
+		{"id":"0148d1bfedf02f1c","type":"text","text":"## 3. Choose an Action\n\nWhat does the visitor want to do?","x":-1860,"y":455,"width":340,"height":120,"color":"5"},
+		{"id":"910e5a2010ee6ff5","type":"text","text":"## A. Attend an Event\n\n1. Browse/select an event\n2. Choose the non-member ticket option\n3. Enter attendee details\n4. Pay for the ticket\n5. Receive ticket confirmation\n\nThe system should respect the event's seat capacity.","x":-2380,"y":685,"width":370,"height":335},
+		{"id":"c3402178c3e24470","type":"text","text":"## B. Join the Club\n\n1. Create an account\n2. Complete membership registration\n3. Pay membership dues\n4. Membership is activated after successful payment\n5. Open the member dashboard","x":-1940,"y":685,"width":370,"height":270},
+		{"id":"88d87daad52a7e6b","type":"text","text":"## C. Explore Only\n\nContinue browsing public pages without signing in or joining.","x":-1500,"y":685,"width":340,"height":160},
+		{"id":"0162c85c2324d92f","type":"text","text":"## Continue as Visitor\n\nReturn to public pages or leave the website.","x":-1500,"y":955,"width":340,"height":130},
+		{"id":"69a44b2f1f488d93","type":"text","text":"## 1. Open Club Website\n\nThe visitor lands on the public home page. No account is required just to explore public information.","x":-1860,"y":-115,"width":340,"height":150},
+		{"id":"978a3d3689573ebf","type":"text","text":"## Membership Activated\n\nAfter successful registration and dues payment, direct the new member to the member dashboard.","x":-1940,"y":1100,"width":370,"height":150,"color":"4"},
+		{"id":"c4b86079f5eda8e7","type":"text","text":"## Ticket Purchased\n\nShow confirmation and provide the ticket for checking at the event entrance.","x":-2380,"y":1125,"width":370,"height":150,"color":"4"},
+		{"id":"3a54bf5e43b2f6ae","type":"text","text":"# User Workflow\n\nA user signs in to their roles and make the job done.","x":-1860,"y":-560,"width":360,"height":190,"color":"5"}
+	],
+	"edges":[
+		{"id":"afd53483ce372a8f","fromNode":"2acddfaeabb902ee","fromSide":"bottom","toNode":"0148d1bfedf02f1c","toSide":"top","label":"Choose action"},
+		{"id":"4b83f164901267c2","fromNode":"69a44b2f1f488d93","fromSide":"bottom","toNode":"2acddfaeabb902ee","toSide":"top","label":"Browse"},
+		{"id":"37186503b58027cb","fromNode":"0148d1bfedf02f1c","fromSide":"left","toNode":"910e5a2010ee6ff5","toSide":"top","label":"Attend event"},
+		{"id":"e914e631c68a5ee8","fromNode":"0148d1bfedf02f1c","fromSide":"bottom","toNode":"c3402178c3e24470","toSide":"top","label":"Join club"},
+		{"id":"b20e492ce4c235b5","fromNode":"0148d1bfedf02f1c","fromSide":"right","toNode":"88d87daad52a7e6b","toSide":"top","label":"Explore only"},
+		{"id":"4a60d81e0dcf6283","fromNode":"910e5a2010ee6ff5","fromSide":"bottom","toNode":"c4b86079f5eda8e7","toSide":"top","label":"Payment successful"},
+		{"id":"12b8f7a404dead5b","fromNode":"c3402178c3e24470","fromSide":"bottom","toNode":"978a3d3689573ebf","toSide":"top","label":"Registration/payment successful"},
+		{"id":"21a73a93e0765d23","fromNode":"88d87daad52a7e6b","fromSide":"bottom","toNode":"0162c85c2324d92f","toSide":"top","label":"Continue browsing"},
+		{"id":"67b7ff3f55e003d2","fromNode":"3a54bf5e43b2f6ae","fromSide":"bottom","toNode":"69a44b2f1f488d93","toSide":"top","label":"Non-Member"}
+	]
+}

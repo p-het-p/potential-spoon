@@ -1,0 +1,34 @@
+{
+	"nodes":[
+		{"id":"member-entry","type":"text","text":"# Club Member Workflow\n\nThe member has already joined the club and uses an account to access member features.","x":0,"y":-60,"width":320,"height":180,"color":"5"},
+		{"id":"signin","type":"text","text":"## 1. Sign in\n\nOpen the club website and enter login credentials.","x":0,"y":180,"width":300,"height":130},
+		{"id":"valid-login","type":"text","text":"## Credentials valid?\n\nCheck the submitted credentials.","x":0,"y":370,"width":300,"height":120},
+		{"id":"login-error","type":"text","text":"## No — login failed\n\nShow an error and let the member retry or use password recovery (suggested feature).","x":-390,"y":370,"width":300,"height":150,"color":"1"},
+		{"id":"dashboard","type":"text","text":"## Yes — Member Dashboard\n\nShow the member's available features.","x":0,"y":560,"width":300,"height":160,"color":"5"},
+		{"id":"merchandise","type":"text","text":"## 2C. Merchandise\n\n- Browse hoodies and T-shirts\n- Choose size and quantity\n- Place order and pay\n- Receive order confirmation","x":130,"y":920,"width":340,"height":210},
+		{"id":"membership","type":"text","text":"## 2A. Membership\n\n- View membership status\n- If active: access member benefits\n- If expired/unpaid: renew and pay dues\n- After successful payment: restore benefits","x":-880,"y":920,"width":340,"height":270},
+		{"id":"events","type":"text","text":"## 2B. Events\n\n- Browse upcoming events\n- Select an event\n- Choose member ticket price\n- Pay for ticket\n- Receive confirmation/ticket","x":-410,"y":920,"width":340,"height":210},
+		{"id":"profile","type":"text","text":"## 2E. Profile (suggested)\n\nView or update personal details. Profile editing is a suggested feature, not explicitly required in the brief.","x":1160,"y":895,"width":320,"height":160},
+		{"id":"announcements","type":"text","text":"## 2D. Announcements\n\n- View club announcements\n- Catch up on information shared with members","x":600,"y":940,"width":320,"height":170},
+		{"id":"signout","type":"text","text":"## 3. Sign out\n\nEnd the member session.","x":40,"y":1560,"width":340,"height":100},
+		{"id":"return","type":"text","text":"## Return to Dashboard\n\nAfter completing an activity, the member can choose another section.","x":-20,"y":1280,"width":340,"height":130,"color":"5"}
+	],
+	"edges":[
+		{"id":"e1","fromNode":"member-entry","fromSide":"bottom","toNode":"signin","toSide":"top","label":"Open website"},
+		{"id":"e2","fromNode":"signin","fromSide":"bottom","toNode":"valid-login","toSide":"top","label":"Submit"},
+		{"id":"e3","fromNode":"valid-login","fromSide":"left","toNode":"login-error","toSide":"right","label":"No"},
+		{"id":"e4","fromNode":"login-error","fromSide":"top","toNode":"signin","toSide":"left","label":"Retry"},
+		{"id":"e5","fromNode":"valid-login","fromSide":"bottom","toNode":"dashboard","toSide":"top","label":"Yes"},
+		{"id":"e6","fromNode":"dashboard","fromSide":"left","toNode":"membership","toSide":"top","label":"Choose section"},
+		{"id":"e7","fromNode":"dashboard","fromSide":"bottom","toNode":"events","toSide":"top","label":"Choose section"},
+		{"id":"e8","fromNode":"dashboard","fromSide":"bottom","toNode":"merchandise","toSide":"top","label":"Choose section"},
+		{"id":"e9","fromNode":"dashboard","fromSide":"right","toNode":"announcements","toSide":"top","label":"Choose section"},
+		{"id":"e10","fromNode":"dashboard","fromSide":"right","toNode":"profile","toSide":"top","label":"Choose section"},
+		{"id":"e11","fromNode":"membership","fromSide":"bottom","toNode":"return","toSide":"left","label":"Done"},
+		{"id":"e12","fromNode":"events","fromSide":"bottom","toNode":"return","toSide":"top","label":"Done"},
+		{"id":"e13","fromNode":"merchandise","fromSide":"bottom","toNode":"return","toSide":"top","label":"Done"},
+		{"id":"e14","fromNode":"announcements","fromSide":"bottom","toNode":"return","toSide":"right","label":"Done"},
+		{"id":"e15","fromNode":"profile","fromSide":"bottom","toNode":"return","toSide":"right","label":"Done"},
+		{"id":"e16","fromNode":"return","fromSide":"bottom","toNode":"signout","toSide":"top","label":"Sign out"}
+	]
+}

@@ -1,0 +1,34 @@
+export declare const env: {
+    NODE_ENV: "development" | "production" | "test";
+    PORT: number;
+    API_BASE_PATH: string;
+    DATABASE_URL: string;
+    JWT_SECRET: string;
+    JWT_EXPIRES_IN: string;
+    REFRESH_TOKEN_EXPIRES_IN: string;
+    RAZORPAY_KEY_ID: string;
+    RAZORPAY_KEY_SECRET: string;
+    RAZORPAY_WEBHOOK_SECRET: string;
+    EMAIL_PROVIDER: string;
+    EMAIL_FROM: string;
+    SMTP_HOST: string;
+    SMTP_PORT: number;
+    SMTP_USER: string;
+    SMTP_PASSWORD: string;
+    GUEST_SESSION_SECRET: string;
+    GUEST_OTP_SECRET: string;
+    GUEST_SESSION_EXPIRES_IN: string;
+    GUEST_OTP_EXPIRES_IN: string;
+    GUEST_OTP_MAX_ATTEMPTS: number;
+    GUEST_OTP_RESEND_COOLDOWN: string;
+    APP_ORIGIN: string;
+    FRONTEND_URL: string;
+    RATE_LIMIT_WINDOW_MS: number;
+    RATE_LIMIT_MAX_REQUESTS: number;
+    AUTH_RATE_LIMIT_MAX_REQUESTS: number;
+    OTP_RATE_LIMIT_MAX_REQUESTS: number;
+    LOG_LEVEL: "error" | "warn" | "info" | "debug";
+    LOG_FILE: string;
+    SOCKET_CORS_ORIGIN: string;
+};
+//# sourceMappingURL=env.d.ts.map

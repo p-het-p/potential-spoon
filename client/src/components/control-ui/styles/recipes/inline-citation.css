@@ -1,0 +1,222 @@
+@layer components {
+  :where([data-control-family="inline-citation"][data-slot="root"]),
+  :where([data-control-ui="inline-citation"][data-slot="content"]) {
+    --cui-inline-citation-favicon-background: var(--muted);
+    --cui-inline-citation-favicon-radius: 9999px;
+    --cui-inline-citation-navigation-background: oklch(from var(--muted) l c h / 0.45);
+    --cui-inline-citation-quote-background: oklch(from var(--muted) l c h / 0.55);
+    --cui-inline-citation-quote-radius: var(--radius-control);
+    --cui-inline-citation-trigger-background: oklch(from var(--muted) l c h / 0.55);
+    --cui-inline-citation-trigger-border-color: var(--border);
+    --cui-inline-citation-trigger-border-width: var(--control-rim-width);
+    --cui-inline-citation-trigger-foreground: var(--muted-foreground);
+    --cui-inline-citation-trigger-hover-background: var(--muted);
+    --cui-inline-citation-trigger-hover-foreground: var(--foreground);
+    --cui-inline-citation-trigger-radius: 9999px;
+  }
+  :where([data-control-family="inline-citation"][data-slot="trigger"]) {
+    margin-inline-start: calc(var(--spacing) * 1);
+    block-size: calc(var(--spacing) * 6);
+    max-inline-size: calc(var(--spacing) * 52);
+    gap: calc(var(--spacing) * 1.5);
+    padding-inline: calc(var(--spacing) * 1.5) calc(var(--spacing) * 2);
+    border: var(--cui-inline-citation-trigger-border-width) solid var(--cui-inline-citation-trigger-border-color);
+    border-radius: var(--cui-inline-citation-trigger-radius);
+    background: var(--cui-inline-citation-trigger-background);
+    color: var(--cui-inline-citation-trigger-foreground);
+    font-size: var(--text-caption);
+    font-weight: var(--font-weight-normal);
+    outline-style: none;
+  }
+
+  @media (hover: hover) {
+    :where([data-control-family="inline-citation"][data-slot="trigger"]:hover) {
+      background: var(--cui-inline-citation-trigger-hover-background);
+      color: var(--cui-inline-citation-trigger-hover-foreground);
+    }
+  }
+
+  :where([data-control-family="inline-citation"][data-slot="trigger"]:focus-visible) {
+    background: var(--cui-inline-citation-trigger-hover-background);
+    color: var(--cui-inline-citation-trigger-hover-foreground);
+  }
+
+  @media (pointer: coarse) {
+    :where([data-control-family="inline-citation"][data-slot="trigger"]) {
+      position: relative;
+    }
+
+    :where([data-control-family="inline-citation"][data-slot="trigger"])::after {
+      content: "";
+      position: absolute;
+      inset: 50% 50%;
+      translate: -50% -50%;
+      inline-size: 100%;
+      block-size: max(100%, var(--touch-target));
+    }
+  }
+
+  :where([data-control-ui="inline-citation"][data-slot="favicon"]) {
+    inline-size: calc(var(--spacing) * 3.5);
+    block-size: calc(var(--spacing) * 3.5);
+    border: var(--control-rim-width) solid var(--background);
+    border-radius: var(--cui-inline-citation-favicon-radius);
+    background: var(--cui-inline-citation-favicon-background);
+  }
+
+  :where([data-control-family="inline-citation"][data-slot="navigation"]) {
+    min-block-size: calc(var(--spacing) * 10);
+    gap: calc(var(--spacing) * 1);
+    padding-inline: calc(var(--spacing) * 2);
+    border-block-end: var(--control-rim-width) solid var(--border);
+    background: var(--cui-inline-citation-navigation-background);
+  }
+
+  :where(
+    [data-control-family="inline-citation"]:is(
+      [data-slot="position"],
+      [data-slot="source-hostname"],
+      [data-slot="source-description"],
+      [data-slot="source-quote"]
+    )
+  ) {
+    color: var(--muted-foreground);
+    font-size: var(--text-caption);
+  }
+
+  :where([data-control-family="inline-citation"][data-slot="source"]) {
+    gap: calc(var(--spacing) * 3);
+    padding: calc(var(--spacing) * 4);
+  }
+
+  :where([data-control-family="inline-citation"][data-slot="source-header"]) {
+    gap: calc(var(--spacing) * 2);
+  }
+
+  :where([data-control-ui="inline-citation"][data-slot="source-favicon"]) {
+    inline-size: calc(var(--spacing) * 5);
+    block-size: calc(var(--spacing) * 5);
+    border-radius: var(--cui-inline-citation-favicon-radius);
+    background: var(--cui-inline-citation-favicon-background);
+  }
+
+  :where([data-control-family="inline-citation"][data-slot="source-title"]) {
+    gap: calc(var(--spacing) * 2);
+    color: var(--foreground);
+    font-size: var(--text-label);
+    font-weight: var(--font-weight-medium);
+    line-height: calc(var(--spacing) * 5);
+    outline-style: none;
+  }
+
+  :where([data-control-family="inline-citation"][data-slot="source-title"]:focus-visible) {
+    text-decoration-line: underline;
+  }
+
+  @media (hover: hover) {
+    :where([data-control-family="inline-citation"][data-slot="source-title"]:hover) {
+      text-decoration-line: underline;
+    }
+  }
+
+  :where([data-control-family="inline-citation"][data-slot="source-external-icon"]) {
+    margin-block-start: calc(var(--spacing) * 0.5);
+    inline-size: calc(var(--spacing) * 3.5);
+    block-size: calc(var(--spacing) * 3.5);
+    color: var(--muted-foreground);
+  }
+
+  :where([data-control-family="inline-citation"][data-slot="source-quote"]) {
+    padding-inline: calc(var(--spacing) * 3);
+    padding-block: calc(var(--spacing) * 2);
+    border-radius: var(--cui-inline-citation-quote-radius);
+    background: var(--cui-inline-citation-quote-background);
+    line-height: calc(var(--spacing) * 5);
+  }
+
+  :where([data-control-family="inline-citation"][data-slot="source-description"]) {
+    line-height: calc(var(--spacing) * 5);
+  }
+
+  :where([data-control-family="inline-citation"][data-slot="position"]) {
+    margin-inline-start: auto;
+    padding-inline: calc(var(--spacing) * 1);
+    font-variant-numeric: tabular-nums;
+  }
+
+  :where([data-control-family="inline-citation"][data-slot="label"]) {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@property --cui-inline-citation-trigger-radius {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --cui-inline-citation-trigger-background {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-inline-citation-trigger-foreground {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-inline-citation-trigger-border-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-inline-citation-trigger-border-width {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --cui-inline-citation-trigger-hover-background {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-inline-citation-trigger-hover-foreground {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-inline-citation-navigation-background {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-inline-citation-quote-background {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-inline-citation-quote-radius {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --cui-inline-citation-favicon-background {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-inline-citation-favicon-radius {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 0px;
+}

@@ -1,0 +1,146 @@
+﻿table_schema|table_name|constraint_type|constraint_name|definition
+public|announcements|CHECK|announcements_body_not_null|NOT NULL body
+public|announcements|CHECK|announcements_created_at_not_null|NOT NULL created_at
+public|announcements|CHECK|announcements_id_not_null|NOT NULL id
+public|announcements|CHECK|announcements_is_public_not_null|NOT NULL is_public
+public|announcements|CHECK|announcements_published_at_not_null|NOT NULL published_at
+public|announcements|CHECK|announcements_title_not_null|NOT NULL title
+public|announcements|PRIMARY KEY|announcements_pkey|PRIMARY KEY (id)
+public|cart_items|CHECK|cart_items_added_at_not_null|NOT NULL added_at
+public|cart_items|CHECK|cart_items_cart_id_not_null|NOT NULL cart_id
+public|cart_items|CHECK|cart_items_cart_item_id_not_null|NOT NULL cart_item_id
+public|cart_items|CHECK|cart_items_product_id_not_null|NOT NULL product_id
+public|cart_items|CHECK|cart_items_quantity_not_null|NOT NULL quantity
+public|cart_items|CHECK|cart_items_unit_price_not_null|NOT NULL unit_price
+public|cart_items|CHECK|price_check|CHECK ((unit_price >= (0)::numeric))
+public|cart_items|CHECK|quantity_check|CHECK ((quantity > 0))
+public|cart_items|FOREIGN KEY|cart_items_cart_id_fkey|FOREIGN KEY (cart_id) REFERENCES carts(cart_id) ON DELETE CASCADE
+public|cart_items|FOREIGN KEY|cart_items_product_id_fkey|FOREIGN KEY (product_id) REFERENCES products(product_id)
+public|cart_items|PRIMARY KEY|cart_items_pkey|PRIMARY KEY (cart_item_id)
+public|cart_items|UNIQUE|cart_items_cart_id_product_id_key|UNIQUE (cart_id, product_id)
+public|carts|CHECK|cart_owner_check|CHECK ((((user_id IS NOT NULL) AND (attendee_id IS NULL)) OR ((user_id IS NULL) AND (attendee_id IS NOT NULL))))
+public|carts|CHECK|cart_status_check|CHECK (((status)::text = ANY ((ARRAY['active'::character varying, 'checkout'::character varying, 'completed'::character varying, 'abandoned'::character varying, 'expired'::character varying])::text[])))
+public|carts|CHECK|carts_cart_id_not_null|NOT NULL cart_id
+public|carts|CHECK|carts_created_at_not_null|NOT NULL created_at
+public|carts|CHECK|carts_status_not_null|NOT NULL status
+public|carts|CHECK|carts_updated_at_not_null|NOT NULL updated_at
+public|carts|FOREIGN KEY|carts_attendee_id_fkey|FOREIGN KEY (attendee_id) REFERENCES non_member_attendees(attendee_id) ON DELETE CASCADE
+public|carts|FOREIGN KEY|carts_user_id_fkey|FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+public|carts|PRIMARY KEY|carts_pkey|PRIMARY KEY (cart_id)
+public|club_info|CHECK|club_info_id_check|CHECK ((id = 1))
+public|club_info|CHECK|club_info_id_not_null|NOT NULL id
+public|club_info|CHECK|club_info_name_not_null|NOT NULL name
+public|club_info|CHECK|club_info_updated_at_not_null|NOT NULL updated_at
+public|club_info|PRIMARY KEY|club_info_pkey|PRIMARY KEY (id)
+public|email_verifications|CHECK|email_verifications_attendee_id_not_null|NOT NULL attendee_id
+public|email_verifications|CHECK|email_verifications_created_at_not_null|NOT NULL created_at
+public|email_verifications|CHECK|email_verifications_expires_at_not_null|NOT NULL expires_at
+public|email_verifications|CHECK|email_verifications_otp_hash_not_null|NOT NULL otp_hash
+public|email_verifications|CHECK|email_verifications_verification_id_not_null|NOT NULL verification_id
+public|email_verifications|CHECK|verification_expiry_check|CHECK ((expires_at > created_at))
+public|email_verifications|FOREIGN KEY|email_verifications_attendee_id_fkey|FOREIGN KEY (attendee_id) REFERENCES non_member_attendees(attendee_id) ON DELETE CASCADE
+public|email_verifications|PRIMARY KEY|email_verifications_pkey|PRIMARY KEY (verification_id)
+public|event_tickets|CHECK|event_ticket_status_check|CHECK (((status)::text = ANY ((ARRAY['active'::character varying, 'used'::character varying, 'cancelled'::character varying, 'refunded'::character varying])::text[])))
+public|event_tickets|CHECK|event_tickets_event_id_not_null|NOT NULL event_id
+public|event_tickets|CHECK|event_tickets_issued_at_not_null|NOT NULL issued_at
+public|event_tickets|CHECK|event_tickets_order_id_not_null|NOT NULL order_id
+public|event_tickets|CHECK|event_tickets_qr_token_not_null|NOT NULL qr_token
+public|event_tickets|CHECK|event_tickets_status_not_null|NOT NULL status
+public|event_tickets|CHECK|event_tickets_ticket_id_not_null|NOT NULL ticket_id
+public|event_tickets|CHECK|event_tickets_ticket_number_not_null|NOT NULL ticket_number
+public|event_tickets|FOREIGN KEY|event_tickets_event_id_fkey|FOREIGN KEY (event_id) REFERENCES events(id)
+public|event_tickets|FOREIGN KEY|event_tickets_order_id_fkey|FOREIGN KEY (order_id) REFERENCES orders(order_id)
+public|event_tickets|FOREIGN KEY|event_tickets_order_item_id_fkey|FOREIGN KEY (order_item_id) REFERENCES order_items(order_item_id)
+public|event_tickets|PRIMARY KEY|event_tickets_pkey|PRIMARY KEY (ticket_id)
+public|event_tickets|UNIQUE|event_tickets_qr_token_key|UNIQUE (qr_token)
+public|event_tickets|UNIQUE|event_tickets_ticket_number_key|UNIQUE (ticket_number)
+public|events|CHECK|events_capacity_check|CHECK ((capacity > 0))
+public|events|CHECK|events_capacity_not_null|NOT NULL capacity
+public|events|CHECK|events_check|CHECK (((ends_at IS NULL) OR (ends_at >= starts_at)))
+public|events|CHECK|events_created_at_not_null|NOT NULL created_at
+public|events|CHECK|events_id_not_null|NOT NULL id
+public|events|CHECK|events_is_public_not_null|NOT NULL is_public
+public|events|CHECK|events_starts_at_not_null|NOT NULL starts_at
+public|events|CHECK|events_title_not_null|NOT NULL title
+public|events|FOREIGN KEY|events_created_by_fkey|FOREIGN KEY (created_by) REFERENCES users(user_id) ON DELETE SET NULL
+public|events|PRIMARY KEY|events_pkey|PRIMARY KEY (id)
+public|membership_plans|CHECK|membership_plans_dues_amount_check|CHECK ((dues_amount >= (0)::numeric))
+public|membership_plans|CHECK|membership_plans_dues_amount_not_null|NOT NULL dues_amount
+public|membership_plans|CHECK|membership_plans_duration_days_check|CHECK ((duration_days > 0))
+public|membership_plans|CHECK|membership_plans_duration_days_not_null|NOT NULL duration_days
+public|membership_plans|CHECK|membership_plans_id_not_null|NOT NULL id
+public|membership_plans|CHECK|membership_plans_is_active_not_null|NOT NULL is_active
+public|membership_plans|CHECK|membership_plans_name_not_null|NOT NULL name
+public|membership_plans|PRIMARY KEY|membership_plans_pkey|PRIMARY KEY (id)
+public|membership_plans|UNIQUE|membership_plans_name_key|UNIQUE (name)
+public|memberships|CHECK|memberships_check|CHECK (((end_date IS NULL) OR (start_date IS NULL) OR (end_date >= start_date)))
+public|memberships|CHECK|memberships_id_not_null|NOT NULL id
+public|memberships|CHECK|memberships_plan_id_not_null|NOT NULL plan_id
+public|memberships|CHECK|memberships_registered_at_not_null|NOT NULL registered_at
+public|memberships|CHECK|memberships_status_not_null|NOT NULL status
+public|memberships|CHECK|memberships_user_id_not_null|NOT NULL user_id
+public|memberships|FOREIGN KEY|memberships_plan_id_fkey|FOREIGN KEY (plan_id) REFERENCES membership_plans(id)
+public|memberships|FOREIGN KEY|memberships_user_id_fkey|FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+public|memberships|PRIMARY KEY|memberships_pkey|PRIMARY KEY (id)
+public|non_member_attendees|CHECK|non_member_attendees_attendee_id_not_null|NOT NULL attendee_id
+public|non_member_attendees|CHECK|non_member_attendees_created_at_not_null|NOT NULL created_at
+public|non_member_attendees|CHECK|non_member_attendees_email_not_null|NOT NULL email
+public|non_member_attendees|CHECK|non_member_attendees_email_verified_not_null|NOT NULL email_verified
+public|non_member_attendees|CHECK|non_member_attendees_full_name_not_null|NOT NULL full_name
+public|non_member_attendees|PRIMARY KEY|non_member_attendees_pkey|PRIMARY KEY (attendee_id)
+public|non_member_attendees|UNIQUE|attendee_email_unique|UNIQUE (email)
+public|order_items|CHECK|order_items_order_id_not_null|NOT NULL order_id
+public|order_items|CHECK|order_items_order_item_id_not_null|NOT NULL order_item_id
+public|order_items|CHECK|order_items_product_id_not_null|NOT NULL product_id
+public|order_items|CHECK|order_items_product_name_not_null|NOT NULL product_name
+public|order_items|CHECK|order_items_quantity_not_null|NOT NULL quantity
+public|order_items|CHECK|order_items_total_price_not_null|NOT NULL total_price
+public|order_items|CHECK|order_items_unit_price_not_null|NOT NULL unit_price
+public|order_items|CHECK|order_quantity_check|CHECK ((quantity > 0))
+public|order_items|FOREIGN KEY|order_items_order_id_fkey|FOREIGN KEY (order_id) REFERENCES orders(order_id) ON DELETE CASCADE
+public|order_items|FOREIGN KEY|order_items_product_id_fkey|FOREIGN KEY (product_id) REFERENCES products(product_id)
+public|order_items|PRIMARY KEY|order_items_pkey|PRIMARY KEY (order_item_id)
+public|orders|CHECK|order_owner_check|CHECK ((((user_id IS NOT NULL) AND (attendee_id IS NULL)) OR ((user_id IS NULL) AND (attendee_id IS NOT NULL))))
+public|orders|CHECK|order_status_check|CHECK (((status)::text = ANY ((ARRAY['pending'::character varying, 'paid'::character varying, 'failed'::character varying, 'cancelled'::character varying, 'refunded'::character varying])::text[])))
+public|orders|CHECK|orders_created_at_not_null|NOT NULL created_at
+public|orders|CHECK|orders_currency_not_null|NOT NULL currency
+public|orders|CHECK|orders_order_id_not_null|NOT NULL order_id
+public|orders|CHECK|orders_status_not_null|NOT NULL status
+public|orders|CHECK|orders_total_amount_not_null|NOT NULL total_amount
+public|orders|FOREIGN KEY|orders_attendee_id_fkey|FOREIGN KEY (attendee_id) REFERENCES non_member_attendees(attendee_id)
+public|orders|FOREIGN KEY|orders_user_id_fkey|FOREIGN KEY (user_id) REFERENCES users(user_id)
+public|orders|PRIMARY KEY|orders_pkey|PRIMARY KEY (order_id)
+public|payments|CHECK|payments_amount_check|CHECK ((amount >= (0)::numeric))
+public|payments|CHECK|payments_amount_not_null|NOT NULL amount
+public|payments|CHECK|payments_check|CHECK ((((purpose = 'membership_dues'::payment_purpose) AND (membership_id IS NOT NULL)) OR (purpose = 'ticket'::payment_purpose)))
+public|payments|CHECK|payments_created_at_not_null|NOT NULL created_at
+public|payments|CHECK|payments_currency_not_null|NOT NULL currency
+public|payments|CHECK|payments_id_not_null|NOT NULL id
+public|payments|CHECK|payments_purpose_not_null|NOT NULL purpose
+public|payments|CHECK|payments_status_not_null|NOT NULL status
+public|payments|FOREIGN KEY|payments_membership_id_fkey|FOREIGN KEY (membership_id) REFERENCES memberships(id) ON DELETE SET NULL
+public|payments|FOREIGN KEY|payments_order_id_fkey|FOREIGN KEY (order_id) REFERENCES orders(order_id)
+public|payments|FOREIGN KEY|payments_user_id_fkey|FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE SET NULL
+public|payments|PRIMARY KEY|payments_pkey|PRIMARY KEY (id)
+public|products|CHECK|member_price_check|CHECK ((member_price >= (0)::numeric))
+public|products|CHECK|non_member_price_check|CHECK (((non_member_price IS NULL) OR (non_member_price >= (0)::numeric)))
+public|products|CHECK|product_event_relation_check|CHECK (((((product_type)::text = 'event_ticket'::text) AND (event_id IS NOT NULL)) OR (((product_type)::text = ANY ((ARRAY['goodie'::character varying, 'merchandise'::character varying])::text[])) AND (event_id IS NULL))))
+public|products|CHECK|product_type_check|CHECK (((product_type)::text = ANY ((ARRAY['event_ticket'::character varying, 'goodie'::character varying, 'merchandise'::character varying])::text[])))
+public|products|CHECK|products_created_at_not_null|NOT NULL created_at
+public|products|CHECK|products_is_active_not_null|NOT NULL is_active
+public|products|CHECK|products_member_price_not_null|NOT NULL member_price
+public|products|CHECK|products_name_not_null|NOT NULL name
+public|products|CHECK|products_product_id_not_null|NOT NULL product_id
+public|products|CHECK|products_product_type_not_null|NOT NULL product_type
+public|products|CHECK|stock_check|CHECK (((stock_quantity IS NULL) OR (stock_quantity >= 0)))
+public|products|FOREIGN KEY|products_event_id_fkey|FOREIGN KEY (event_id) REFERENCES events(id)
+public|products|PRIMARY KEY|products_pkey|PRIMARY KEY (product_id)
+public|users|CHECK|users_created_at_not_null|NOT NULL created_at
+public|users|CHECK|users_email_not_null|NOT NULL email
+public|users|CHECK|users_full_name_not_null|NOT NULL full_name
+public|users|CHECK|users_id_not_null|NOT NULL user_id
+public|users|CHECK|users_password_hash_not_null|NOT NULL password_hash
+public|users|CHECK|users_role_not_null|NOT NULL role
+public|users|PRIMARY KEY|users_pkey|PRIMARY KEY (user_id)
+public|users|UNIQUE|users_email_key|UNIQUE (email)
+(144 rows)
