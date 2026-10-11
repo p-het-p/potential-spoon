@@ -23,5 +23,11 @@ const financeTransactionsSchema = z.object({
 router.get('/summary', validate(financeSummarySchema), (req, res, next) => financeController.getSummary(req, res).catch(next));
 // List financial transactions (treasurer only)
 router.get('/transactions', validate(financeTransactionsSchema), (req, res, next) => financeController.getTransactions(req, res).catch(next));
+// Review volunteer expense reimbursements
+router.get('/reimbursements', (req, res, next) => financeController.getReimbursements(req, res).catch(next));
+// Approve, Pay, or Reject reimbursement
+router.patch('/reimbursements/:id', (req, res, next) => financeController.updateReimbursement(req, res).catch(next));
+// Review activity data (ticket sales, merchandise orders, fundraisers)
+router.get('/activity-data', (req, res, next) => financeController.getActivityData(req, res).catch(next));
 export default router;
 //# sourceMappingURL=finance.routes.js.map

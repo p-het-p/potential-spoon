@@ -2,23 +2,23 @@ import { z } from 'zod';
 export declare const getProductsSchema: z.ZodObject<{
     query: z.ZodObject<{
         type: z.ZodOptional<z.ZodEnum<["event_ticket", "goodie", "merchandise"]>>;
-        event_id: z.ZodOptional<z.ZodEffects<z.ZodString, number, string>>;
+        event_id: z.ZodEffects<z.ZodOptional<z.ZodNumber>, number | undefined, unknown>;
     }, "strip", z.ZodTypeAny, {
-        type?: "event_ticket" | "goodie" | "merchandise" | undefined;
+        type?: "merchandise" | "event_ticket" | "goodie" | undefined;
         event_id?: number | undefined;
     }, {
-        type?: "event_ticket" | "goodie" | "merchandise" | undefined;
-        event_id?: string | undefined;
+        type?: "merchandise" | "event_ticket" | "goodie" | undefined;
+        event_id?: unknown;
     }>;
 }, "strip", z.ZodTypeAny, {
     query: {
-        type?: "event_ticket" | "goodie" | "merchandise" | undefined;
+        type?: "merchandise" | "event_ticket" | "goodie" | undefined;
         event_id?: number | undefined;
     };
 }, {
     query: {
-        type?: "event_ticket" | "goodie" | "merchandise" | undefined;
-        event_id?: string | undefined;
+        type?: "merchandise" | "event_ticket" | "goodie" | undefined;
+        event_id?: unknown;
     };
 }>;
 //# sourceMappingURL=product.schema.d.ts.map

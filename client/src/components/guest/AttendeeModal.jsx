@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { X, CheckCircle, ShieldCheck, Mail, ArrowRight, RotateCw, Ticket, KeyRound, Sparkles } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
@@ -6,6 +7,7 @@ import { registerGuest, sendGuestOtp, verifyGuestOtp } from '../../lib/api';
 import { useAuth } from '../../lib/auth';
 
 export function AttendeeModal({ isOpen, onClose, initialEvent = null, onVerified = null }) {
+  const navigate = useNavigate();
   const { attendee, attendeeId, startGuestSession } = useAuth();
   const [step, setStep] = useState('email'); // 'email' | 'otp' | 'success'
   const [email, setEmail] = useState('');
@@ -54,8 +56,9 @@ export function AttendeeModal({ isOpen, onClose, initialEvent = null, onVerified
           email_verified: true,
         };
         startGuestSession(attendeeObj, null);
-        setStep('success');
         if (onVerified) onVerified(attendeeObj);
+        onClose();
+        navigate('/guest/pass');
       } else {
         const code = data.otp || '';
         setGeneratedOtp(code);
@@ -85,8 +88,9 @@ export function AttendeeModal({ isOpen, onClose, initialEvent = null, onVerified
         email_verified: true,
       };
       startGuestSession(attendeeObj, result.session_token);
-      setStep('success');
       if (onVerified) onVerified(attendeeObj);
+      onClose();
+      navigate('/guest/pass');
     } catch (err) {
       setError(err.message || 'Invalid or expired OTP code');
     } finally {
@@ -288,10 +292,13 @@ export function AttendeeModal({ isOpen, onClose, initialEvent = null, onVerified
 
             <Button
               variant="primary"
-              onClick={onClose}
+              onClick={() => {
+                onClose();
+                navigate('/guest/pass');
+              }}
               className="w-full h-11 text-sm font-semibold"
             >
-              Continue with Ticket Purchase
+              View & Download Digital Pass →
             </Button>
           </div>
         )}

@@ -23,7 +23,12 @@ async function request(url, opts = {}) {
   const res = await fetch(url, { credentials: 'include', ...opts, headers: mergedHeaders });
   if (res.status === 204) return null;
   const body = await res.json().catch(() => ({}));
-  if (!res.ok) throw new Error(body.error?.message || body.message || `Request failed (${res.status})`);
+  if (!res.ok) {
+    const errorDetails = Array.isArray(body.error?.details)
+      ? body.error.details.map((d) => d.message || d.field).join(', ')
+      : null;
+    throw new Error(errorDetails || body.error?.message || body.message || `Request failed (${res.status})`);
+  }
   return body.data !== undefined ? body.data : body;
 }
 
@@ -124,10 +129,23 @@ export const registerGuest = (data) =>
   request(`${API_BASE}/guest/register`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
 
 export const sendGuestOtp = (attendee_id) =>
-  request(`${API_BASE}/guest/send-otp`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ attendee_id }) });
+  request(`${API_BASE}/guest/send-otp`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(typeof attendee_id === 'object' ? attendee_id : { attendee_id: Number(attendee_id) }),
+  });
 
 export const verifyGuestOtp = (attendee_id, otp) =>
-  request(`${API_BASE}/guest/verify-otp`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ attendee_id, otp }) });
+  request(`${API_BASE}/guest/verify-otp`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ attendee_id: Number(attendee_id), otp: String(otp).trim() }),
+  });
+
+export const getGuestPass = (attendee_id = null) => {
+  const url = attendee_id ? `${API_BASE}/guest/pass?attendee_id=${attendee_id}` : `${API_BASE}/guest/pass`;
+  return request(url);
+};
 
 // ── Finance (treasurer only) ──
 export const getFinanceSummary = (token, params = {}) => {
@@ -139,3 +157,108 @@ export const getFinanceTransactions = (token, params = {}) => {
   const q = new URLSearchParams(params).toString();
   return request(`${API_BASE}/finance/transactions${q ? '?' + q : ''}`, { headers: authHeaders(token) });
 };
+
+// ── Volunteer ──
+export const getVolunteerTasks = (token, params = {}) => {
+  const q = new URLSearchParams(params).toString();
+  return request(`${API_BASE}/volunteer/tasks${q ? '?' + q : ''}`, { headers: authHeaders(token) });
+};
+
+export const updateVolunteerTaskStatus = (token, taskId, status, decline_reason = null) =>
+  request(`${API_BASE}/volunteer/tasks/${taskId}/status`, {
+    method: 'PATCH',
+    headers: authHeaders(token),
+    body: JSON.stringify({ status, decline_reason }),
+  });
+
+export const submitTaskExpense = (token, taskId, data) =>
+  request(`${API_BASE}/volunteer/tasks/${taskId}/expenses`, {
+    method: 'POST',
+    headers: authHeaders(token),
+    body: JSON.stringify(data),
+  });
+
+export const getVolunteerExpenses = (token, params = {}) => {
+  const q = new URLSearchParams(params).toString();
+  return request(`${API_BASE}/volunteer/expenses${q ? '?' + q : ''}`, { headers: authHeaders(token) });
+};
+
+export const getVolunteerSummary = (token) =>
+  request(`${API_BASE}/volunteer/summary`, { headers: authHeaders(token) });
+
+// ── Announcements ──
+export const getAnnouncements = (token = null) =>
+  request(`${API_BASE}/leader/announcements`, token ? { headers: authHeaders(token) } : {});
+
+export const createAnnouncement = (token, data) =>
+  request(`${API_BASE}/leader/announcements`, { method: 'POST', headers: authHeaders(token), body: JSON.stringify(data) });
+
+export const updateAnnouncement = (token, id, data) =>
+  request(`${API_BASE}/leader/announcements/${id}`, { method: 'PATCH', headers: authHeaders(token), body: JSON.stringify(data) });
+
+export const deleteAnnouncement = (token, id) =>
+  request(`${API_BASE}/leader/announcements/${id}`, { method: 'DELETE', headers: authHeaders(token) });
+
+// ── Fundraisers ──
+export const getFundraisers = (token = null) =>
+  request(`${API_BASE}/leader/fundraisers`, token ? { headers: authHeaders(token) } : {});
+
+export const createFundraiser = (token, data) =>
+  request(`${API_BASE}/leader/fundraisers`, { method: 'POST', headers: authHeaders(token), body: JSON.stringify(data) });
+
+export const updateFundraiser = (token, id, data) =>
+  request(`${API_BASE}/leader/fundraisers/${id}`, { method: 'PATCH', headers: authHeaders(token), body: JSON.stringify(data) });
+
+export const deleteFundraiser = (token, id) =>
+  request(`${API_BASE}/leader/fundraisers/${id}`, { method: 'DELETE', headers: authHeaders(token) });
+
+// ── Leader: Volunteer Tasks ──
+export const getLeaderTasks = (token) =>
+  request(`${API_BASE}/leader/tasks`, { headers: authHeaders(token) });
+
+export const createLeaderTask = (token, data) =>
+  request(`${API_BASE}/leader/tasks`, { method: 'POST', headers: authHeaders(token), body: JSON.stringify(data) });
+
+export const updateLeaderTask = (token, id, data) =>
+  request(`${API_BASE}/leader/tasks/${id}`, { method: 'PATCH', headers: authHeaders(token), body: JSON.stringify(data) });
+
+export const deleteLeaderTask = (token, id) =>
+  request(`${API_BASE}/leader/tasks/${id}`, { method: 'DELETE', headers: authHeaders(token) });
+
+// ── Leader: Members & Operations ──
+export const getLeaderMembers = (token) =>
+  request(`${API_BASE}/leader/members`, { headers: authHeaders(token) });
+
+export const updateLeaderMemberStatus = (token, id, data) =>
+  request(`${API_BASE}/leader/members/${id}`, { method: 'PATCH', headers: authHeaders(token), body: JSON.stringify(data) });
+
+export const getAssignableUsers = (token) =>
+  request(`${API_BASE}/leader/volunteers`, { headers: authHeaders(token) });
+
+export const getLeaderMerchOrders = (token) =>
+  request(`${API_BASE}/leader/merch-orders`, { headers: authHeaders(token) });
+
+export const getLeaderStats = (token) =>
+  request(`${API_BASE}/leader/stats`, { headers: authHeaders(token) });
+
+// ── Products CRUD (Leader) ──
+export const createProduct = (token, data) =>
+  request(`${API_BASE}/products`, { method: 'POST', headers: authHeaders(token), body: JSON.stringify(data) });
+
+export const updateProduct = (token, id, data) =>
+  request(`${API_BASE}/products/${id}`, { method: 'PATCH', headers: authHeaders(token), body: JSON.stringify(data) });
+
+export const deleteProduct = (token, id) =>
+  request(`${API_BASE}/products/${id}`, { method: 'DELETE', headers: authHeaders(token) });
+
+// ── Finance Reimbursements & Coordination ──
+export const getReimbursements = (token) =>
+  request(`${API_BASE}/finance/reimbursements`, { headers: authHeaders(token) });
+
+export const updateReimbursement = (token, id, data) =>
+  request(`${API_BASE}/finance/reimbursements/${id}`, { method: 'PATCH', headers: authHeaders(token), body: JSON.stringify(data) });
+
+export const getFinanceActivityData = (token) =>
+  request(`${API_BASE}/finance/activity-data`, { headers: authHeaders(token) });
+
+

@@ -26,6 +26,29 @@ export class FinanceController {
             data: result,
         });
     }
+    async getReimbursements(_req, res) {
+        const reimbursements = await financeService.getReimbursements();
+        res.status(200).json({
+            success: true,
+            data: reimbursements,
+        });
+    }
+    async updateReimbursement(req, res) {
+        const { id } = req.params;
+        const { status, note } = req.body;
+        const updated = await financeService.updateReimbursement(id, status, note);
+        res.status(200).json({
+            success: true,
+            data: updated,
+        });
+    }
+    async getActivityData(_req, res) {
+        const data = await financeService.getActivityData();
+        res.status(200).json({
+            success: true,
+            data,
+        });
+    }
 }
 export const financeController = new FinanceController();
 //# sourceMappingURL=finance.controller.js.map

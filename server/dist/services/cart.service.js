@@ -54,6 +54,10 @@ export const cartService = {
         const product = await productRepository.findById(params.productId);
         if (!product || !product.is_active)
             throw new AppError(404, 'PRODUCT_NOT_FOUND', 'Product not found');
+        const isTicket = product.product_type === 'event_ticket' || product.product_type === 'ticket' || product.event_id !== null;
+        if (!params.userId && !isTicket) {
+            throw new AppError(403, 'GUEST_RESTRICTED', 'Guests can only purchase regular price event tickets. Goodies are exclusive to club members.');
+        }
         if (product.stock_quantity !== null && product.stock_quantity < params.quantity) {
             throw new AppError(400, 'INSUFFICIENT_STOCK', 'Not enough stock available');
         }
@@ -67,7 +71,11 @@ export const cartService = {
         }
         if (existing)
             return cartRepository.updateCartItemQuantity(existing.cart_item_id, quantity);
-        const unitPrice = params.userId ? product.member_price : product.non_member_price ?? product.member_price;
+        const isMember = Boolean(params.userId);
+        const normalPrice = Number(product.non_member_price ?? product.member_price);
+        const unitPrice = isMember
+            ? (product.product_type === 'event_ticket' ? Math.round(normalPrice * 0.70 * 100) / 100 : Number(product.member_price))
+            : normalPrice;
         return cartRepository.addCartItem({ cart_id: cart.cart_id, product_id: product.product_id, quantity, unit_price: Number(unitPrice) });
     },
     async updateItemQuantity(params) {

@@ -112,9 +112,10 @@ export async function createAnnouncement(req, res) {
         return res.status(400).json({ error: error.errors || 'Failed to create announcement' });
     }
 }
-export async function getAnnouncements(_req, res) {
+export async function getAnnouncements(req, res) {
     try {
-        const announcements = await leaderRepository.getAnnouncements();
+        const role = req.user?.role;
+        const announcements = await leaderRepository.getAnnouncements(role);
         return res.status(200).json(announcements);
     }
     catch (error) {
@@ -147,6 +148,62 @@ export async function deleteAnnouncement(req, res) {
     catch (error) {
         logger.error('Error deleting announcement:', error);
         return res.status(500).json({ error: 'Failed to delete announcement' });
+    }
+}
+// --- Leader: Members Management ---
+export async function getMembers(_req, res) {
+    try {
+        const members = await leaderRepository.getMembers();
+        return res.status(200).json(members);
+    }
+    catch (error) {
+        logger.error('Error fetching members:', error);
+        return res.status(500).json({ error: 'Failed to retrieve members' });
+    }
+}
+export async function updateMemberStatus(req, res) {
+    try {
+        const { status, end_date } = req.body;
+        const updated = await leaderRepository.updateMemberStatus(req.params.id, { status, end_date });
+        if (!updated) {
+            return res.status(404).json({ error: 'Membership not found' });
+        }
+        return res.status(200).json(updated);
+    }
+    catch (error) {
+        logger.error('Error updating member status:', error);
+        return res.status(400).json({ error: 'Failed to update membership status' });
+    }
+}
+export async function getAssignableUsers(_req, res) {
+    try {
+        const users = await leaderRepository.getAssignableUsers();
+        return res.status(200).json(users);
+    }
+    catch (error) {
+        logger.error('Error fetching assignable users:', error);
+        return res.status(500).json({ error: 'Failed to retrieve users' });
+    }
+}
+// --- Leader: Merch Orders & Stats ---
+export async function getMerchOrders(_req, res) {
+    try {
+        const orders = await leaderRepository.getMerchOrders();
+        return res.status(200).json(orders);
+    }
+    catch (error) {
+        logger.error('Error fetching merch orders:', error);
+        return res.status(500).json({ error: 'Failed to retrieve merch orders' });
+    }
+}
+export async function getLeaderStats(_req, res) {
+    try {
+        const stats = await leaderRepository.getLeaderStats();
+        return res.status(200).json(stats);
+    }
+    catch (error) {
+        logger.error('Error fetching leader stats:', error);
+        return res.status(500).json({ error: 'Failed to retrieve leader stats' });
     }
 }
 //# sourceMappingURL=leader.controller.js.map

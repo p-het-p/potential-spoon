@@ -6,7 +6,7 @@ import { env } from './config/env.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import { generalRateLimit } from './middleware/rateLimit.js';
 import { authenticate } from './middleware/authenticate.js';
-import { treasurerOnly } from './middleware/authorize.js';
+import { treasurerOrLeader } from './middleware/authorize.js';
 import { guestService } from './services/guest.service.js';
 import logger from './utils/logger.js';
 // Import routes
@@ -24,6 +24,7 @@ import paymentsRoutes from './routes/payments.routes.js';
 import ticketsRoutes from './routes/tickets.routes.js';
 import financeRoutes from './routes/finance.routes.js';
 import leaderRoutes from './routes/leader.routes.js';
+import volunteerRoutes from './routes/volunteer.routes.js';
 // Import ticket controller for nested route
 import { ticketController } from './controllers/tickets.controller.js';
 /**
@@ -109,10 +110,12 @@ export async function createApp() {
     app.use(`${env.API_BASE_PATH}/tickets`, ticketsRoutes);
     // Nested: GET /orders/:orderId/tickets
     app.get(`${env.API_BASE_PATH}/orders/:orderId/tickets`, authenticateUserOrGuest, (req, res, next) => ticketController.getOrderTickets(req, res).catch(next));
-    // Finance routes (treasurer only)
-    app.use(`${env.API_BASE_PATH}/finance`, authenticate, treasurerOnly, financeRoutes);
+    // Finance routes (treasurer or leader coordination)
+    app.use(`${env.API_BASE_PATH}/finance`, authenticate, treasurerOrLeader, financeRoutes);
     // Leader routes
     app.use(`${env.API_BASE_PATH}/leader`, leaderRoutes);
+    // Volunteer routes
+    app.use(`${env.API_BASE_PATH}/volunteer`, volunteerRoutes);
     // ─── 404 handler ────────────────────────────────────────────────────
     app.use((_req, res) => {
         res.status(404).json({

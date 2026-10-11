@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { getProfile, getUserMembership, getOrders, updateProfile } from '../lib/api';
+import { getProfile, getUserMembership, getOrders, updateProfile, getAnnouncements } from '../lib/api';
 import { useAuth } from '../lib/auth';
 import { TopNav } from '../components/layout/TopNav';
 import { Footer } from '../components/layout/Footer';
@@ -11,6 +11,7 @@ export function Dashboard() {
   const [profile, setProfile] = useState(null);
   const [membership, setMembership] = useState(null);
   const [orders, setOrders] = useState([]);
+  const [announcements, setAnnouncements] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editingProfile, setEditingProfile] = useState(false);
   const [profileForm, setProfileForm] = useState({ full_name: '', phone: '' });
@@ -26,7 +27,8 @@ export function Dashboard() {
     Promise.all([
       getProfile(token).then(d => { setProfile(d); setProfileForm({ full_name: d.full_name || '', phone: d.phone || '' }); }).catch(() => {}),
       getUserMembership(token).then(d => setMembership(d)).catch(() => {}),
-      getOrders(token, { limit: 3 }).then(d => setOrders(d.orders || [])).catch(() => {})
+      getOrders(token, { limit: 3 }).then(d => setOrders(d.orders || [])).catch(() => {}),
+      getAnnouncements(token).then(d => setAnnouncements(Array.isArray(d) ? d : [])).catch(() => {})
     ]).finally(() => setLoading(false));
   }, [token, navigate]);
 
@@ -113,16 +115,76 @@ export function Dashboard() {
             </div>
           </div>
 
-          {/* Quick Actions for Leaders */}
+          {/* Member Quick Shortcuts (Club Member Workflow 2B & 2C) */}
+          <div className="mb-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <Link to="/events" className="bg-[var(--color-canvas)] border border-[var(--color-hairline)] rounded-[var(--radius-lg)] p-5 hover:border-[var(--color-ink)] transition-colors flex items-center justify-between">
+              <div>
+                <h3 className="font-semibold text-[var(--color-ink)] text-base">Browse Club Events</h3>
+                <p className="text-xs text-[var(--color-muted)] mt-1">Check upcoming events and book with member discount</p>
+              </div>
+              <span className="text-sm font-semibold text-[var(--color-brand-accent)]">Explore →</span>
+            </Link>
+            <Link to="/products" className="bg-[var(--color-canvas)] border border-[var(--color-hairline)] rounded-[var(--radius-lg)] p-5 hover:border-[var(--color-ink)] transition-colors flex items-center justify-between">
+              <div>
+                <h3 className="font-semibold text-[var(--color-ink)] text-base">Club Merchandise Shop</h3>
+                <p className="text-xs text-[var(--color-muted)] mt-1">Shop hoodies, t-shirts, and official club gear</p>
+              </div>
+              <span className="text-sm font-semibold text-[var(--color-brand-accent)]">Shop Now →</span>
+            </Link>
+          </div>
+
+          {/* Quick Actions for Leaders & Volunteers */}
           {(profile?.role === 'treasurer' || profile?.role === 'club_leader' || profile?.role === 'volunteer') && (
             <div className="mb-8 bg-[var(--color-canvas)] border border-[var(--color-hairline)] rounded-[var(--radius-lg)] p-6">
-              <h2 className="text-[18px] font-semibold text-[var(--color-ink)] mb-4">Admin Actions</h2>
+              <h2 className="text-[18px] font-semibold text-[var(--color-ink)] mb-4">Leadership & Roles</h2>
               <div className="flex gap-4 flex-wrap">
+                {profile?.role === 'club_leader' && (
+                  <Link to="/manage"><Button variant="primary">Club Leader Management Hub</Button></Link>
+                )}
+                {profile?.role === 'club_leader' && (
+                  <Link to="/manage/events"><Button variant="secondary">Manage Events</Button></Link>
+                )}
+                {(profile?.role === 'volunteer' || profile?.role === 'club_leader') && (
+                  <Link to="/volunteer"><Button variant="secondary">Volunteer Tasks & Expenses</Button></Link>
+                )}
                 <Link to="/check-in"><Button variant="secondary">Ticket Check-In</Button></Link>
-                {profile?.role === 'treasurer' && <Link to="/finance"><Button variant="secondary">Finance Dashboard</Button></Link>}
+                {(profile?.role === 'treasurer' || profile?.role === 'club_leader') && (
+                  <Link to="/finance"><Button variant="secondary">Finance & Ledger</Button></Link>
+                )}
               </div>
             </div>
           )}
+
+          {/* Announcements Feed (Club Member Workflow 2D) */}
+          <div className="mb-8 bg-[var(--color-canvas)] border border-[var(--color-hairline)] rounded-[var(--radius-lg)] p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-[18px] font-semibold text-[var(--color-ink)]">Club Announcements</h2>
+              {profile?.role === 'club_leader' && (
+                <Link to="/manage" className="text-xs text-[var(--color-brand-accent)] font-semibold">Post Announcement</Link>
+              )}
+            </div>
+            {announcements.length === 0 ? (
+              <p className="text-sm text-[var(--color-muted)] py-4 text-center">No announcements posted yet.</p>
+            ) : (
+              <div className="space-y-4">
+                {announcements.slice(0, 5).map((a) => (
+                  <div key={a.announcement_id} className="p-4 rounded-[var(--radius-md)] border border-[var(--color-hairline-soft)] bg-[var(--color-surface-soft)]">
+                    <div className="flex items-center justify-between gap-2 mb-1.5">
+                      <span className="text-xs font-bold uppercase tracking-wider text-[var(--color-brand-accent)]">
+                        {a.audience === 'all' ? 'All Members & Guests' : 'Members Only'}
+                      </span>
+                      <span className="text-xs text-[var(--color-muted)]">
+                        {new Date(a.published_at || a.created_at).toLocaleDateString()}
+                      </span>
+                    </div>
+                    <h3 className="font-semibold text-[var(--color-ink)] text-sm">{a.title}</h3>
+                    <p className="text-xs text-[var(--color-muted)] mt-1 whitespace-pre-line leading-relaxed">{a.content}</p>
+                    {a.author_name && <p className="text-[11px] text-[var(--color-muted)] mt-2">Posted by {a.author_name}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
 
           {/* Recent Orders */}
           <div className="bg-[var(--color-canvas)] border border-[var(--color-hairline)] rounded-[var(--radius-lg)] p-6">

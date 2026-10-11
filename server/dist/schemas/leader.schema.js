@@ -13,9 +13,15 @@ export const volunteerTaskSchema = z.object({
     assigned_to: z.string().uuid().optional().nullable(),
     fundraiser_id: z.string().uuid().optional().nullable(),
     deadline: z.string().datetime().optional().nullable(),
-    status: z.enum(['pending', 'in_progress', 'completed']).default('pending'),
+    status: z.enum(['pending', 'in_progress', 'completed', 'declined']).default('pending'),
+    decline_reason: z.string().optional().nullable(),
 });
 export const updateVolunteerTaskSchema = volunteerTaskSchema.partial();
+export const taskExpenseSchema = z.object({
+    amount: z.number().positive('Amount must be positive'),
+    description: z.string().min(1, 'Description is required'),
+    receipt_url: z.string().optional().nullable(),
+});
 export const announcementSchema = z.object({
     title: z.string().min(1, 'Title is required'),
     content: z.string().min(1, 'Content is required'),

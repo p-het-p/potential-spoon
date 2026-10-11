@@ -37,4 +37,23 @@ router.get(
   (req, res, next) => financeController.getTransactions(req, res).catch(next)
 );
 
+// Review volunteer expense reimbursements
+router.get(
+  '/reimbursements',
+  (req, res, next) => financeController.getReimbursements(req, res).catch(next)
+);
+
+// Approve, Pay, or Reject reimbursement
+router.patch(
+  '/reimbursements/:id',
+  (req, res, next) => financeController.updateReimbursement(req, res).catch(next)
+);
+
+// Review activity data (ticket sales, merchandise orders, fundraisers)
+router.get(
+  '/activity-data',
+  (req, res, next) => financeController.getActivityData(req, res).catch(next)
+);
+
 export default router;
+

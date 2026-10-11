@@ -43,21 +43,24 @@ export declare const volunteerTaskSchema: z.ZodObject<{
     assigned_to: z.ZodNullable<z.ZodOptional<z.ZodString>>;
     fundraiser_id: z.ZodNullable<z.ZodOptional<z.ZodString>>;
     deadline: z.ZodNullable<z.ZodOptional<z.ZodString>>;
-    status: z.ZodDefault<z.ZodEnum<["pending", "in_progress", "completed"]>>;
+    status: z.ZodDefault<z.ZodEnum<["pending", "in_progress", "completed", "declined"]>>;
+    decline_reason: z.ZodNullable<z.ZodOptional<z.ZodString>>;
 }, "strip", z.ZodTypeAny, {
-    status: "pending" | "completed" | "in_progress";
+    status: "pending" | "completed" | "in_progress" | "declined";
     title: string;
     description?: string | undefined;
     assigned_to?: string | null | undefined;
     fundraiser_id?: string | null | undefined;
     deadline?: string | null | undefined;
+    decline_reason?: string | null | undefined;
 }, {
     title: string;
-    status?: "pending" | "completed" | "in_progress" | undefined;
+    status?: "pending" | "completed" | "in_progress" | "declined" | undefined;
     description?: string | undefined;
     assigned_to?: string | null | undefined;
     fundraiser_id?: string | null | undefined;
     deadline?: string | null | undefined;
+    decline_reason?: string | null | undefined;
 }>;
 export declare const updateVolunteerTaskSchema: z.ZodObject<{
     title: z.ZodOptional<z.ZodString>;
@@ -65,21 +68,37 @@ export declare const updateVolunteerTaskSchema: z.ZodObject<{
     assigned_to: z.ZodOptional<z.ZodNullable<z.ZodOptional<z.ZodString>>>;
     fundraiser_id: z.ZodOptional<z.ZodNullable<z.ZodOptional<z.ZodString>>>;
     deadline: z.ZodOptional<z.ZodNullable<z.ZodOptional<z.ZodString>>>;
-    status: z.ZodOptional<z.ZodDefault<z.ZodEnum<["pending", "in_progress", "completed"]>>>;
+    status: z.ZodOptional<z.ZodDefault<z.ZodEnum<["pending", "in_progress", "completed", "declined"]>>>;
+    decline_reason: z.ZodOptional<z.ZodNullable<z.ZodOptional<z.ZodString>>>;
 }, "strip", z.ZodTypeAny, {
-    status?: "pending" | "completed" | "in_progress" | undefined;
+    status?: "pending" | "completed" | "in_progress" | "declined" | undefined;
     title?: string | undefined;
     description?: string | undefined;
     assigned_to?: string | null | undefined;
     fundraiser_id?: string | null | undefined;
     deadline?: string | null | undefined;
+    decline_reason?: string | null | undefined;
 }, {
-    status?: "pending" | "completed" | "in_progress" | undefined;
+    status?: "pending" | "completed" | "in_progress" | "declined" | undefined;
     title?: string | undefined;
     description?: string | undefined;
     assigned_to?: string | null | undefined;
     fundraiser_id?: string | null | undefined;
     deadline?: string | null | undefined;
+    decline_reason?: string | null | undefined;
+}>;
+export declare const taskExpenseSchema: z.ZodObject<{
+    amount: z.ZodNumber;
+    description: z.ZodString;
+    receipt_url: z.ZodNullable<z.ZodOptional<z.ZodString>>;
+}, "strip", z.ZodTypeAny, {
+    description: string;
+    amount: number;
+    receipt_url?: string | null | undefined;
+}, {
+    description: string;
+    amount: number;
+    receipt_url?: string | null | undefined;
 }>;
 export declare const announcementSchema: z.ZodObject<{
     title: z.ZodString;

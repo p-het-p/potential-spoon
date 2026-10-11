@@ -16,15 +16,15 @@ const registerGuestSchema = z.object({
 
 const sendOtpSchema = z.object({
   body: z.object({
-    attendee_id: z.number().int().positive().optional(),
+    attendee_id: z.coerce.number().int().positive().optional(),
     email: z.string().email().optional(),
   }),
 });
 
 const verifyOtpSchema = z.object({
   body: z.object({
-    attendee_id: z.number().int().positive(),
-    otp: z.string().length(6, 'OTP must be 6 digits'),
+    attendee_id: z.coerce.number().int().positive(),
+    otp: z.string().trim().length(6, 'OTP must be 6 digits'),
   }),
 });
 
@@ -49,6 +49,12 @@ router.post(
   otpRateLimit,
   validate(verifyOtpSchema),
   (req, res, next) => guestController.verifyOtp(req, res).catch(next)
+);
+
+// Get digital guest pass
+router.get(
+  '/pass',
+  (req, res, next) => guestController.getPass(req, res).catch(next)
 );
 
 export default router;

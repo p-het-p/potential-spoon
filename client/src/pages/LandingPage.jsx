@@ -17,22 +17,23 @@ import {
 import { TopNav } from '../components/layout/TopNav';
 import { Footer } from '../components/layout/Footer';
 import { Button } from '../components/ui/Button';
-import { getEvents } from '../lib/api';
+import { getEvents, getAnnouncements } from '../lib/api';
 import { useAuth } from '../lib/auth';
 import { AttendeeModal } from '../components/guest/AttendeeModal';
 
 export function LandingPage() {
   const { isGuest, attendee, attendeeId } = useAuth();
   const [events, setEvents] = useState([]);
+  const [announcements, setAnnouncements] = useState([]);
   const [loadingEvents, setLoadingEvents] = useState(true);
   const [isAttendeeModalOpen, setIsAttendeeModalOpen] = useState(false);
   const [selectedEventForModal, setSelectedEventForModal] = useState(null);
 
   useEffect(() => {
-    getEvents({ limit: 3 })
-      .then((data) => setEvents(data.events || []))
-      .catch(() => setEvents([]))
-      .finally(() => setLoadingEvents(false));
+    Promise.all([
+      getEvents({ limit: 3 }).then((data) => setEvents(data.events || [])).catch(() => setEvents([])),
+      getAnnouncements().then((data) => setAnnouncements(Array.isArray(data) ? data : [])).catch(() => setAnnouncements([]))
+    ]).finally(() => setLoadingEvents(false));
   }, []);
 
   const openGuestFlow = (eventItem = null) => {
@@ -394,29 +395,55 @@ export function LandingPage() {
           </div>
 
           <div className="grid gap-5 md:grid-cols-3">
-            <article className="rounded-2xl border border-[var(--color-hairline)] bg-white p-6 shadow-sm">
-              <span className="text-[11px] font-bold uppercase tracking-widest text-emerald-600">Guest Guidance</span>
-              <h3 className="mt-2 text-base font-bold text-[var(--color-ink)]">How Digital QR Passes Work</h3>
-              <p className="mt-2 text-xs leading-relaxed text-[var(--color-muted)]">
-                When you purchase a non-member ticket, a secure cryptographic QR pass is created and linked to your attendee ID. Present it at the door for instant check-in.
-              </p>
-            </article>
+            {announcements.length > 0 ? (
+              announcements.map((a) => (
+                <article key={a.announcement_id} className="rounded-2xl border border-[var(--color-hairline)] bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
+                  <div className="flex items-center justify-between gap-2 mb-2">
+                    <span className="text-[11px] font-bold uppercase tracking-widest text-emerald-600">
+                      {a.audience === 'all' ? 'Public Notice' : 'Member Notice'}
+                    </span>
+                    <span className="text-[11px] text-[var(--color-muted)] font-medium">
+                      {new Date(a.published_at || a.created_at).toLocaleDateString()}
+                    </span>
+                  </div>
+                  <h3 className="text-base font-bold text-[var(--color-ink)]">{a.title}</h3>
+                  <p className="mt-2 text-xs leading-relaxed text-[var(--color-muted)] whitespace-pre-line">
+                    {a.content}
+                  </p>
+                  {a.author_name && (
+                    <div className="mt-4 pt-3 border-t border-[var(--color-hairline)] text-[11px] text-[var(--color-muted)]">
+                      Posted by {a.author_name}
+                    </div>
+                  )}
+                </article>
+              ))
+            ) : (
+              <>
+                <article className="rounded-2xl border border-[var(--color-hairline)] bg-white p-6 shadow-sm">
+                  <span className="text-[11px] font-bold uppercase tracking-widest text-emerald-600">Guest Guidance</span>
+                  <h3 className="mt-2 text-base font-bold text-[var(--color-ink)]">How Digital QR Passes Work</h3>
+                  <p className="mt-2 text-xs leading-relaxed text-[var(--color-muted)]">
+                    When you purchase a non-member ticket, a secure cryptographic QR pass is created and linked to your attendee ID. Present it at the door for instant check-in.
+                  </p>
+                </article>
 
-            <article className="rounded-2xl border border-[var(--color-hairline)] bg-white p-6 shadow-sm">
-              <span className="text-[11px] font-bold uppercase tracking-widest text-violet-600">Membership Notice</span>
-              <h3 className="mt-2 text-base font-bold text-[var(--color-ink)]">Spring Dues & Benefits Open</h3>
-              <p className="mt-2 text-xs leading-relaxed text-[var(--color-muted)]">
-                Members receive discounted tickets across all upcoming campus performances and workshops, plus voting power on club initiatives.
-              </p>
-            </article>
+                <article className="rounded-2xl border border-[var(--color-hairline)] bg-white p-6 shadow-sm">
+                  <span className="text-[11px] font-bold uppercase tracking-widest text-violet-600">Membership Notice</span>
+                  <h3 className="mt-2 text-base font-bold text-[var(--color-ink)]">Spring Dues & Benefits Open</h3>
+                  <p className="mt-2 text-xs leading-relaxed text-[var(--color-muted)]">
+                    Members receive discounted tickets across all upcoming campus performances and workshops, plus voting power on club initiatives.
+                  </p>
+                </article>
 
-            <article className="rounded-2xl border border-[var(--color-hairline)] bg-white p-6 shadow-sm">
-              <span className="text-[11px] font-bold uppercase tracking-widest text-amber-600">Event Policy</span>
-              <h3 className="mt-2 text-base font-bold text-[var(--color-ink)]">Venue & Seating Capacities</h3>
-              <p className="mt-2 text-xs leading-relaxed text-[var(--color-muted)]">
-                To keep every event comfortable and safe, ticket issuance is hard-capped to each venue's designated capacity. Book non-member tickets in advance!
-              </p>
-            </article>
+                <article className="rounded-2xl border border-[var(--color-hairline)] bg-white p-6 shadow-sm">
+                  <span className="text-[11px] font-bold uppercase tracking-widest text-amber-600">Event Policy</span>
+                  <h3 className="mt-2 text-base font-bold text-[var(--color-ink)]">Venue & Seating Capacities</h3>
+                  <p className="mt-2 text-xs leading-relaxed text-[var(--color-muted)]">
+                    To keep every event comfortable and safe, ticket issuance is hard-capped to each venue's designated capacity. Book non-member tickets in advance!
+                  </p>
+                </article>
+              </>
+            )}
           </div>
         </section>
 

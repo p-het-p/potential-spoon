@@ -10,11 +10,15 @@ export class GuestController {
         });
     }
     async sendOtp(req, res) {
-        const { attendee_id } = req.body;
-        await guestService.sendOtp(attendee_id);
+        const { attendee_id, email } = req.body;
+        const result = await guestService.sendOtp(attendee_id, email);
         res.status(200).json({
             success: true,
             message: 'OTP sent successfully',
+            data: {
+                otp: result.otp,
+                attendee_id: result.attendee_id,
+            },
         });
     }
     async verifyOtp(req, res) {
@@ -27,6 +31,18 @@ export class GuestController {
             sameSite: 'lax',
             maxAge: 24 * 60 * 60 * 1000, // 24 hours
         });
+        res.status(200).json({
+            success: true,
+            data: result,
+        });
+    }
+    async getPass(req, res) {
+        const attendeeId = req.guest?.attendeeId || Number(req.query.attendee_id);
+        if (!attendeeId) {
+            res.status(400).json({ success: false, message: 'Attendee ID is required' });
+            return;
+        }
+        const result = await guestService.getPass(attendeeId);
         res.status(200).json({
             success: true,
             data: result,

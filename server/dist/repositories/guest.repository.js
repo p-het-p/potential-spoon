@@ -32,10 +32,10 @@ export class GuestRepository {
         return result[0] || null;
     }
     async incrementAttemptCount(verificationId) {
-        await query('UPDATE email_verifications SET attempt_count = attempt_count + 1 WHERE id = $1', [verificationId]);
+        await query('UPDATE email_verifications SET attempt_count = attempt_count + 1 WHERE verification_id = $1', [verificationId]);
     }
     async consumeVerification(verificationId) {
-        await query('UPDATE email_verifications SET is_consumed = true WHERE id = $1', [verificationId]);
+        await query('UPDATE email_verifications SET is_consumed = true, verified_at = NOW() WHERE verification_id = $1', [verificationId]);
     }
     async getRecentVerificationCount(attendeeId, windowMs) {
         const result = await query(`SELECT COUNT(*) as count FROM email_verifications

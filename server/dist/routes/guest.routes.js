@@ -6,20 +6,21 @@ import { z } from 'zod';
 const router = Router();
 const registerGuestSchema = z.object({
     body: z.object({
-        full_name: z.string().min(2).max(150),
+        full_name: z.string().max(150).optional(),
         email: z.string().email(),
-        phone: z.string().regex(/^\+?[1-9]\d{9,14}$/).optional(),
+        phone: z.string().optional(),
     }),
 });
 const sendOtpSchema = z.object({
     body: z.object({
-        attendee_id: z.number().int().positive(),
+        attendee_id: z.coerce.number().int().positive().optional(),
+        email: z.string().email().optional(),
     }),
 });
 const verifyOtpSchema = z.object({
     body: z.object({
-        attendee_id: z.number().int().positive(),
-        otp: z.string().length(6, 'OTP must be 6 digits'),
+        attendee_id: z.coerce.number().int().positive(),
+        otp: z.string().trim().length(6, 'OTP must be 6 digits'),
     }),
 });
 // Register a guest attendee
@@ -28,5 +29,7 @@ router.post('/register', validate(registerGuestSchema), (req, res, next) => gues
 router.post('/send-otp', otpRateLimit, validate(sendOtpSchema), (req, res, next) => guestController.sendOtp(req, res).catch(next));
 // Verify OTP code
 router.post('/verify-otp', otpRateLimit, validate(verifyOtpSchema), (req, res, next) => guestController.verifyOtp(req, res).catch(next));
+// Get digital guest pass
+router.get('/pass', (req, res, next) => guestController.getPass(req, res).catch(next));
 export default router;
 //# sourceMappingURL=guest.routes.js.map

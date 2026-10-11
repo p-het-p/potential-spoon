@@ -1,7 +1,8 @@
 import { guestRepository } from '../repositories/guest.repository.js';
 import { generateOtp, hashOtp, verifyOtp, parseDuration } from '../utils/otp.js';
 import { generateSecureToken } from '../utils/token.js';
-import { sendOtpEmail } from '../integrations/email.js';
+import { sendOtpEmail, sendGuestPassEmail } from '../integrations/email.js';
+import { generateQrDataUrl } from '../integrations/qr.js';
 import { env } from '../config/env.js';
 import { AppError } from '../middleware/errorHandler.js';
 import logger from '../utils/logger.js';
@@ -123,10 +124,59 @@ export class GuestService {
 
     logger.info('Guest verified and session created', { attendeeId, sessionId: session.session_id });
 
+    // Generate pass token and send confirmation email
+    const qrToken = `GUEST-PASS-${attendeeId}-${sessionToken.slice(0, 8).toUpperCase()}`;
+    let qrDataUrl: string | null = null;
+    try {
+      qrDataUrl = await generateQrDataUrl(qrToken);
+    } catch {
+      qrDataUrl = null;
+    }
+
+    try {
+      await sendGuestPassEmail(attendee.email, attendee.full_name, attendeeId, qrToken);
+    } catch (err) {
+      logger.warn('Failed to send pass email, proceeding', { err });
+    }
+
     return {
       attendee_id: attendeeId,
+      full_name: attendee.full_name,
+      email: attendee.email,
       email_verified: true,
       session_token: sessionToken,
+      qr_token: qrToken,
+      qr_data_url: qrDataUrl,
+    };
+  }
+
+  /**
+   * Get digital guest pass details
+   */
+  async getPass(attendeeId: number) {
+    const attendee = await guestRepository.findAttendeeById(attendeeId);
+    if (!attendee) {
+      throw new AppError(404, 'ATTENDEE_NOT_FOUND', 'Guest attendee not found');
+    }
+
+    const qrToken = `GUEST-PASS-${attendee.attendee_id}-${Buffer.from(attendee.email).toString('hex').slice(0, 8).toUpperCase()}`;
+    let qrDataUrl: string | null = null;
+    try {
+      qrDataUrl = await generateQrDataUrl(qrToken);
+    } catch {
+      qrDataUrl = null;
+    }
+
+    return {
+      attendee_id: attendee.attendee_id,
+      full_name: attendee.full_name,
+      email: attendee.email,
+      phone: attendee.phone,
+      email_verified: attendee.email_verified,
+      qr_token: qrToken,
+      qr_data_url: qrDataUrl,
+      issued_at: attendee.registered_at || new Date(),
+      status: attendee.email_verified ? 'active' : 'unverified',
     };
   }
 

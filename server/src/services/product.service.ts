@@ -55,6 +55,27 @@ export class ProductService {
 
     return stock >= quantity;
   }
+
+  async createProduct(data: any) {
+    const product = await productRepository.create(data);
+    return formatProduct(product);
+  }
+
+  async updateProduct(id: number, data: any) {
+    const product = await productRepository.update(id, data);
+    if (!product) {
+      throw new AppError(404, 'PRODUCT_NOT_FOUND', 'Product not found');
+    }
+    return formatProduct(product);
+  }
+
+  async deleteProduct(id: number) {
+    const deleted = await productRepository.delete(id);
+    if (!deleted) {
+      throw new AppError(404, 'PRODUCT_NOT_FOUND', 'Product not found');
+    }
+    return { success: true };
+  }
 }
 
 export const productService = new ProductService();

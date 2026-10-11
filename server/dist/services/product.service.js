@@ -1,20 +1,30 @@
 import { productRepository } from '../repositories/product.repository.js';
 import { AppError } from '../middleware/errorHandler.js';
+function formatProduct(product) {
+    const isTicket = product.product_type === 'event_ticket' || product.product_type === 'ticket' || !!product.event_id;
+    const normalPrice = product.non_member_price !== null && product.non_member_price !== undefined
+        ? parseFloat(String(product.non_member_price))
+        : parseFloat(String(product.member_price));
+    const memberPrice = isTicket
+        ? Math.round(normalPrice * 0.70 * 100) / 100
+        : parseFloat(String(product.member_price));
+    return {
+        product_id: product.product_id,
+        name: product.name,
+        description: product.description,
+        product_type: product.product_type,
+        member_price: memberPrice,
+        non_member_price: normalPrice,
+        stock_quantity: product.stock_quantity,
+        is_active: product.is_active,
+        event_id: product.event_id,
+    };
+}
 export class ProductService {
     async getProducts(filters) {
         const products = await productRepository.findAll(filters);
         return {
-            products: products.map((product) => ({
-                product_id: product.product_id,
-                name: product.name,
-                description: product.description,
-                product_type: product.product_type,
-                member_price: product.member_price,
-                non_member_price: product.non_member_price,
-                stock_quantity: product.stock_quantity,
-                is_active: product.is_active,
-                event_id: product.event_id,
-            })),
+            products: products.map(formatProduct),
         };
     }
     async getProductById(id) {
@@ -25,17 +35,7 @@ export class ProductService {
         if (!product.is_active) {
             throw new AppError(404, 'PRODUCT_NOT_AVAILABLE', 'Product is not available');
         }
-        return {
-            product_id: product.product_id,
-            name: product.name,
-            description: product.description,
-            product_type: product.product_type,
-            member_price: product.member_price,
-            non_member_price: product.non_member_price,
-            stock_quantity: product.stock_quantity,
-            is_active: product.is_active,
-            event_id: product.event_id,
-        };
+        return formatProduct(product);
     }
     async checkAvailability(productId, quantity) {
         const stock = await productRepository.getAvailableStock(productId);
@@ -44,6 +44,24 @@ export class ProductService {
             return true;
         }
         return stock >= quantity;
+    }
+    async createProduct(data) {
+        const product = await productRepository.create(data);
+        return formatProduct(product);
+    }
+    async updateProduct(id, data) {
+        const product = await productRepository.update(id, data);
+        if (!product) {
+            throw new AppError(404, 'PRODUCT_NOT_FOUND', 'Product not found');
+        }
+        return formatProduct(product);
+    }
+    async deleteProduct(id) {
+        const deleted = await productRepository.delete(id);
+        if (!deleted) {
+            throw new AppError(404, 'PRODUCT_NOT_FOUND', 'Product not found');
+        }
+        return { success: true };
     }
 }
 export const productService = new ProductService();
