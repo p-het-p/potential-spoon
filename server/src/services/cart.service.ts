@@ -61,6 +61,10 @@ export const cartService = {
     assertOwner(params);
     const product = await productRepository.findById(params.productId);
     if (!product || !product.is_active) throw new AppError(404, 'PRODUCT_NOT_FOUND', 'Product not found');
+    const isTicket = product.product_type === 'event_ticket' || product.product_type === 'ticket' || product.event_id !== null;
+    if (!params.userId && !isTicket) {
+      throw new AppError(403, 'GUEST_RESTRICTED', 'Guests can only purchase regular price event tickets. Goodies are exclusive to club members.');
+    }
     if (product.stock_quantity !== null && product.stock_quantity < params.quantity) {
       throw new AppError(400, 'INSUFFICIENT_STOCK', 'Not enough stock available');
     }

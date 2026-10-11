@@ -70,7 +70,7 @@ export function Guest() {
           email_verified: true,
         };
         startGuestSession(attendeeObj, null);
-        setStep('done');
+        navigate('/guest/pass');
       } else {
         const code = data.otp || '';
         setGeneratedOtp(code);
@@ -100,7 +100,7 @@ export function Guest() {
         email_verified: true,
       };
       startGuestSession(attendeeObj, result.session_token);
-      setStep('done');
+      navigate('/guest/pass');
     } catch (err) {
       setError(err.message || 'Verification failed');
     } finally {
@@ -227,6 +227,26 @@ export function Guest() {
                     <p className="text-xs text-[var(--color-muted)]">
                       Review reserved tickets and complete payment.
                     </p>
+                  </div>
+                </Link>
+
+                <Link to="/guest/pass" className="block sm:col-span-2">
+                  <div className="p-4 rounded-2xl border-2 border-emerald-500/30 bg-emerald-50/60 hover:bg-emerald-50 transition-colors flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="size-10 rounded-xl bg-emerald-600 text-white grid place-items-center shrink-0">
+                        <QrCode size={20} />
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm font-bold text-emerald-950">Your Digital Guest Pass</span>
+                          <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-200 text-emerald-800">Ready</span>
+                        </div>
+                        <p className="text-xs text-emerald-800 mt-0.5">
+                          View QR code, print, or download your official digital entrance pass.
+                        </p>
+                      </div>
+                    </div>
+                    <ArrowRight size={18} className="text-emerald-700 shrink-0 ml-2" />
                   </div>
                 </Link>
               </div>

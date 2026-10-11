@@ -33,6 +33,32 @@ export class FinanceController {
       data: result,
     });
   }
+
+  async getReimbursements(_req: Request, res: Response): Promise<void> {
+    const reimbursements = await financeService.getReimbursements();
+    res.status(200).json({
+      success: true,
+      data: reimbursements,
+    });
+  }
+
+  async updateReimbursement(req: Request, res: Response): Promise<void> {
+    const { id } = req.params;
+    const { status, note } = req.body;
+    const updated = await financeService.updateReimbursement(id, status, note);
+    res.status(200).json({
+      success: true,
+      data: updated,
+    });
+  }
+
+  async getActivityData(_req: Request, res: Response): Promise<void> {
+    const data = await financeService.getActivityData();
+    res.status(200).json({
+      success: true,
+      data,
+    });
+  }
 }
 
 export const financeController = new FinanceController();

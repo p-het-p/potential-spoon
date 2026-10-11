@@ -99,5 +99,34 @@ export async function sendTicketEmail(email, name, ticketNumber, eventTitle) {
         text: `Hello ${name}, your ticket ${ticketNumber} for ${eventTitle} is ready. Present the QR code at the venue.`,
     });
 }
+/**
+ * Send guest digital pass confirmation email
+ */
+export async function sendGuestPassEmail(email, name, attendeeId, qrToken) {
+    await sendEmail({
+        to: email,
+        subject: `Your Digital Guest Pass - Attendee #${attendeeId}`,
+        html: `
+      <div style="font-family: Arial, sans-serif; max-width: 520px; margin: 0 auto; border: 1px solid #e4e4e7; border-radius: 16px; overflow: hidden;">
+        <div style="background: #18181b; color: white; padding: 24px; text-align: center;">
+          <h2 style="margin: 0; font-size: 20px;">Campus Events Digital Pass</h2>
+          <p style="margin: 4px 0 0; color: #a1a1aa; font-size: 13px;">Official Non-Member Pass</p>
+        </div>
+        <div style="padding: 24px;">
+          <p>Hello <strong>${name}</strong>,</p>
+          <p>Your attendee pass has been verified and registered for campus events.</p>
+          <div style="background: #f4f4f5; border-radius: 12px; padding: 16px; margin: 20px 0;">
+            <div style="font-size: 12px; color: #71717a;">Attendee ID</div>
+            <div style="font-size: 18px; font-weight: bold; color: #18181b; font-family: monospace;">#${attendeeId}</div>
+            <div style="margin-top: 8px; font-size: 12px; color: #71717a;">Pass Token</div>
+            <div style="font-size: 13px; font-weight: bold; color: #047857; font-family: monospace;">${qrToken}</div>
+          </div>
+          <p style="font-size: 13px; color: #52525b;">Present your digital pass QR code at the event gate or when purchasing reserved tickets.</p>
+        </div>
+      </div>
+    `,
+        text: `Hello ${name}, your digital pass for Attendee #${attendeeId} is confirmed. Pass token: ${qrToken}.`,
+    });
+}
 export { transporter };
 //# sourceMappingURL=email.js.map

@@ -47,6 +47,20 @@ export class GuestController {
       data: result,
     });
   }
+
+  async getPass(req: Request, res: Response): Promise<void> {
+    const attendeeId = req.guest?.attendeeId || Number(req.query.attendee_id);
+    if (!attendeeId) {
+      res.status(400).json({ success: false, message: 'Attendee ID is required' });
+      return;
+    }
+
+    const result = await guestService.getPass(attendeeId);
+    res.status(200).json({
+      success: true,
+      data: result,
+    });
+  }
 }
 
 export const guestController = new GuestController();

@@ -2,8 +2,8 @@ import { z } from 'zod';
 
 export const addCartItemSchema = z.object({
   body: z.object({
-    product_id: z.number().int().positive(),
-    quantity: z.number().int().positive().max(10, 'Maximum 10 items per product'),
+    product_id: z.coerce.number().int().positive(),
+    quantity: z.coerce.number().int().positive().max(10, 'Maximum 10 items per product'),
   }),
 });
 

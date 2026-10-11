@@ -4,29 +4,54 @@ export declare class ProductService {
         event_id?: number;
     }): Promise<{
         products: {
-            product_id: number;
-            name: string;
-            description: string | null;
-            product_type: string;
+            product_id: any;
+            name: any;
+            description: any;
+            product_type: any;
             member_price: number;
-            non_member_price: number | null;
-            stock_quantity: number | null;
-            is_active: boolean;
-            event_id: number | null;
+            non_member_price: number;
+            stock_quantity: any;
+            is_active: any;
+            event_id: any;
         }[];
     }>;
     getProductById(id: number): Promise<{
-        product_id: number;
-        name: string;
-        description: string | null;
-        product_type: string;
+        product_id: any;
+        name: any;
+        description: any;
+        product_type: any;
         member_price: number;
-        non_member_price: number | null;
-        stock_quantity: number | null;
-        is_active: true;
-        event_id: number | null;
+        non_member_price: number;
+        stock_quantity: any;
+        is_active: any;
+        event_id: any;
     }>;
     checkAvailability(productId: number, quantity: number): Promise<boolean>;
+    createProduct(data: any): Promise<{
+        product_id: any;
+        name: any;
+        description: any;
+        product_type: any;
+        member_price: number;
+        non_member_price: number;
+        stock_quantity: any;
+        is_active: any;
+        event_id: any;
+    }>;
+    updateProduct(id: number, data: any): Promise<{
+        product_id: any;
+        name: any;
+        description: any;
+        product_type: any;
+        member_price: number;
+        non_member_price: number;
+        stock_quantity: any;
+        is_active: any;
+        event_id: any;
+    }>;
+    deleteProduct(id: number): Promise<{
+        success: boolean;
+    }>;
 }
 export declare const productService: ProductService;
 //# sourceMappingURL=product.service.d.ts.map

@@ -35,7 +35,8 @@ export function TopNav() {
           {isGuest && <span className="size-1.5 rounded-full bg-emerald-500" />}
         </span>
       </NavLink>
-      {user?.role === 'club_leader' && <NavLink to="/manage/events" className={linkClass} onClick={close}>Manage</NavLink>}
+      {(user?.role === 'volunteer' || user?.role === 'club_leader') && <NavLink to="/volunteer" className={linkClass} onClick={close}>Volunteer</NavLink>}
+      {user?.role === 'club_leader' && <NavLink to="/manage" className={linkClass} onClick={close}>Manage Club</NavLink>}
       {(user?.role === 'treasurer' || user?.role === 'club_leader') && <NavLink to="/finance" className={linkClass} onClick={close}>Finance</NavLink>}
     </>
   );

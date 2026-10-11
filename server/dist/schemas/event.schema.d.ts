@@ -104,8 +104,8 @@ export declare const getEventsSchema: z.ZodObject<{
         search?: string | undefined;
     }, {
         limit?: string | undefined;
-        page?: string | undefined;
         search?: string | undefined;
+        page?: string | undefined;
     }>;
 }, "strip", z.ZodTypeAny, {
     query: {
@@ -116,8 +116,8 @@ export declare const getEventsSchema: z.ZodObject<{
 }, {
     query: {
         limit?: string | undefined;
-        page?: string | undefined;
         search?: string | undefined;
+        page?: string | undefined;
     };
 }>;
 //# sourceMappingURL=event.schema.d.ts.map

@@ -27,6 +27,8 @@ export function isResourceOwner(userIdParam = 'userId') {
 }
 // Treasurer only
 export const treasurerOnly = authorize('treasurer');
+// Treasurer or Leader
+export const treasurerOrLeader = authorize('treasurer', 'club_leader');
 // Club leader only
 export const clubLeaderOnly = authorize('club_leader');
 // Volunteer or higher

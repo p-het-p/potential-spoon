@@ -10,6 +10,147 @@ import { useAuth } from '../lib/auth';
 export function Products() {
   const { token, isGuest } = useAuth(); const [products, setProducts] = useState([]); const [loading, setLoading] = useState(true); const [addingId, setAddingId] = useState(null); const [message, setMessage] = useState(null); const [filter, setFilter] = useState('');
   useEffect(() => { setLoading(true); getProducts(filter ? { type: filter } : {}).then((data) => setProducts(data.products || [])).catch(() => setProducts([])).finally(() => setLoading(false)); }, [filter]);
-  const add = async (productId) => { if (!token && !isGuest) { setMessage('Sign in or verify a guest email before adding an item.'); return; } setAddingId(productId); try { await addToCart(token, productId, 1); setMessage('Added to your cart.'); } catch (error) { setMessage(error.message); } finally { setAddingId(null); } };
-  return <div className="flex min-h-screen flex-col bg-[var(--color-canvas)]"><TopNav /><main className="flex-1"><section className="mx-auto grid max-w-7xl gap-8 px-6 py-14 md:grid-cols-[1fr_auto] md:items-end"><div><p className="text-sm font-bold uppercase tracking-[.18em] text-[var(--color-brand-accent)]">Fund the fun</p><h1 className="mt-3 text-5xl font-semibold tracking-[-.055em] text-[var(--color-ink)]">Take a little campus <em className="font-serif font-normal">with you.</em></h1><p className="mt-4 max-w-xl text-lg leading-7 text-[var(--color-body)]">Tickets for the plans ahead and club-made goods for the memories you want to keep.</p></div><div className="flex gap-1 rounded-full bg-[var(--color-surface-strong)] p-1.5">{[['', 'Everything'], ['ticket', 'Tickets'], ['merchandise', 'Merch']].map(([value, label]) => <button key={value} onClick={() => setFilter(value)} className={`rounded-full px-4 py-2 text-sm font-bold ${filter === value ? 'bg-[var(--color-canvas)] text-[var(--color-ink)] shadow-sm' : 'text-[var(--color-muted)]'}`}>{label}</button>)}</div></section><section className="mx-auto max-w-7xl px-6 pb-16">{message && <div role="status" className="mb-6 flex items-center gap-2 rounded-xl border border-[var(--color-hairline)] bg-[var(--color-surface-soft)] px-4 py-3 text-sm font-semibold text-[var(--color-ink)]"><Sparkles size={16} className="text-[var(--color-brand-accent)]" />{message}</div>}{loading ? <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">{[1, 2, 3].map((item) => <div key={item} className="h-80 animate-pulse rounded-[24px] bg-[var(--color-surface-card)]" />)}</div> : products.length === 0 ? <div className="rounded-[24px] bg-[var(--color-surface-soft)] py-20 text-center"><Package className="mx-auto text-[var(--color-brand-accent)]" /><p className="mt-4 font-semibold text-[var(--color-ink)]">Nothing in this collection yet.</p></div> : <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">{products.map((product, index) => <article key={product.product_id} className="overflow-hidden rounded-[24px] border border-[var(--color-hairline)] bg-white"><div className={`flex h-32 items-end justify-between bg-gradient-to-br p-5 ${index % 2 ? 'from-amber-200 via-orange-100 to-rose-100' : 'from-violet-200 via-indigo-100 to-sky-100'}`}><span className="grid size-12 place-items-center rounded-2xl bg-white/70 text-[var(--color-primary)]">{product.product_type === 'ticket' || product.product_type === 'event_ticket' ? <Ticket size={23} /> : <ShoppingBag size={23} />}</span><span className="rounded-full bg-white/70 px-3 py-1 text-xs font-bold capitalize text-[var(--color-ink)]">{product.product_type.replace('_', ' ')}</span></div><div className="flex min-h-52 flex-col p-6"><h2 className="text-xl font-bold text-[var(--color-ink)]">{product.name}</h2><p className="mt-2 line-clamp-2 text-sm leading-6 text-[var(--color-muted)]">{product.description || 'A limited club collection item.'}</p><div className="mt-auto flex items-end justify-between gap-4 pt-6"><div><p className="tabular-nums text-2xl font-extrabold tracking-tight text-[var(--color-ink)]">₹{Number(product.non_member_price ?? product.member_price).toFixed(0)}</p>{product.member_price !== product.non_member_price && <p className="mt-1 text-xs font-bold text-emerald-700">Member price ₹{Number(product.member_price).toFixed(0)}</p>}</div><Button disabled={addingId === product.product_id || product.stock_quantity === 0} onClick={() => add(product.product_id)}>{addingId === product.product_id ? 'Adding…' : product.stock_quantity === 0 ? 'Sold out' : 'Add'}</Button></div></div></article>)}</div>}{(token || isGuest) && <div className="mt-10 text-center"><Link to="/cart"><Button variant="secondary">View your cart</Button></Link></div>}</section></main><Footer /></div>;
+  const add = async (productId) => {
+    const product = products.find((p) => p.product_id === productId);
+    const isTicket = product?.product_type === 'ticket' || product?.product_type === 'event_ticket' || !!product?.event_id;
+    if (!token && !isTicket) {
+      setMessage('Goodies are exclusive to club members. Guests can only purchase regular price tickets.');
+      return;
+    }
+    if (!token && !isGuest) {
+      setMessage('Sign in or verify a guest email before adding an item.');
+      return;
+    }
+    setAddingId(productId);
+    try {
+      await addToCart(token, productId, 1);
+      setMessage('Added to your cart.');
+    } catch (error) {
+      setMessage(error.message);
+    } finally {
+      setAddingId(null);
+    }
+  };
+  return (
+    <div className="flex min-h-screen flex-col bg-[var(--color-canvas)]">
+      <TopNav />
+      <main className="flex-1">
+        <section className="mx-auto grid max-w-7xl gap-8 px-6 py-14 md:grid-cols-[1fr_auto] md:items-end">
+          <div>
+            <p className="text-sm font-bold uppercase tracking-[.18em] text-[var(--color-brand-accent)]">Fund the fun</p>
+            <h1 className="mt-3 text-5xl font-semibold tracking-[-.055em] text-[var(--color-ink)]">
+              Take a little campus <em className="font-serif font-normal">with you.</em>
+            </h1>
+            <p className="mt-4 max-w-xl text-lg leading-7 text-[var(--color-body)]">
+              Tickets for the plans ahead and club-made goods for the memories you want to keep.
+            </p>
+          </div>
+          <div className="flex gap-1 rounded-full bg-[var(--color-surface-strong)] p-1.5">
+            {[
+              ['', 'Everything'],
+              ['ticket', 'Tickets'],
+              ['merchandise', 'Merch'],
+            ].map(([value, label]) => (
+              <button
+                key={value}
+                onClick={() => setFilter(value)}
+                className={`rounded-full px-4 py-2 text-sm font-bold ${
+                  filter === value ? 'bg-[var(--color-canvas)] text-[var(--color-ink)] shadow-sm' : 'text-[var(--color-muted)]'
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </section>
+        <section className="mx-auto max-w-7xl px-6 pb-16">
+          {message && (
+            <div
+              role="status"
+              className="mb-6 flex items-center gap-2 rounded-xl border border-[var(--color-hairline)] bg-[var(--color-surface-soft)] px-4 py-3 text-sm font-semibold text-[var(--color-ink)]"
+            >
+              <Sparkles size={16} className="text-[var(--color-brand-accent)]" />
+              {message}
+            </div>
+          )}
+          {loading ? (
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {[1, 2, 3].map((item) => (
+                <div key={item} className="h-80 animate-pulse rounded-[24px] bg-[var(--color-surface-card)]" />
+              ))}
+            </div>
+          ) : products.length === 0 ? (
+            <div className="rounded-[24px] bg-[var(--color-surface-soft)] py-20 text-center">
+              <Package className="mx-auto text-[var(--color-brand-accent)]" />
+              <p className="mt-4 font-semibold text-[var(--color-ink)]">Nothing in this collection yet.</p>
+            </div>
+          ) : (
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {products.map((product, index) => {
+                const isTicket = product.product_type === 'ticket' || product.product_type === 'event_ticket' || !!product.event_id;
+                const isGoodieRestricted = !token && !isTicket;
+
+                return (
+                  <article key={product.product_id} className="overflow-hidden rounded-[24px] border border-[var(--color-hairline)] bg-white">
+                    <div
+                      className={`flex h-32 items-end justify-between bg-gradient-to-br p-5 ${
+                        index % 2 ? 'from-amber-200 via-orange-100 to-rose-100' : 'from-violet-200 via-indigo-100 to-sky-100'
+                      }`}
+                    >
+                      <span className="grid size-12 place-items-center rounded-2xl bg-white/70 text-[var(--color-primary)]">
+                        {isTicket ? <Ticket size={23} /> : <ShoppingBag size={23} />}
+                      </span>
+                      <span className="rounded-full bg-white/70 px-3 py-1 text-xs font-bold capitalize text-[var(--color-ink)]">
+                        {product.product_type.replace('_', ' ')}
+                      </span>
+                    </div>
+                    <div className="flex min-h-52 flex-col p-6">
+                      <h2 className="text-xl font-bold text-[var(--color-ink)]">{product.name}</h2>
+                      <p className="mt-2 line-clamp-2 text-sm leading-6 text-[var(--color-muted)]">
+                        {product.description || 'A limited club collection item.'}
+                      </p>
+                      <div className="mt-auto flex items-end justify-between gap-4 pt-6">
+                        <div>
+                          <p className="tabular-nums text-2xl font-extrabold tracking-tight text-[var(--color-ink)]">
+                            ₹{Number(product.non_member_price ?? product.member_price).toFixed(0)}
+                          </p>
+                          {product.member_price !== product.non_member_price && (
+                            <p className="mt-1 text-xs font-bold text-emerald-700">
+                              Member price ₹{Number(product.member_price).toFixed(0)}
+                            </p>
+                          )}
+                        </div>
+                        {isGoodieRestricted ? (
+                          <Link to="/register">
+                            <Button variant="outline" className="text-xs font-bold text-violet-700 border-violet-200 hover:bg-violet-50">
+                              Members Only
+                            </Button>
+                          </Link>
+                        ) : (
+                          <Button
+                            disabled={addingId === product.product_id || product.stock_quantity === 0}
+                            onClick={() => add(product.product_id)}
+                          >
+                            {addingId === product.product_id ? 'Adding…' : product.stock_quantity === 0 ? 'Sold out' : 'Add'}
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          )}
+          {(token || isGuest) && (
+            <div className="mt-10 text-center">
+              <Link to="/cart">
+                <Button variant="secondary">View your cart</Button>
+              </Link>
+            </div>
+          )}
+        </section>
+      </main>
+      <Footer />
+    </div>
+  );
 }

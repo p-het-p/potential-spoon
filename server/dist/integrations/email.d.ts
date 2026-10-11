@@ -22,5 +22,9 @@ export declare function sendOrderConfirmationEmail(email: string, name: string, 
  * Send ticket email
  */
 export declare function sendTicketEmail(email: string, name: string, ticketNumber: string, eventTitle: string): Promise<void>;
+/**
+ * Send guest digital pass confirmation email
+ */
+export declare function sendGuestPassEmail(email: string, name: string, attendeeId: number, qrToken: string): Promise<void>;
 export { transporter };
 //# sourceMappingURL=email.d.ts.map

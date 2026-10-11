@@ -17,6 +17,18 @@ export declare class ProductRepository {
     }): Promise<Product[]>;
     findById(id: number): Promise<Product | null>;
     getAvailableStock(productId: number): Promise<number | null>;
+    create(data: {
+        name: string;
+        description?: string;
+        product_type?: string;
+        member_price: number;
+        non_member_price?: number;
+        stock_quantity?: number;
+        is_active?: boolean;
+        event_id?: number;
+    }): Promise<Product>;
+    update(id: number, data: Partial<Product>): Promise<Product | null>;
+    delete(id: number): Promise<boolean>;
 }
 export declare const productRepository: ProductRepository;
 //# sourceMappingURL=product.repository.d.ts.map

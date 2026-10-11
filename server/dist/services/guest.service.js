@@ -1,7 +1,8 @@
 import { guestRepository } from '../repositories/guest.repository.js';
 import { generateOtp, hashOtp, verifyOtp, parseDuration } from '../utils/otp.js';
 import { generateSecureToken } from '../utils/token.js';
-import { sendOtpEmail } from '../integrations/email.js';
+import { sendOtpEmail, sendGuestPassEmail } from '../integrations/email.js';
+import { generateQrDataUrl } from '../integrations/qr.js';
 import { env } from '../config/env.js';
 import { AppError } from '../middleware/errorHandler.js';
 import logger from '../utils/logger.js';
@@ -10,53 +11,62 @@ export class GuestService {
      * Register a guest attendee
      */
     async register(params) {
-        // Check if guest already exists
+        const fullName = params.full_name?.trim() || params.email.split('@')[0];
         let attendee = await guestRepository.findAttendeeByEmail(params.email);
-        if (attendee) {
-            // Return existing guest (allow re-registration for re-verification)
-            return {
-                attendee_id: attendee.attendee_id,
-                full_name: attendee.full_name,
-                email: attendee.email,
-                email_verified: attendee.email_verified,
-            };
+        if (!attendee) {
+            attendee = await guestRepository.createAttendee({
+                full_name: fullName,
+                email: params.email,
+                phone: params.phone,
+            });
+            logger.info('Guest registered', { attendeeId: attendee.attendee_id, email: attendee.email });
         }
-        attendee = await guestRepository.createAttendee(params);
-        logger.info('Guest registered', { attendeeId: attendee.attendee_id, email: attendee.email });
+        // Generate and send OTP for verification
+        const otpResult = await this.sendOtp(attendee.attendee_id);
         return {
             attendee_id: attendee.attendee_id,
             full_name: attendee.full_name,
             email: attendee.email,
             email_verified: attendee.email_verified,
+            otp: otpResult.otp,
         };
     }
     /**
      * Send OTP to guest's email
      */
-    async sendOtp(attendeeId) {
-        const attendee = await guestRepository.findAttendeeById(attendeeId);
+    async sendOtp(attendeeId, email) {
+        let attendee = null;
+        if (attendeeId) {
+            attendee = await guestRepository.findAttendeeById(attendeeId);
+        }
+        else if (email) {
+            attendee = await guestRepository.findAttendeeByEmail(email);
+        }
         if (!attendee) {
             throw new AppError(404, 'ATTENDEE_NOT_FOUND', 'Guest attendee not found');
         }
-        // Check rate limit - max OTP requests within the cooldown window
-        const cooldownMs = parseDuration(env.GUEST_OTP_RESEND_COOLDOWN);
-        const recentCount = await guestRepository.getRecentVerificationCount(attendeeId, cooldownMs);
-        if (recentCount > 0) {
-            throw new AppError(429, 'OTP_COOLDOWN', 'Please wait before requesting another OTP');
-        }
-        // Generate and hash OTP
+        // Generate random 6-digit OTP
         const otp = generateOtp();
         const otpHash = await hashOtp(otp);
         const expiresAt = new Date(Date.now() + parseDuration(env.GUEST_OTP_EXPIRES_IN));
         // Store verification record
         await guestRepository.createEmailVerification({
-            attendee_id: attendeeId,
+            attendee_id: attendee.attendee_id,
             otp_hash: otpHash,
             expires_at: expiresAt,
         });
-        // Send OTP email
-        await sendOtpEmail(attendee.email, otp, attendee.full_name);
-        logger.info('OTP sent to guest', { attendeeId });
+        // Send OTP email (non-blocking / error resilient)
+        try {
+            await sendOtpEmail(attendee.email, otp, attendee.full_name);
+        }
+        catch (err) {
+            logger.warn('Failed to send OTP email, proceeding with returned OTP code', { err });
+        }
+        logger.info('OTP generated for guest', { attendeeId: attendee.attendee_id, otp });
+        return {
+            attendee_id: attendee.attendee_id,
+            otp,
+        };
     }
     /**
      * Verify OTP and create guest session
@@ -76,14 +86,14 @@ export class GuestService {
             throw new AppError(429, 'OTP_MAX_ATTEMPTS', 'Maximum verification attempts exceeded. Request a new OTP.');
         }
         // Increment attempt count
-        await guestRepository.incrementAttemptCount(verification.id);
+        await guestRepository.incrementAttemptCount(verification.verification_id);
         // Verify OTP
         const isValid = await verifyOtp(otp, verification.otp_hash);
         if (!isValid) {
             throw new AppError(400, 'INVALID_OTP', 'Invalid verification code');
         }
         // Consume the verification
-        await guestRepository.consumeVerification(verification.id);
+        await guestRepository.consumeVerification(verification.verification_id);
         // Mark email as verified
         await guestRepository.markEmailVerified(attendeeId);
         // Create session
@@ -95,10 +105,57 @@ export class GuestService {
             expires_at: sessionExpiresAt,
         });
         logger.info('Guest verified and session created', { attendeeId, sessionId: session.session_id });
+        // Generate pass token and send confirmation email
+        const qrToken = `GUEST-PASS-${attendeeId}-${sessionToken.slice(0, 8).toUpperCase()}`;
+        let qrDataUrl = null;
+        try {
+            qrDataUrl = await generateQrDataUrl(qrToken);
+        }
+        catch {
+            qrDataUrl = null;
+        }
+        try {
+            await sendGuestPassEmail(attendee.email, attendee.full_name, attendeeId, qrToken);
+        }
+        catch (err) {
+            logger.warn('Failed to send pass email, proceeding', { err });
+        }
         return {
             attendee_id: attendeeId,
+            full_name: attendee.full_name,
+            email: attendee.email,
             email_verified: true,
             session_token: sessionToken,
+            qr_token: qrToken,
+            qr_data_url: qrDataUrl,
+        };
+    }
+    /**
+     * Get digital guest pass details
+     */
+    async getPass(attendeeId) {
+        const attendee = await guestRepository.findAttendeeById(attendeeId);
+        if (!attendee) {
+            throw new AppError(404, 'ATTENDEE_NOT_FOUND', 'Guest attendee not found');
+        }
+        const qrToken = `GUEST-PASS-${attendee.attendee_id}-${Buffer.from(attendee.email).toString('hex').slice(0, 8).toUpperCase()}`;
+        let qrDataUrl = null;
+        try {
+            qrDataUrl = await generateQrDataUrl(qrToken);
+        }
+        catch {
+            qrDataUrl = null;
+        }
+        return {
+            attendee_id: attendee.attendee_id,
+            full_name: attendee.full_name,
+            email: attendee.email,
+            phone: attendee.phone,
+            email_verified: attendee.email_verified,
+            qr_token: qrToken,
+            qr_data_url: qrDataUrl,
+            issued_at: attendee.registered_at || new Date(),
+            status: attendee.email_verified ? 'active' : 'unverified',
         };
     }
     /**

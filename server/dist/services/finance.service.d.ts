@@ -38,6 +38,22 @@ export declare class FinanceService {
             total: number;
         };
     }>;
+    /**
+     * Get volunteer reimbursements / expenses
+     */
+    getReimbursements(): Promise<any[]>;
+    /**
+     * Update reimbursement status (approve, pay, reject)
+     */
+    updateReimbursement(id: string, status: string, note?: string): Promise<any>;
+    /**
+     * Get leader activity data (ticket sales, merchandise, fundraisers)
+     */
+    getActivityData(): Promise<{
+        events: any[];
+        merchandise: any[];
+        fundraisers: any[];
+    }>;
 }
 export declare const financeService: FinanceService;
 //# sourceMappingURL=finance.service.d.ts.map

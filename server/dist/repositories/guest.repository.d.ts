@@ -7,7 +7,7 @@ export interface GuestAttendee {
     registered_at: Date;
 }
 export interface EmailVerification {
-    id: number;
+    verification_id: number;
     attendee_id: number;
     otp_hash: string;
     expires_at: Date;

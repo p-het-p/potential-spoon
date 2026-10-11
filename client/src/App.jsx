@@ -10,9 +10,12 @@ import { Cart } from './pages/Cart';
 import { Orders, OrderDetail } from './pages/Orders';
 import { Memberships } from './pages/Memberships';
 import { Guest } from './pages/Guest';
+import { GuestPass } from './pages/GuestPass';
 import { Finance } from './pages/Finance';
 import { CheckIn } from './pages/CheckIn';
 import { ManageEvents } from './pages/ManageEvents';
+import { ManageClub } from './pages/ManageClub';
+import { VolunteerDashboard } from './pages/VolunteerDashboard';
 
 function App() {
   return (
@@ -35,10 +38,14 @@ function App() {
         <Route path="/memberships" element={<Memberships />} />
         
         <Route path="/guest" element={<Guest />} />
+        <Route path="/guest/pass" element={<GuestPass />} />
+        <Route path="/pass" element={<GuestPass />} />
         
         <Route path="/finance" element={<Finance />} />
         <Route path="/check-in" element={<CheckIn />} />
+        <Route path="/manage" element={<ManageClub />} />
         <Route path="/manage/events" element={<ManageEvents />} />
+        <Route path="/volunteer" element={<VolunteerDashboard />} />
       </Routes>
     </Router>
   );
