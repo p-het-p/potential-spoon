@@ -1,0 +1,81 @@
+@layer components {
+  :where([data-control-family="collapsible"][data-slot="root"]) {
+    --cui-collapsible-trigger-radius: var(--radius-control);
+    --cui-collapsible-trigger-hover-background: var(--hover-fill);
+  }
+
+  :where([data-control-family="collapsible"][data-slot="trigger"]) {
+    display: flex;
+    width: 100%;
+    min-height: var(--control-h-sm);
+    align-items: center;
+    gap: calc(var(--spacing) * 2);
+    border-radius: var(--cui-collapsible-trigger-radius);
+    padding-inline: calc(var(--spacing) * 2);
+    color: var(--foreground);
+    font-size: var(--text-label);
+    font-weight: var(--font-weight-medium);
+    text-align: start;
+    transition: background-color var(--duration-fast) var(--ease-standard);
+  }
+
+  :where([data-control-family="collapsible"][data-slot="trigger"]:focus-visible) {
+    background: var(--cui-collapsible-trigger-hover-background);
+  }
+
+  @media (hover: hover) {
+    :where([data-control-family="collapsible"][data-slot="trigger"]:not(:disabled, [data-disabled]):hover) {
+      background: var(--cui-collapsible-trigger-hover-background);
+    }
+  }
+
+  :where([data-control-family="collapsible"][data-slot="trigger"] > svg) {
+    inline-size: 1rem;
+    block-size: 1rem;
+    flex-shrink: 0;
+    color: var(--muted-foreground);
+    transition: rotate var(--duration-base) var(--ease-standard);
+  }
+
+  :where([data-control-family="collapsible"][data-slot="content"]) {
+    height: var(--collapsible-panel-height);
+    transition-property: height, opacity;
+    transition-duration: var(--duration-slow);
+    transition-timing-function: var(--ease-standard);
+  }
+
+  :where([data-control-family="collapsible"][data-slot="content"][data-starting-style]),
+  :where([data-control-family="collapsible"][data-slot="content"][data-ending-style]) {
+    height: 0;
+    overflow: clip;
+    opacity: 0;
+  }
+
+  @supports (transition-behavior: allow-discrete) {
+    :where([data-control-family="collapsible"][data-slot="content"]) {
+      transition-property: height, opacity, overflow;
+      transition-timing-function: var(--ease-standard), var(--ease-standard), step-end;
+      transition-behavior: normal, normal, allow-discrete;
+    }
+
+    :where([data-control-family="collapsible"][data-slot="content"][data-ending-style]) {
+      transition-timing-function: var(--ease-standard), var(--ease-standard), step-start;
+    }
+  }
+
+  :where([data-control-family="collapsible"][data-slot="trigger"][data-state="open"] > svg) {
+    rotate: 90deg;
+  }
+}
+
+@property --cui-collapsible-trigger-radius {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --cui-collapsible-trigger-hover-background {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}

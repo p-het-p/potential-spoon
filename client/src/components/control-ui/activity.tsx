@@ -1,0 +1,279 @@
+"use client";
+
+import { Check, ChevronRight, CircleAlert, CircleDashed, LoaderCircle } from "lucide-react";
+import type { ComponentProps, CSSProperties, ReactNode } from "react";
+import { createContext, useContext } from "react";
+import type { ActivityKnobStyle } from "@/components/control-ui/knob-contracts/activity-knobs";
+import { cn } from "@/components/control-ui/lib/cn";
+import type { CollapsibleProps } from "@/components/control-ui/ui/collapsible";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/control-ui/ui/collapsible";
+import { LiveStatus } from "@/components/control-ui/ui/live-status";
+import type { ScrollAreaProps } from "@/components/control-ui/ui/scroll-area";
+import { ScrollArea } from "@/components/control-ui/ui/scroll-area";
+
+export type ActivityState = "pending" | "running" | "success" | "error";
+
+export type ActivityKind = "default" | "tool" | "reasoning" | "signal";
+
+export type ActivityDetailFormat = "text" | "code";
+
+export type ActivityProps = Omit<CollapsibleProps, "children" | "style"> & {
+  children?: ReactNode;
+  kind?: ActivityKind;
+  name?: string;
+  state?: ActivityState;
+  statusLabel?: ReactNode;
+  style?: CSSProperties & ActivityKnobStyle;
+};
+
+type ActivityStyleProps<Props, Style> = Omit<Props, "style"> & {
+  style?: CSSProperties & Style;
+};
+
+const activityStatusLabels = {
+  pending: "Pending",
+  running: "Running",
+  success: "Complete",
+  error: "Failed",
+} satisfies Record<ActivityState, string>;
+
+const activityStatusIcons = {
+  pending: CircleDashed,
+  running: LoaderCircle,
+  success: Check,
+  error: CircleAlert,
+} satisfies Record<ActivityState, typeof CircleDashed>;
+
+type ActivityContextValue = {
+  isRunning: boolean;
+  kind: ActivityKind;
+  name?: string;
+  state: ActivityState;
+  statusLabel: ReactNode;
+};
+
+const ActivityContext = createContext<ActivityContextValue | null>(null);
+
+function useActivityContext() {
+  const context = useContext(ActivityContext);
+  if (!context) throw new Error("Activity compound components must be rendered inside <Activity>.");
+  return context;
+}
+
+function formatActivityTitle(value: string) {
+  const words = value
+    .replace(/([a-z\d])([A-Z])/g, "$1 $2")
+    .replace(/[_-]+/g, " ")
+    .trim();
+
+  return words ? `${words.charAt(0).toUpperCase()}${words.slice(1)}` : value;
+}
+
+export function Activity({ kind = "default", name, state = "pending", statusLabel, className, children, ...props }: ActivityProps) {
+  const context = {
+    isRunning: state === "running",
+    kind,
+    name,
+    state,
+    statusLabel: statusLabel ?? activityStatusLabels[state],
+  };
+  const statusText = typeof context.statusLabel === "string" ? context.statusLabel : activityStatusLabels[state];
+  return (
+    <ActivityContext.Provider value={context}>
+      <Collapsible
+        data-control-ui="activity"
+        data-control-family="activity"
+        data-slot="root"
+        data-activity-state={state}
+        data-activity-kind={kind}
+        data-activity-name={name}
+        className={cn("group/activity min-w-0", className)}
+        {...props}
+      >
+        <LiveStatus message={name ? `${formatActivityTitle(name)}: ${statusText}` : statusText} />
+        {children}
+      </Collapsible>
+    </ActivityContext.Provider>
+  );
+}
+
+export type ActivityRowProps = ActivityStyleProps<ComponentProps<"div">, ActivityKnobStyle>;
+
+const activityRowClassName = "flex w-fit max-w-full items-center";
+
+export function ActivityRow({ className, ...props }: ActivityRowProps) {
+  return (
+    <div
+      data-control-ui="activity"
+      data-control-family="activity"
+      data-slot="row"
+      {...props}
+      className={cn(activityRowClassName, className)}
+    />
+  );
+}
+
+export type ActivityTriggerProps = ActivityStyleProps<ComponentProps<typeof CollapsibleTrigger>, ActivityKnobStyle> & {
+  chevronProps?: ActivityStyleProps<ComponentProps<typeof ChevronRight>, ActivityKnobStyle> & { "data-slot"?: string };
+};
+
+export function ActivityTrigger({ className, children, chevronProps, ...props }: ActivityTriggerProps) {
+  return (
+    <CollapsibleTrigger
+      data-control-ui="activity"
+      data-control-family="activity"
+      data-slot="trigger"
+      {...props}
+      className={cn(activityRowClassName, className)}
+    >
+      {children}
+      <ChevronRight
+        aria-hidden="true"
+        data-control-ui="activity"
+        data-control-family="activity"
+        data-slot="chevron"
+        {...chevronProps}
+        className={cn("shrink-0", chevronProps?.className)}
+      />
+    </CollapsibleTrigger>
+  );
+}
+
+export type ActivityIconProps = ActivityStyleProps<ComponentProps<"span">, ActivityKnobStyle>;
+
+export function ActivityIcon({ className, children, ...props }: ActivityIconProps) {
+  const activity = useActivityContext();
+  const Icon = activityStatusIcons[activity.state];
+  return (
+    <span
+      aria-hidden="true"
+      data-control-ui="activity"
+      data-control-family="activity"
+      data-status-icon={children === undefined ? "" : undefined}
+      data-slot="icon"
+      {...props}
+      className={cn("flex shrink-0 items-center justify-center [&_svg]:size-4", className)}
+    >
+      {children ?? <Icon data-motion-essential={activity.isRunning ? "" : undefined} />}
+    </span>
+  );
+}
+
+export type ActivityTitleProps = ActivityStyleProps<ComponentProps<"span">, ActivityKnobStyle>;
+
+export function ActivityTitle({ className, children, ...props }: ActivityTitleProps) {
+  const activity = useActivityContext();
+  const text = children ?? (activity.name ? formatActivityTitle(activity.name) : undefined);
+  return (
+    <span
+      data-control-ui="activity"
+      data-control-family="activity"
+      data-slot="title"
+      title={typeof text === "string" ? text : undefined}
+      {...props}
+      className={cn("min-w-0 flex-1 truncate", className)}
+    >
+      {text}
+    </span>
+  );
+}
+
+export type ActivityStatusProps = ActivityStyleProps<ComponentProps<"span">, ActivityKnobStyle>;
+
+export function ActivityStatus({ className, children, ...props }: ActivityStatusProps) {
+  const activity = useActivityContext();
+  return (
+    <span
+      data-control-ui="activity"
+      data-control-family="activity"
+      data-slot="status"
+      data-kind={activity.kind}
+      {...props}
+      data-status={activity.state}
+      className={cn("shrink-0", className)}
+    >
+      {children ?? activity.statusLabel}
+    </span>
+  );
+}
+
+export type ActivityContentProps = Omit<ComponentProps<typeof CollapsibleContent>, "children"> & {
+  children?: ReactNode;
+  maxHeight?: string | false;
+  scrollAreaProps?: Omit<ScrollAreaProps, "children" | "maxHeight">;
+};
+
+export function ActivityContent({
+  className,
+  children,
+  maxHeight = "var(--activity-content-max-height, min(24rem, 50dvh))",
+  scrollAreaProps,
+  ...props
+}: ActivityContentProps) {
+  const { className: scrollAreaClassName, viewportProps, lockAxis = "x", ...resolvedScrollAreaProps } = scrollAreaProps ?? {};
+  const resolvedViewportProps = {
+    ...viewportProps,
+    "data-control-ui": viewportProps?.["data-control-ui"] ?? "activity",
+    "data-slot": viewportProps?.["data-slot"] ?? "content-viewport",
+  };
+  return (
+    <CollapsibleContent data-control-ui="activity" data-slot="content" className={className} {...props}>
+      <ScrollArea
+        maxHeight={maxHeight || undefined}
+        lockAxis={lockAxis}
+        viewportProps={resolvedViewportProps}
+        className={cn("min-w-0", scrollAreaClassName)}
+        {...resolvedScrollAreaProps}
+      >
+        <div data-control-ui="activity" data-control-family="activity" data-slot="content-grid" className="grid min-w-0">
+          {children}
+        </div>
+      </ScrollArea>
+    </CollapsibleContent>
+  );
+}
+
+export type ActivityDetailProps = ComponentProps<"div"> & { style?: CSSProperties & ActivityKnobStyle };
+
+export function ActivityDetail({ className, ...props }: ActivityDetailProps) {
+  return (
+    <div
+      data-control-ui="activity"
+      data-control-family="activity"
+      data-slot="detail"
+      {...props}
+      className={cn("grid min-w-0", className)}
+    />
+  );
+}
+
+export type ActivityDetailLabelProps = ActivityStyleProps<ComponentProps<"div">, ActivityKnobStyle>;
+
+export function ActivityDetailLabel({ className, ...props }: ActivityDetailLabelProps) {
+  return (
+    <div
+      data-control-ui="activity"
+      data-control-family="activity"
+      data-slot="detail-label"
+      {...props}
+      className={cn("uppercase", className)}
+    />
+  );
+}
+
+export type ActivityDetailContentProps = ActivityStyleProps<ComponentProps<"div">, ActivityKnobStyle> & {
+  format?: ActivityDetailFormat;
+};
+
+export function ActivityDetailContent({ format = "text", className, ...props }: ActivityDetailContentProps) {
+  return (
+    <div
+      data-control-ui="activity"
+      data-control-family="activity"
+      data-slot="detail-content"
+      data-format={format}
+      {...props}
+      className={cn("min-w-0 whitespace-pre-wrap wrap-anywhere", format === "code" && "w-fit max-w-full", className)}
+    />
+  );
+}

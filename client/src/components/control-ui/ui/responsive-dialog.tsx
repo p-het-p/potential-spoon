@@ -1,0 +1,183 @@
+"use client";
+
+import type { ComponentProps } from "react";
+import { createContext, useContext, useState, useSyncExternalStore } from "react";
+import type { OpenChangeEventDetails } from "@/components/control-ui/control-props";
+import { cn } from "@/components/control-ui/lib/cn";
+import { PopupCloseButton } from "@/components/control-ui/popup-parts";
+import { Button } from "@/components/control-ui/ui/button";
+import type { DialogContentProps, DialogProps } from "@/components/control-ui/ui/dialog";
+import {
+  Dialog,
+  DialogBody,
+  DialogClose,
+  type DialogCloseProps,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/control-ui/ui/dialog";
+import {
+  Drawer,
+  DrawerBody,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/control-ui/ui/drawer";
+
+export type ResponsiveDialogProps = DialogProps;
+
+export type ResponsiveDialogContentProps = DialogContentProps & {
+  dialogClassName?: string;
+  drawerClassName?: string;
+};
+
+const MOBILE_QUERY = "(max-width: 767px)";
+const ResponsiveDialogContext = createContext<boolean | null>(null);
+
+function subscribeToMobileDialog(onStoreChange: () => void) {
+  const query = window.matchMedia(MOBILE_QUERY);
+  query.addEventListener("change", onStoreChange);
+  return () => query.removeEventListener("change", onStoreChange);
+}
+
+function getMobileDialogSnapshot() {
+  return window.matchMedia(MOBILE_QUERY).matches;
+}
+
+function getMobileDialogServerSnapshot() {
+  return false;
+}
+
+function useResponsiveDialogContext() {
+  const isMobile = useContext(ResponsiveDialogContext);
+  if (isMobile === null) throw new Error("Responsive dialog parts must be used within ResponsiveDialog");
+  return isMobile;
+}
+
+export function ResponsiveDialog({ open: controlledOpen, defaultOpen = false, onOpenChange, children }: ResponsiveDialogProps) {
+  const isMobile = useSyncExternalStore(subscribeToMobileDialog, getMobileDialogSnapshot, getMobileDialogServerSnapshot);
+  const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
+  const open = controlledOpen ?? uncontrolledOpen;
+
+  function handleOpenChange(nextOpen: boolean, eventDetails: OpenChangeEventDetails) {
+    if (controlledOpen === undefined) setUncontrolledOpen(nextOpen);
+    onOpenChange?.(nextOpen, eventDetails);
+  }
+
+  return (
+    <ResponsiveDialogContext.Provider value={isMobile}>
+      {isMobile ? (
+        <Drawer open={open} onOpenChange={handleOpenChange} side="bottom">
+          {children}
+        </Drawer>
+      ) : (
+        <Dialog open={open} onOpenChange={handleOpenChange}>
+          {children}
+        </Dialog>
+      )}
+    </ResponsiveDialogContext.Provider>
+  );
+}
+
+// handle brands to one primitive — a Dialog handle cannot address a Drawer
+export function ResponsiveDialogTrigger(props: Omit<ComponentProps<typeof DialogTrigger>, "handle">) {
+  const isMobile = useResponsiveDialogContext();
+  return isMobile ? <DrawerTrigger {...props} /> : <DialogTrigger {...props} />;
+}
+
+export function ResponsiveDialogClose({
+  className,
+  children,
+  variant = "surface",
+  size = "sm",
+  tone = "neutral",
+  iconOnly,
+  ...props
+}: DialogCloseProps) {
+  const isMobile = useResponsiveDialogContext();
+
+  if (!isMobile) {
+    return (
+      <DialogClose className={className} variant={variant} size={size} tone={tone} iconOnly={iconOnly} {...props}>
+        {children}
+      </DialogClose>
+    );
+  }
+
+  return (
+    <DrawerClose
+      {...props}
+      render={(renderProps) => (
+        <Button
+          {...renderProps}
+          data-popup-part="close"
+          variant={variant}
+          size={size}
+          tone={tone}
+          iconOnly={iconOnly}
+          className={cn(renderProps.className, className)}
+        >
+          {children}
+        </Button>
+      )}
+    />
+  );
+}
+
+export function ResponsiveDialogContent({
+  className,
+  dialogClassName,
+  drawerClassName,
+  children,
+  showCloseButton = true,
+  closeLabel = "Close",
+  ...props
+}: ResponsiveDialogContentProps) {
+  const isMobile = useResponsiveDialogContext();
+
+  if (!isMobile) {
+    return (
+      <DialogContent className={cn(className, dialogClassName)} showCloseButton={showCloseButton} closeLabel={closeLabel} {...props}>
+        {children}
+      </DialogContent>
+    );
+  }
+
+  return (
+    <DrawerContent className={cn("relative", className, drawerClassName)} {...props}>
+      <DrawerBody padding="none">{children}</DrawerBody>
+      {showCloseButton ? <DrawerClose render={<PopupCloseButton label={closeLabel} />} /> : null}
+    </DrawerContent>
+  );
+}
+
+export function ResponsiveDialogHeader(props: ComponentProps<typeof DialogHeader>) {
+  const isMobile = useResponsiveDialogContext();
+  return isMobile ? <DrawerHeader {...props} /> : <DialogHeader {...props} />;
+}
+
+export function ResponsiveDialogBody(props: ComponentProps<typeof DialogBody>) {
+  return <DialogBody {...props} />;
+}
+
+export function ResponsiveDialogFooter(props: ComponentProps<typeof DialogFooter>) {
+  const isMobile = useResponsiveDialogContext();
+  return isMobile ? <DrawerFooter {...props} /> : <DialogFooter {...props} />;
+}
+
+export function ResponsiveDialogTitle(props: ComponentProps<typeof DialogTitle>) {
+  const isMobile = useResponsiveDialogContext();
+  return isMobile ? <DrawerTitle {...props} /> : <DialogTitle {...props} />;
+}
+
+export function ResponsiveDialogDescription(props: ComponentProps<typeof DialogDescription>) {
+  const isMobile = useResponsiveDialogContext();
+  return isMobile ? <DrawerDescription {...props} /> : <DialogDescription {...props} />;
+}

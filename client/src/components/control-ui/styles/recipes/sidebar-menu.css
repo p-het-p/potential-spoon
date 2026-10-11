@@ -1,0 +1,286 @@
+@layer components {
+  :where([data-control-family="sidebar"][data-slot="group-label"]) {
+    gap: calc(var(--spacing) * 2);
+    padding: var(--cui-sidebar-group-label-padding);
+    border-radius: var(--radius-md);
+    color: var(--cui-sidebar-group-label-foreground);
+    font-size: var(--cui-sidebar-group-label-font-size);
+    font-weight: var(--cui-sidebar-group-label-font-weight);
+    letter-spacing: var(--cui-sidebar-group-label-letter-spacing);
+    text-transform: var(--cui-sidebar-group-label-text-transform);
+  }
+
+  :where([data-control-family="sidebar"][data-slot="menu-button"]) {
+    inline-size: 100%;
+    gap: calc(var(--spacing) * 1.5);
+    block-size: var(--cui-sidebar-menu-button-height);
+    border-radius: var(--cui-sidebar-menu-button-radius);
+    padding-block: var(--cui-sidebar-menu-button-padding-block);
+    padding-inline: var(--cui-sidebar-menu-button-padding-inline);
+    font-size: var(--cui-sidebar-menu-button-font-size);
+    font-weight: var(--cui-sidebar-menu-button-font-weight);
+    background-color: var(--cui-sidebar-menu-button-background);
+    box-shadow: var(--cui-sidebar-menu-button-shadow);
+    color: var(--cui-sidebar-menu-button-foreground);
+  }
+
+  :where([data-control-family="sidebar"][data-slot="menu-button"][data-size="sm"]) {
+    --cui-sidebar-menu-button-height: var(--control-h-sm);
+    --cui-sidebar-menu-button-font-size: var(--text-label);
+  }
+
+  :where([data-control-family="sidebar"][data-slot="menu-button"][data-size="lg"]) {
+    --cui-sidebar-menu-button-height: var(--control-h-lg);
+    gap: calc(var(--spacing) * 2);
+  }
+
+  :where(
+    [data-control-family="sidebar"][data-collapsible="icon"] [data-control-family="sidebar"][data-slot="menu-button"] > :not(:first-child)
+  ) {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    opacity: 0;
+    white-space: nowrap;
+  }
+
+  :where([data-control-family="sidebar"][data-slot="menu-action"]) {
+    inset-block-start: calc(var(--control-h-md) / 2);
+    padding: 0;
+    border-radius: var(--cui-sidebar-menu-button-radius);
+    background-color: transparent;
+    color: var(--cui-sidebar-menu-button-foreground);
+  }
+
+  :where([data-control-family="sidebar"][data-slot="menu-button"][data-active] ~ [data-slot="menu-action"]) {
+    color: var(--cui-sidebar-menu-button-active-foreground);
+  }
+
+  :where(
+    [data-control-family="sidebar"][data-slot="menu-button"]:is([data-indicator="slide"], [data-indicator="hover"])[data-active]
+      ~ [data-slot="menu-action"]
+  ) {
+    color: var(--cui-sidebar-menu-button-track-active-foreground);
+  }
+
+  :where([data-control-family="sidebar"][data-slot="menu-action"])::before {
+    content: "";
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-start: 50%;
+    translate: -50% -50%;
+    inline-size: max(100%, var(--target-min));
+    block-size: max(100%, var(--target-min));
+  }
+
+  :where([data-control-family="sidebar"][data-slot="menu-action"]:dir(rtl))::before {
+    translate: 50% -50%;
+  }
+
+  @media (hover: hover) {
+    :where(
+        [data-control-family="sidebar"]:is([data-slot="menu-button"], [data-slot="menu-action"]):hover:not(
+          :disabled,
+          [data-disabled],
+          [aria-disabled="true"]
+        )
+      ) {
+      background-color: var(--cui-sidebar-menu-button-hover-background);
+      color: var(--cui-sidebar-menu-button-hover-foreground);
+      box-shadow: var(--cui-sidebar-menu-button-hover-shadow);
+    }
+
+    :where(
+        [data-control-family="sidebar"][data-slot="menu-button"][data-state="open"]:hover:not(
+          :disabled,
+          [data-disabled],
+          [aria-disabled="true"]
+        )
+      ) {
+      background-color: var(--cui-sidebar-menu-button-active-background);
+      color: var(--cui-sidebar-menu-button-active-foreground);
+    }
+  }
+
+  :where([data-control-family="sidebar"][data-slot="menu-action"]:is(:active, [data-popup-open])),
+  :where([data-control-family="sidebar"][data-slot="menu-button"]:active),
+  :where([data-control-family="sidebar"][data-slot="menu-button"][data-active]) {
+    background-color: var(--cui-sidebar-menu-button-active-background);
+    color: var(--cui-sidebar-menu-button-active-foreground);
+    box-shadow: var(--cui-sidebar-menu-button-active-shadow);
+  }
+
+  :where([data-control-family="sidebar"][data-slot="menu-button"][data-active]) {
+    font-weight: var(--cui-sidebar-menu-button-active-font-weight);
+  }
+
+  :where([data-control-family="sidebar"][data-slot="menu-button"][data-variant="outline"]) {
+    --cui-sidebar-menu-button-background: var(--background);
+    --cui-sidebar-menu-button-shadow: 0 0 0 1px var(--sidebar-border);
+    --cui-sidebar-menu-button-hover-shadow: 0 0 0 1px oklch(from var(--foreground) l c h / 0.08);
+  }
+
+  :where(
+    [data-control-family="sidebar"][data-slot="menu-button"][data-indicator="slide"]:is(:hover, :active, [data-active], [data-popup-open])
+  ) {
+    background-color: transparent;
+  }
+
+  :where([data-control-family="sidebar"][data-slot="menu-button"]:is([data-indicator="slide"], [data-indicator="hover"])[data-active]) {
+    color: var(--cui-sidebar-menu-button-track-active-foreground);
+  }
+
+  :where(
+    [data-control-family="sidebar"][data-slot="menu-button"][data-indicator="hover"]:focus-visible:not(
+      [data-active],
+      :disabled,
+      [data-disabled],
+      [aria-disabled="true"]
+    )
+  ) {
+    background-color: var(--cui-sidebar-menu-button-hover-background);
+    color: var(--cui-sidebar-menu-button-hover-foreground);
+    box-shadow: var(--cui-sidebar-menu-button-hover-shadow);
+  }
+
+  @media (hover: hover) {
+    :where(
+        [data-control-family="sidebar"][data-slot="menu"][data-indicator="hover"]:has(
+            > [data-slot="menu-item"] > [data-slot="menu-button"]:focus-visible
+          )
+          > [data-slot="menu-item"]
+          > [data-slot="menu-button"][data-indicator="hover"]:hover:not([data-active], :focus-visible)
+      ) {
+      background-color: transparent;
+      box-shadow: none;
+    }
+  }
+
+  :where([data-control-family="sidebar"][data-slot="menu-action"]:is(:disabled, [aria-disabled="true"])),
+  :where([data-control-family="sidebar"][data-slot="menu-button"]:disabled),
+  :where([data-control-family="sidebar"][data-slot="menu-button"][aria-disabled="true"]) {
+    opacity: var(--disabled-opacity);
+  }
+
+  :where([data-control-family="sidebar"][data-slot="group-content"]) {
+    font-size: var(--text-body);
+  }
+
+  :where([data-control-family="sidebar"][data-slot="menu-button"][data-size="sm"] ~ [data-slot="menu-action"]) {
+    inset-block-start: calc(var(--control-h-sm) / 2);
+  }
+
+  :where([data-control-family="sidebar"][data-slot="menu-button"][data-size="lg"] ~ [data-slot="menu-action"]) {
+    inset-block-start: calc(var(--control-h-lg) / 2);
+  }
+
+  :where([data-control-family="sidebar"][data-slot="menu-button"]:has(~ [data-slot="menu-action"])) {
+    padding-inline-end: calc(var(--spacing) * 8);
+  }
+
+  :where([data-control-family="sidebar"][data-slot="menu-badge"]) {
+    inset-block-start: calc(var(--control-h-md) / 2);
+    inset-inline-end: calc(var(--spacing) * 1);
+    min-inline-size: var(--cui-sidebar-menu-badge-height);
+    block-size: var(--cui-sidebar-menu-badge-height);
+    padding-inline: calc(var(--spacing) * 1.5);
+    border-radius: 9999px;
+    background-color: var(--cui-sidebar-menu-badge-background);
+    color: var(--cui-sidebar-menu-badge-foreground);
+    font-size: var(--text-caption);
+    font-weight: var(--font-weight-medium);
+    line-height: 1;
+    transition: opacity var(--duration-fast) var(--ease-standard);
+  }
+
+  :where([data-control-family="sidebar"][data-slot="menu-button"][data-size="sm"] ~ [data-slot="menu-badge"]) {
+    inset-block-start: calc(var(--control-h-sm) / 2);
+  }
+
+  :where([data-control-family="sidebar"][data-slot="menu-button"][data-size="lg"] ~ [data-slot="menu-badge"]) {
+    inset-block-start: calc(var(--control-h-lg) / 2);
+  }
+
+  :where([data-control-family="sidebar"][data-slot="menu-button"]:has(~ [data-slot="menu-badge"])) {
+    padding-inline-end: calc(var(--spacing) * 10);
+  }
+
+  :where(
+    [data-control-family="sidebar"][data-slot="menu-button"]:has(~ [data-slot="menu-badge"]):has(
+      ~ [data-slot="menu-action"]:not([data-show-on-hover])
+    )
+  ) {
+    padding-inline-end: calc(var(--spacing) * 16);
+  }
+
+  :where(
+    [data-control-family="sidebar"][data-slot="menu-item"]:has(> [data-slot="menu-action"]:not([data-show-on-hover]))
+      > [data-slot="menu-badge"]
+  ) {
+    inset-inline-end: calc(var(--spacing) * 7);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    :where([data-control-family="sidebar"][data-slot="menu-action"][data-show-on-hover]) {
+      opacity: 0;
+    }
+
+    :where([data-control-family="sidebar"][data-slot="menu-item"]:is(:hover, :focus-within) [data-slot="menu-action"]),
+    :where([data-control-family="sidebar"][data-slot="menu-action"][data-popup-open]) {
+      opacity: 1;
+    }
+
+    :where(
+        [data-control-family="sidebar"][data-slot="menu-item"]:is(
+            :hover,
+            :focus-within,
+            :has(> [data-slot="menu-action"][data-popup-open])
+          ):has(> [data-slot="menu-action"][data-show-on-hover])
+          > [data-slot="menu-badge"]
+      ) {
+      opacity: 0;
+    }
+  }
+
+  @media (pointer: coarse) {
+    :where([data-control-family="sidebar"][data-slot="menu-action"]) {
+      min-inline-size: var(--touch-target);
+      min-block-size: var(--touch-target);
+      inset-inline-end: 0;
+      inset-block-start: max(calc(var(--touch-target) / 2), calc(var(--control-h-md) / 2));
+    }
+
+    :where([data-control-family="sidebar"][data-slot="menu-button"][data-size="sm"] ~ [data-slot="menu-action"]) {
+      inset-block-start: max(calc(var(--touch-target) / 2), calc(var(--control-h-sm) / 2));
+    }
+
+    :where([data-control-family="sidebar"][data-slot="menu-button"][data-size="lg"] ~ [data-slot="menu-action"]) {
+      inset-block-start: max(calc(var(--touch-target) / 2), calc(var(--control-h-lg) / 2));
+    }
+
+    :where([data-control-family="sidebar"][data-slot="menu-button"]:has(~ [data-slot="menu-action"])) {
+      padding-inline-end: calc(var(--spacing) * 12);
+    }
+
+    :where([data-control-family="sidebar"][data-slot="menu-item"]:has(> [data-slot="menu-action"]) > [data-slot="menu-badge"]) {
+      inset-inline-end: var(--touch-target);
+      inset-block-start: max(calc(var(--touch-target) / 2), calc(var(--control-h-md) / 2));
+    }
+
+    :where([data-control-family="sidebar"][data-slot="menu-button"]:has(~ [data-slot="menu-badge"]):has(~ [data-slot="menu-action"])) {
+      padding-inline-end: calc(var(--touch-target) + var(--spacing) * 10);
+    }
+  }
+
+  :where([data-control-family="sidebar"][data-collapsible="icon"] [data-control-family="sidebar"][data-slot="menu-button"]) {
+    --cui-sidebar-menu-button-padding-inline: 0px;
+    inline-size: calc(var(--sidebar-width-icon) - var(--spacing) * 4);
+    max-inline-size: 100%;
+    padding-inline: var(--cui-sidebar-menu-button-padding-inline);
+    justify-content: center;
+    gap: 0;
+    overflow: visible;
+  }
+}

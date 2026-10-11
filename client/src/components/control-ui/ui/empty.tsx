@@ -1,0 +1,82 @@
+"use client";
+
+import { useRender } from "@base-ui/react/use-render";
+import type { ComponentProps, CSSProperties } from "react";
+import type { RenderProp } from "@/components/control-ui/control-props";
+import type { EmptyKnobStyle } from "@/components/control-ui/knob-contracts/empty-knobs";
+import { cn } from "@/components/control-ui/lib/cn";
+
+export type EmptyProps = Omit<ComponentProps<"div">, "style"> & { style?: CSSProperties & EmptyKnobStyle };
+
+export type EmptyHeaderProps = Omit<ComponentProps<"div">, "style"> & { style?: CSSProperties & EmptyKnobStyle };
+
+export type EmptyMediaProps = Omit<ComponentProps<"div">, "style"> & { style?: CSSProperties & EmptyKnobStyle };
+
+export type EmptyContentProps = Omit<ComponentProps<"div">, "style"> & { style?: CSSProperties & EmptyKnobStyle };
+
+export type EmptyDescriptionProps = Omit<ComponentProps<"p">, "style"> & { style?: CSSProperties & EmptyKnobStyle };
+
+export type EmptyTitleProps = Omit<ComponentProps<"div">, "style"> & {
+  render?: RenderProp<ComponentProps<"div">>;
+  style?: CSSProperties & EmptyKnobStyle;
+};
+
+export function Empty({ className, ...props }: EmptyProps) {
+  return (
+    <div
+      data-control-ui="empty"
+      data-control-family="empty"
+      data-slot="root"
+      className={cn("flex min-w-0 flex-1 flex-col items-center justify-center", className)}
+      {...props}
+    />
+  );
+}
+
+export function EmptyHeader({ className, ...props }: EmptyHeaderProps) {
+  return (
+    <div
+      data-control-ui="empty"
+      data-control-family="empty"
+      data-slot="header"
+      className={cn("flex min-w-0 flex-col items-center", className)}
+      {...props}
+    />
+  );
+}
+
+export function EmptyMedia({ className, ...props }: EmptyMediaProps) {
+  return (
+    <div
+      data-control-ui="empty"
+      data-control-family="empty"
+      data-slot="media"
+      className={cn("flex shrink-0 items-center justify-center [&>svg]:shrink-0", className)}
+      {...props}
+    />
+  );
+}
+
+export function EmptyTitle({ render, ...props }: EmptyTitleProps) {
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: { ...props, "data-control-ui": "empty", "data-control-family": "empty", "data-slot": "title" },
+  });
+}
+
+export function EmptyDescription({ className, ...props }: EmptyDescriptionProps) {
+  return <p data-control-ui="empty" data-control-family="empty" data-slot="description" className={className} {...props} />;
+}
+
+export function EmptyContent({ className, ...props }: EmptyContentProps) {
+  return (
+    <div
+      data-control-ui="empty"
+      data-control-family="empty"
+      data-slot="content"
+      className={cn("flex w-full min-w-0 flex-col items-center justify-center", className)}
+      {...props}
+    />
+  );
+}

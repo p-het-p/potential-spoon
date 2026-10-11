@@ -1,0 +1,289 @@
+@layer components {
+  :where([data-control-family="code-diff"][data-slot="root"]) {
+    --cui-code-diff-background: var(--background);
+    --cui-code-diff-border-color: var(--border);
+    --cui-code-diff-border-width: var(--control-rim-width);
+    --_code-corner-inset: calc(var(--spacing) * 1.5);
+    --cui-code-diff-radius: min(
+      var(--radius-panel),
+      calc(var(--control-h-xs) / 2 + var(--cui-code-diff-border-width) + var(--_code-corner-inset))
+    );
+    --_code-nest-radius: max(0px, calc(var(--cui-code-diff-radius) - var(--cui-code-diff-border-width) - var(--_code-corner-inset)));
+    --cui-code-diff-shadow: var(--shadow-sm);
+    --cui-code-diff-header-background: var(--diff-gutter-bg);
+    --cui-code-diff-header-border-color: var(--border);
+    --cui-code-diff-foreground: var(--code-foreground);
+    --cui-code-diff-add-background: var(--diff-add-line);
+    --cui-code-diff-del-background: var(--diff-del-line);
+    --cui-code-diff-expand-button-radius: var(--radius-control);
+    --cui-code-diff-expand-button-background: transparent;
+    --cui-code-diff-expand-button-foreground: var(--muted-foreground);
+    --cui-code-diff-expand-button-shadow: none;
+    --cui-code-diff-expand-button-hover-background: oklch(from var(--foreground) l c h / 0.08);
+    --cui-code-diff-expand-button-hover-foreground: var(--foreground);
+    border: var(--cui-code-diff-border-width) solid var(--cui-code-diff-border-color);
+    border-radius: var(--cui-code-diff-radius);
+    background: var(--cui-code-diff-background);
+    box-shadow: var(--cui-code-diff-shadow);
+  }
+
+  :where([data-control-family="code-diff"]:is([data-slot="header"], [data-slot="file-header"])) {
+    border-block-end-color: var(--cui-code-diff-header-border-color);
+    background: var(--cui-code-diff-header-background);
+  }
+
+  :where([data-control-family="code-diff"][data-slot="file-header"]) {
+    min-block-size: calc(var(--spacing) * 9);
+    gap: calc(var(--spacing) * 3);
+    padding-block: calc(var(--spacing) * 1.5);
+    padding-inline: calc(var(--spacing) * 3);
+    border-block-end-width: 1px;
+    border-block-end-style: solid;
+  }
+
+  :where([data-control-family="code-diff"][data-slot="actions"]) {
+    gap: calc(var(--spacing) * 2);
+  }
+
+  :where([data-control-family="code-diff"][data-slot="title"]),
+  :where([data-control-family="code-diff"][data-slot="file-header"] > span:first-child) {
+    color: var(--muted-foreground);
+    font-size: var(--text-label);
+  }
+
+  :where([data-control-family="code-diff"][data-slot="body"] > div) {
+    color: var(--cui-code-diff-foreground);
+    font-size: var(--text-label);
+  }
+
+  :where([data-control-family="code-diff"][data-slot="line"][data-line-type="add"]) {
+    background: var(--cui-code-diff-add-background);
+  }
+
+  :where([data-control-family="code-diff"][data-slot="line"][data-line-type="del"]) {
+    background: var(--cui-code-diff-del-background);
+  }
+
+  :where([data-control-family="code-diff"][data-slot="emphasis"]) {
+    border-radius: 2px;
+  }
+
+  :where([data-control-family="code-diff"][data-slot="emphasis"][data-line-type="add"]) {
+    background: var(--diff-add-emphasis);
+  }
+
+  :where([data-control-family="code-diff"][data-slot="emphasis"][data-line-type="del"]) {
+    background: var(--diff-del-emphasis);
+  }
+
+  :where([data-control-family="code-diff"][data-slot="line"][data-indicators="bars"][data-line-type="add"]) {
+    border-inline-start: 2px solid var(--diff-add-fg);
+  }
+
+  :where([data-control-family="code-diff"][data-slot="line"][data-indicators="bars"][data-line-type="del"]) {
+    border-inline-start: 2px solid var(--diff-del-fg);
+  }
+
+  :where([data-control-family="code-diff"][data-slot="line"][data-side="left"]),
+  :where([data-control-family="code-diff"][data-slot="empty-half"][data-side="left"]) {
+    border-inline-end: 1px solid oklch(from var(--border) l c h / 0.6);
+  }
+
+  :where([data-control-family="code-diff"][data-slot="empty-half"]) {
+    background: var(--diff-gutter-bg);
+  }
+
+  :where([data-control-family="code-diff"][data-slot="root"]:not([data-header])) {
+    position: relative;
+    padding-block-start: calc(var(--spacing) * 9);
+  }
+
+  :where([data-control-family="code-diff"][data-slot="line"] code) {
+    padding-inline-end: calc(var(--spacing) * 4);
+  }
+
+  :where([data-control-family="code-diff"][data-slot="expander"] > span[aria-hidden="true"]) {
+    padding-inline: calc(var(--spacing) * 1.5);
+  }
+
+  :where([data-control-family="code-diff"][data-slot="revealed-row"]) {
+    --focus-ring-offset: calc(var(--focus-ring-width) * -1);
+  }
+
+  :where([data-control-family="code-diff"][data-slot="gutter"][data-line-type="add"]) {
+    background: var(--diff-add-gutter);
+  }
+
+  :where([data-control-family="code-diff"][data-slot="gutter"][data-line-type="del"]) {
+    background: var(--diff-del-gutter);
+  }
+
+  :where([data-control-family="code-diff"][data-slot="marker"]) {
+    padding-inline: calc(var(--spacing) * 1);
+    color: transparent;
+    font-variant-numeric: tabular-nums;
+  }
+
+  :where([data-control-family="code-diff"][data-slot="marker"][data-line-type="add"]),
+  :where([data-control-family="code-diff"][data-slot="stat-additions"]) {
+    color: var(--diff-add-fg);
+  }
+
+  :where([data-control-family="code-diff"][data-slot="marker"][data-line-type="del"]),
+  :where([data-control-family="code-diff"][data-slot="stat-deletions"]) {
+    color: var(--diff-del-fg);
+  }
+
+  :where([data-control-family="code-diff"][data-slot="stat"]) {
+    gap: calc(var(--spacing) * 1.5);
+    font-size: var(--text-micro);
+    font-variant-numeric: tabular-nums;
+  }
+
+  :where([data-control-family="code-diff"][data-slot="expander"]) {
+    gap: calc(var(--spacing) * 2);
+    padding-inline: calc(var(--spacing) * 3);
+    padding-block: calc(var(--spacing) * 1);
+    background: var(--diff-gutter-bg);
+    color: var(--muted-foreground);
+    font-size: var(--text-micro);
+  }
+
+  :where([data-control-family="code-diff"][data-slot="expand-button"]) {
+    position: relative;
+    min-block-size: var(--target-min);
+    padding-inline: calc(var(--spacing) * 1.5);
+    padding-block: calc(var(--spacing) * 0.5);
+    border-radius: var(--cui-code-diff-expand-button-radius);
+    background: var(--cui-code-diff-expand-button-background);
+    box-shadow: var(--cui-code-diff-expand-button-shadow);
+    color: var(--cui-code-diff-expand-button-foreground);
+  }
+
+  @media (hover: hover) {
+    :where([data-control-family="code-diff"][data-slot="expand-button"]:hover) {
+      background: var(--cui-code-diff-expand-button-hover-background);
+      color: var(--cui-code-diff-expand-button-hover-foreground);
+    }
+  }
+
+  @media (pointer: coarse) {
+    :where([data-control-family="code-diff"][data-slot="expand-button"])::after {
+      content: "";
+      position: absolute;
+      inset: 50% 50%;
+      translate: -50% -50%;
+      inline-size: max(100%, var(--touch-target));
+      block-size: max(100%, var(--touch-target));
+    }
+  }
+
+  :where([data-control-family="code-diff"][data-slot="title"]) {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
+
+  :where([data-control-family="code-diff"][data-slot="file-title"]) {
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    color: var(--muted-foreground);
+  }
+
+  :where([data-control-family="code-diff"][data-slot="expander-label"]) {
+    font-family: var(--font-mono);
+  }
+}
+
+@property --cui-code-diff-radius {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --cui-code-diff-shadow {
+  syntax: "*";
+  inherits: true;
+}
+
+@property --cui-code-diff-background {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-code-diff-border-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-code-diff-border-width {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --cui-code-diff-header-background {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-code-diff-header-border-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-code-diff-foreground {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-code-diff-add-background {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-code-diff-del-background {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-code-diff-expand-button-radius {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --cui-code-diff-expand-button-background {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-code-diff-expand-button-foreground {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-code-diff-expand-button-shadow {
+  syntax: "*";
+  inherits: true;
+}
+
+@property --cui-code-diff-expand-button-hover-background {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-code-diff-expand-button-hover-foreground {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}

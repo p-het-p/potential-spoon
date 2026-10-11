@@ -1,15 +1,198 @@
-/* Global reset — AuthForm owns the full-page layout */
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+@import "tailwindcss";
 
-html, body, #root {
-  height: 100%;
-}
+@import "./components/control-ui/styles/type-scale.css";
+@import "./components/control-ui/styles/theme.css";
+@import "./components/control-ui/styles/effects.css";
+@import "./components/control-ui/styles/code.css";
+@import "./components/control-ui/styles/chat-composer-editor.css";
+@import "./components/control-ui/styles/recipes/accordion.css";
+@import "./components/control-ui/styles/recipes/button.css";
+@import "./components/control-ui/styles/recipes/button-states.css";
+@import "./components/control-ui/styles/recipes/collapsible.css";
+@import "./components/control-ui/styles/recipes/progressive-blur.css";
+@import "./components/control-ui/styles/recipes/alert.css";
+@import "./components/control-ui/styles/recipes/popup.css";
+@import "./components/control-ui/styles/recipes/popup-controls.css";
+@import "./components/control-ui/styles/recipes/popup-drawer.css";
+@import "./components/control-ui/styles/recipes/popup-lists.css";
+@import "./components/control-ui/styles/recipes/popup-motion.css";
+@import "./components/control-ui/styles/recipes/track-highlight.css";
+@import "./components/control-ui/styles/recipes/audio-visualizer.css";
+@import "./components/control-ui/styles/recipes/avatar.css";
+@import "./components/control-ui/styles/recipes/badge.css";
+@import "./components/control-ui/styles/recipes/breadcrumb.css";
+@import "./components/control-ui/styles/recipes/calendar.css";
+@import "./components/control-ui/styles/recipes/card.css";
+@import "./components/control-ui/styles/recipes/choice.css";
+@import "./components/control-ui/styles/recipes/field.css";
+@import "./components/control-ui/styles/recipes/field-parts.css";
+@import "./components/control-ui/styles/recipes/empty.css";
+@import "./components/control-ui/styles/recipes/resizable.css";
+@import "./components/control-ui/styles/recipes/separator.css";
+@import "./components/control-ui/styles/recipes/toolbar.css";
+@import "./components/control-ui/styles/recipes/kbd.css";
+@import "./components/control-ui/styles/recipes/label.css";
+@import "./components/control-ui/styles/recipes/tabs.css";
+@import "./components/control-ui/styles/recipes/tabs-motion.css";
+@import "./components/control-ui/styles/recipes/range.css";
+@import "./components/control-ui/styles/recipes/range-level-meter.css";
+@import "./components/control-ui/styles/recipes/pagination.css";
+@import "./components/control-ui/styles/recipes/resize-handle.css";
+@import "./components/control-ui/styles/recipes/stepper.css";
+@import "./components/control-ui/styles/recipes/switch.css";
+@import "./components/control-ui/styles/recipes/table-of-contents.css";
+@import "./components/control-ui/styles/recipes/timeline.css";
+@import "./components/control-ui/styles/recipes/transcript-divider.css";
+@import "./components/control-ui/styles/recipes/action-bar.css";
+@import "./components/control-ui/styles/recipes/morphing-panel.css";
+@import "./components/control-ui/styles/recipes/spinner.css";
+@import "./components/control-ui/styles/recipes/inline-attachment.css";
+@import "./components/control-ui/styles/recipes/skeleton.css";
+@import "./components/control-ui/styles/recipes/task-list.css";
+@import "./components/control-ui/styles/recipes/scroll-area.css";
+@import "./components/control-ui/styles/recipes/button-group.css";
+@import "./components/control-ui/styles/recipes/tree.css";
+@import "./components/control-ui/styles/recipes/audio-recorder.css";
+@import "./components/control-ui/styles/recipes/source-badge.css";
+@import "./components/control-ui/styles/recipes/chart.css";
+@import "./components/control-ui/styles/recipes/infinite-canvas.css";
+@import "./components/control-ui/styles/recipes/flow.css";
+@import "./components/control-ui/styles/recipes/item.css";
+@import "./components/control-ui/styles/recipes/user-ask.css";
+@import "./components/control-ui/styles/recipes/user-ask-details.css";
+@import "./components/control-ui/styles/recipes/dynamic-notification.css";
+@import "./components/control-ui/styles/recipes/dynamic-notification-input.css";
+@import "./components/control-ui/styles/recipes/dynamic-notification-motion.css";
+@import "./components/control-ui/styles/recipes/rich-tooltip.css";
+@import "./components/control-ui/styles/recipes/popup-toast.css";
+@import "./components/control-ui/styles/recipes/chat-message.css";
+@import "./components/control-ui/styles/recipes/chat-message-edit.css";
+@import "./components/control-ui/styles/recipes/chat-message-social.css";
+@import "./components/control-ui/styles/recipes/activity.css";
+@import "./components/control-ui/styles/recipes/page-layout.css";
+@import "./components/control-ui/styles/recipes/chat-composer-attachment.css";
+@import "./components/control-ui/styles/recipes/context.css";
+@import "./components/control-ui/styles/recipes/table.css";
+@import "./components/control-ui/styles/recipes/inline-citation.css";
+@import "./components/control-ui/styles/recipes/icon-picker.css";
+@import "./components/control-ui/styles/recipes/dropzone.css";
+@import "./components/control-ui/styles/recipes/sidebar.css";
+@import "./components/control-ui/styles/recipes/sidebar-menu.css";
+@import "./components/control-ui/styles/recipes/sidebar-mobile.css";
+@import "./components/control-ui/styles/recipes/sidebar-parts.css";
+@import "./components/control-ui/styles/recipes/code.css";
+@import "./components/control-ui/styles/recipes/chat-layout.css";
+@import "./components/control-ui/styles/recipes/thread-rail.css";
+@import "./components/control-ui/styles/recipes/audio-device-select.css";
+@import "./components/control-ui/styles/recipes/color-picker.css";
+@import "./components/control-ui/styles/recipes/color-picker-details.css";
+@import "./components/control-ui/styles/recipes/color-picker-values.css";
+@import "./components/control-ui/styles/recipes/gradient-editor.css";
+@import "./components/control-ui/styles/recipes/chat-composer.css";
+@import "./components/control-ui/styles/recipes/markdown-editor.css";
+@import "./components/control-ui/styles/recipes/filter-bar.css";
+@import "./components/control-ui/styles/recipes/phone-input.css";
+@import "./components/control-ui/styles/recipes/emoji-picker.css";
+@import "./components/control-ui/styles/recipes/app-shell-header.css";
+@import "./components/control-ui/styles/recipes/dockable-panel.css";
+@import "./components/control-ui/styles/recipes/code-diff.css";
+@import "./components/control-ui/styles/recipes/markdown.css";
+@import "./components/control-ui/styles/recipes/markdown-block.css";
 
-body {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@layer base {
+  :root {
+    /* ── Brand & Accent ── */
+    --color-primary: #111111;
+    --color-primary-active: #242424;
+    --color-primary-disabled: #e5e7eb;
+    --color-ink: #111111;
+    --color-body: #374151;
+    --color-muted: #6b7280;
+    --color-muted-soft: #898989;
+    --color-brand-accent: #3b82f6;
+
+    /* ── Surfaces ── */
+    --color-canvas: #ffffff;
+    --color-surface-soft: #f8f9fa;
+    --color-surface-card: #f5f5f5;
+    --color-surface-strong: #e5e7eb;
+    --color-surface-dark: #101010;
+    --color-surface-dark-elevated: #1a1a1a;
+
+    /* ── Borders ── */
+    --color-hairline: #e5e7eb;
+    --color-hairline-soft: #f3f4f6;
+
+    /* ── On-surface text ── */
+    --color-on-primary: #ffffff;
+    --color-on-dark: #ffffff;
+    --color-on-dark-soft: #a1a1aa;
+
+    /* ── Semantic ── */
+    --color-success: #10b981;
+    --color-warning: #f59e0b;
+    --color-error: #ef4444;
+
+    /* ── Badge pastels ── */
+    --color-badge-orange: #fb923c;
+    --color-badge-pink: #ec4899;
+    --color-badge-violet: #8b5cf6;
+    --color-badge-emerald: #34d399;
+
+    /* ── Typography ── */
+    --font-display: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+    /* ── Border Radius ── */
+    --radius-xs: 4px;
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+    --radius-pill: 9999px;
+
+    /* ── Spacing ── */
+    --spacing-xxs: 4px;
+    --spacing-xs: 8px;
+    --spacing-sm: 12px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+    --spacing-xxl: 48px;
+    --spacing-section: 96px;
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html, body, #root {
+    height: 100%;
+  }
+
+  html {
+    background-color: var(--color-canvas);
+  }
+
+  body {
+    font-family: var(--font-body);
+    font-size: 16px;
+    color: var(--color-body);
+    background-color: var(--color-canvas);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-optical-sizing: auto;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: var(--color-ink);
+  }
+
+  button, a {
+    -webkit-tap-highlight-color: transparent;
+  }
 }

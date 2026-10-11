@@ -1,0 +1,17 @@
+export const inlineAttachmentKnobs = [
+  "--cui-inline-attachment-radius",
+  "--cui-inline-attachment-background",
+  "--cui-inline-attachment-ring-color",
+  "--cui-inline-attachment-padding",
+  "--cui-inline-attachment-document-padding",
+  "--cui-inline-attachment-document-background",
+  "--cui-inline-attachment-document-background-image",
+  "--cui-inline-attachment-shadow",
+  "--cui-inline-attachment-hover-shadow",
+  "--cui-inline-attachment-content-radius",
+  "--cui-inline-attachment-content-background",
+  "--cui-inline-attachment-content-foreground",
+  "--cui-inline-attachment-content-shadow",
+  "--cui-inline-attachment-image-outline-color",
+] as const;
+export type InlineAttachmentKnobStyle = Partial<Record<(typeof inlineAttachmentKnobs)[number], string>>;

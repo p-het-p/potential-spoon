@@ -1,0 +1,17 @@
+﻿nspname|relname|relkind|estimate
+public|announcements|r|-1
+public|cart_items|r|-1
+public|carts|r|-1
+public|club_info|r|-1
+public|email_verifications|r|-1
+public|event_tickets|r|-1
+public|events|r|-1
+public|membership_plans|r|-1
+public|memberships|r|-1
+public|non_member_attendees|r|-1
+public|order_items|r|-1
+public|orders|r|-1
+public|payments|r|-1
+public|products|r|-1
+public|users|r|-1
+(15 rows)

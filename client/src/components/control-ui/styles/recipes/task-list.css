@@ -1,0 +1,198 @@
+@layer components {
+  :where([data-control-family="task-list"][data-slot="root"]) {
+    --cui-task-list-background: oklch(from var(--card) l c h / 0.9);
+    --cui-task-list-border-color: var(--border);
+    --cui-task-list-border-width: var(--control-rim-width);
+    --cui-task-list-foreground: var(--foreground);
+    --cui-task-list-radius: var(--radius-field);
+    --cui-task-list-ring-color: oklch(from var(--foreground) l c h / 0.04);
+    --cui-task-list-shadow: var(--shadow-md);
+    --cui-task-list-indicator-active-foreground: var(--primary-text);
+    --cui-task-list-indicator-foreground: var(--muted-foreground);
+    --cui-task-list-item-foreground: var(--foreground);
+    --cui-task-list-item-pending-foreground: var(--muted-foreground);
+    --cui-task-list-items-padding: calc(var(--spacing) * 2);
+    --cui-task-list-item-radius: max(
+      var(--radius-sm),
+      min(var(--radius-popup-item-fit), calc(var(--cui-task-list-radius) - var(--cui-task-list-items-padding)))
+    );
+    --cui-task-list-trigger-hover-background: oklch(from var(--muted) l c h / 0.4);
+    border: var(--cui-task-list-border-width) solid var(--cui-task-list-border-color);
+    border-radius: var(--cui-task-list-radius);
+    background: var(--cui-task-list-background);
+    color: var(--cui-task-list-foreground);
+    box-shadow:
+      inset 0 0 0 var(--control-rim-width) var(--cui-task-list-ring-color),
+      var(--cui-task-list-shadow);
+    backdrop-filter: blur(var(--backdrop-blur-popover));
+    font-size: var(--text-body);
+  }
+
+  :where([data-control-family="task-list"][data-slot="trigger"]) {
+    gap: calc(var(--spacing) * 2);
+    padding-inline: calc(var(--spacing) * 3);
+    padding-block: calc(var(--spacing) * 2);
+    text-align: start;
+  }
+
+  @media (hover: hover) {
+    :where([data-control-family="task-list"][data-slot="trigger"]:hover) {
+      background: var(--cui-task-list-trigger-hover-background);
+    }
+  }
+
+  :where([data-control-family="task-list"][data-slot="trigger"]:focus-visible) {
+    background: var(--cui-task-list-trigger-hover-background);
+  }
+
+  @media (pointer: coarse) {
+    :where([data-control-family="task-list"][data-slot="trigger"]) {
+      position: relative;
+    }
+
+    :where([data-control-family="task-list"][data-slot="trigger"])::after {
+      content: "";
+      position: absolute;
+      inset-inline: 0;
+      inset-block-start: 50%;
+      translate: 0 -50%;
+      block-size: max(100%, var(--touch-target));
+    }
+  }
+
+  :where([data-control-family="task-list"]:is([data-slot="progress"], [data-slot="chevron"])) {
+    color: var(--muted-foreground);
+  }
+
+  :where([data-control-family="task-list"][data-slot="label"]) {
+    color: var(--foreground);
+  }
+
+  :where([data-control-family="task-list"][data-slot="chevron"]) {
+    inline-size: calc(var(--spacing) * 3.5);
+    block-size: calc(var(--spacing) * 3.5);
+    transition: rotate var(--duration-base) var(--ease-standard);
+  }
+
+  :where([data-control-family="task-list"][data-slot="trigger"][data-state="open"] [data-slot="chevron"]) {
+    rotate: 90deg;
+  }
+
+  :where([data-control-family="task-list"][data-slot="items"]) {
+    gap: calc(var(--spacing) * 0.5);
+    padding-inline: var(--cui-task-list-items-padding);
+    padding-block-end: var(--cui-task-list-items-padding);
+  }
+
+  :where([data-control-family="task-list"][data-slot="item"]) {
+    gap: calc(var(--spacing) * 2);
+    padding-inline: calc(var(--spacing) * 1.5);
+    padding-block: calc(var(--spacing) * 1);
+    border-radius: var(--cui-task-list-item-radius);
+    color: var(--cui-task-list-item-foreground);
+  }
+
+  :where([data-control-family="task-list"][data-slot="item"][data-status="pending"]) {
+    color: var(--cui-task-list-item-pending-foreground);
+  }
+
+  :where([data-control-family="task-list"][data-slot="item-indicator"]) {
+    color: var(--cui-task-list-indicator-foreground);
+  }
+
+  :where([data-control-family="task-list"][data-slot="item-indicator"]:is([data-status="active"], [data-status="completed"])) {
+    color: var(--cui-task-list-indicator-active-foreground);
+  }
+
+  :where([data-control-family="task-list"][data-slot="item-indicator"][data-status="active"] > svg) {
+    animation: cui-spin var(--duration-loop) linear infinite;
+  }
+
+  :where([data-control-family="task-list"][data-slot="progress"]) {
+    font-weight: var(--font-weight-medium);
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@property --cui-task-list-radius {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --cui-task-list-ring-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-task-list-items-padding {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --cui-task-list-item-radius {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --cui-task-list-trigger-hover-background {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-task-list-background {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-task-list-foreground {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-task-list-border-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-task-list-border-width {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --cui-task-list-shadow {
+  syntax: "*";
+  inherits: true;
+}
+
+@property --cui-task-list-item-foreground {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-task-list-item-pending-foreground {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-task-list-indicator-foreground {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-task-list-indicator-active-foreground {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}

@@ -1,0 +1,23 @@
+﻿schema|enum_name|enum_value|enumsortorder
+public|membership_status|pending|1
+public|membership_status|active|2
+public|membership_status|expired|3
+public|membership_status|cancelled|4
+public|payment_purpose|ticket|1
+public|payment_purpose|membership_dues|2
+public|payment_purpose|merchandise|3
+public|payment_status|pending|1
+public|payment_status|successful|2
+public|payment_status|failed|3
+public|payment_status|refunded|4
+public|ticket_audience|member|1
+public|ticket_audience|non_member|2
+public|ticket_status|pending|1
+public|ticket_status|confirmed|2
+public|ticket_status|checked_in|3
+public|ticket_status|cancelled|4
+public|user_role|member|1
+public|user_role|volunteer|2
+public|user_role|club_leader|3
+public|user_role|treasurer|4
+(21 rows)

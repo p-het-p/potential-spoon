@@ -1,0 +1,125 @@
+"use client";
+
+import { useRender } from "@base-ui/react/use-render";
+import { ChevronRight, MoreHorizontal } from "lucide-react";
+import type { ComponentProps, CSSProperties } from "react";
+import type { RenderProp } from "@/components/control-ui/control-props";
+import type { BreadcrumbKnobStyle } from "@/components/control-ui/knob-contracts/breadcrumb-knobs";
+import { cn } from "@/components/control-ui/lib/cn";
+
+export function Breadcrumb({ className, ...props }: ComponentProps<"nav"> & { style?: CSSProperties & BreadcrumbKnobStyle }) {
+  return (
+    <nav
+      aria-label="Breadcrumb"
+      data-control-ui="breadcrumb"
+      data-control-family="breadcrumb"
+      data-slot="root"
+      className={className}
+      {...props}
+    />
+  );
+}
+
+export function BreadcrumbList({
+  className,
+  ...props
+}: Omit<ComponentProps<"ol">, "style"> & { style?: CSSProperties & BreadcrumbKnobStyle }) {
+  return (
+    <ol
+      data-control-ui="breadcrumb"
+      data-control-family="breadcrumb"
+      data-slot="list"
+      className={cn("flex flex-wrap items-center break-words", className)}
+      {...props}
+    />
+  );
+}
+
+export function BreadcrumbItem({ className, ...props }: ComponentProps<"li"> & { style?: CSSProperties & BreadcrumbKnobStyle }) {
+  return (
+    <li
+      data-control-ui="breadcrumb"
+      data-control-family="breadcrumb"
+      data-slot="item"
+      className={cn("inline-flex items-center", className)}
+      {...props}
+    />
+  );
+}
+
+export function BreadcrumbLink({
+  render,
+  className,
+  children,
+  ...props
+}: ComponentProps<"a"> & {
+  render?: RenderProp<ComponentProps<"a">>;
+}) {
+  return useRender({
+    defaultTagName: "a",
+    render,
+    props: {
+      ...props,
+      "data-control-ui": "breadcrumb",
+      "data-control-family": "breadcrumb",
+      "data-slot": "link",
+      className: className,
+      children,
+    },
+  });
+}
+
+export function BreadcrumbPage({
+  className,
+  ...props
+}: Omit<ComponentProps<"span">, "style"> & { style?: CSSProperties & BreadcrumbKnobStyle }) {
+  return (
+    <span
+      data-control-ui="breadcrumb"
+      data-control-family="breadcrumb"
+      data-slot="page"
+      aria-current="page"
+      className={className}
+      {...props}
+    />
+  );
+}
+
+export function BreadcrumbSeparator({
+  children,
+  className,
+  ...props
+}: ComponentProps<"li"> & { style?: CSSProperties & BreadcrumbKnobStyle }) {
+  return (
+    <li
+      data-control-ui="breadcrumb"
+      data-control-family="breadcrumb"
+      data-slot="separator"
+      role="presentation"
+      aria-hidden="true"
+      className={cn("[&>svg]:size-3.5", className)}
+      {...props}
+    >
+      {children ?? <ChevronRight data-icon-dir="inline" />}
+    </li>
+  );
+}
+
+export function BreadcrumbEllipsis({
+  label = "Show hidden breadcrumbs",
+  className,
+  ...props
+}: Omit<ComponentProps<"span">, "children"> & { label?: string; style?: CSSProperties & BreadcrumbKnobStyle }) {
+  return (
+    <span
+      data-control-ui="breadcrumb"
+      data-control-family="breadcrumb"
+      data-slot="ellipsis"
+      className={cn("flex items-center justify-center", className)}
+      {...props}
+    >
+      <MoreHorizontal aria-hidden="true" className="size-4" />
+      <span className="sr-only">{label}</span>
+    </span>
+  );
+}

@@ -1,0 +1,168 @@
+"use client";
+
+import { AlertDialog as AlertDialogPrimitive } from "@base-ui/react/alert-dialog";
+import type { ComponentProps, CSSProperties, ReactNode } from "react";
+import type { OpenChangeEventDetails } from "@/components/control-ui/control-props";
+import type { PopupKnobStyle } from "@/components/control-ui/knob-contracts/popup-knobs";
+import { cn } from "@/components/control-ui/lib/cn";
+import { controlEffectsAttribute } from "@/components/control-ui/skin";
+import { useSkin } from "@/components/control-ui/skin-provider";
+import type { ButtonProps } from "@/components/control-ui/ui/button";
+import { Button } from "@/components/control-ui/ui/button";
+
+export type AlertDialogProps = {
+  children?: ReactNode;
+  open?: boolean;
+  defaultOpen?: boolean;
+  onOpenChange?: (open: boolean, eventDetails: OpenChangeEventDetails) => void;
+};
+
+export type AlertDialogContentProps = Omit<ComponentProps<"div">, "style"> & { style?: CSSProperties & PopupKnobStyle };
+
+export function AlertDialog(props: AlertDialogProps) {
+  return <AlertDialogPrimitive.Root {...props} />;
+}
+
+export function AlertDialogTrigger({
+  className,
+  ...props
+}: ComponentProps<typeof AlertDialogPrimitive.Trigger> & { style?: CSSProperties & PopupKnobStyle }) {
+  return (
+    <AlertDialogPrimitive.Trigger
+      data-control-ui="alert-dialog"
+      data-popup-kind="alert-dialog"
+      data-slot="trigger"
+      className={className}
+      {...props}
+    />
+  );
+}
+
+type AlertDialogCloseProps = Omit<ComponentProps<typeof AlertDialogPrimitive.Close>, "render"> &
+  Pick<ButtonProps, "variant" | "size" | "tone" | "iconOnly">;
+
+export function AlertDialogClose({
+  className,
+  children,
+  variant = "surface",
+  size = "sm",
+  tone = "neutral",
+  iconOnly,
+  ...props
+}: AlertDialogCloseProps) {
+  return (
+    <AlertDialogPrimitive.Close
+      {...props}
+      render={(renderProps) => (
+        <Button
+          {...renderProps}
+          data-popup-part="close"
+          variant={variant}
+          size={size}
+          tone={tone}
+          iconOnly={iconOnly}
+          className={cn(renderProps.className, className)}
+        >
+          {children}
+        </Button>
+      )}
+    />
+  );
+}
+
+export function AlertDialogContent({ className, children, ...props }: AlertDialogContentProps) {
+  const skin = useSkin();
+  return (
+    <AlertDialogPrimitive.Portal>
+      <AlertDialogPrimitive.Backdrop
+        data-control-ui="alert-dialog"
+        data-popup-kind="alert-dialog"
+        data-slot="backdrop"
+        data-control-family="popup"
+        data-popup-part="backdrop"
+        data-skin={skin.id}
+        data-effects={controlEffectsAttribute(skin.effects)}
+        className="fixed inset-0 z-(--z-overlay)"
+      />
+      <AlertDialogPrimitive.Popup
+        data-skin={skin.id}
+        data-effects={controlEffectsAttribute(skin.effects)}
+        data-control-ui="alert-dialog"
+        data-popup-kind="alert-dialog"
+        data-slot="content"
+        data-control-family="popup"
+        data-popup-part="surface"
+        data-surface="modal"
+        className={cn("fixed left-1/2 top-[12vh] z-(--z-modal) grid w-[calc(100%-2rem)] max-w-md -translate-x-1/2", className)}
+        {...props}
+      >
+        {children}
+      </AlertDialogPrimitive.Popup>
+    </AlertDialogPrimitive.Portal>
+  );
+}
+
+export function AlertDialogHeader({ className, ...props }: ComponentProps<"div"> & { style?: CSSProperties & PopupKnobStyle }) {
+  return (
+    <div
+      data-control-ui="alert-dialog"
+      data-control-family="popup"
+      data-popup-kind="alert-dialog"
+      data-slot="header"
+      className={cn("grid", className)}
+      {...props}
+    />
+  );
+}
+
+export function AlertDialogBody({ className, ...props }: ComponentProps<"div"> & { style?: CSSProperties & PopupKnobStyle }) {
+  return (
+    <div
+      data-control-ui="alert-dialog"
+      data-control-family="popup"
+      data-popup-kind="alert-dialog"
+      data-slot="body"
+      className={cn("grid", className)}
+      {...props}
+    />
+  );
+}
+
+export function AlertDialogFooter({ className, ...props }: ComponentProps<"div"> & { style?: CSSProperties & PopupKnobStyle }) {
+  return (
+    <div
+      data-control-ui="alert-dialog"
+      data-control-family="popup"
+      data-popup-kind="alert-dialog"
+      data-slot="footer"
+      className={cn("flex flex-col-reverse sm:flex-row sm:justify-end", className)}
+      {...props}
+    />
+  );
+}
+
+export function AlertDialogTitle({ className, ...props }: ComponentProps<"h2"> & { style?: CSSProperties & PopupKnobStyle }) {
+  return (
+    <AlertDialogPrimitive.Title
+      data-control-ui="alert-dialog"
+      data-control-family="popup"
+      data-popup-kind="alert-dialog"
+      data-slot="title"
+      className={className}
+      {...props}
+    />
+  );
+}
+
+export function AlertDialogDescription({ className, ...props }: ComponentProps<"p"> & { style?: CSSProperties & PopupKnobStyle }) {
+  return (
+    <AlertDialogPrimitive.Description
+      data-control-ui="alert-dialog"
+      data-control-family="popup"
+      data-popup-kind="alert-dialog"
+      data-slot="description"
+      className={className}
+      {...props}
+    />
+  );
+}

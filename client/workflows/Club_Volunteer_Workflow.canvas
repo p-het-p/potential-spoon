@@ -1,0 +1,41 @@
+{
+	"nodes":[
+		{"id":"no-tasks","type":"text","text":"## No tasks assigned\n\nWait for an assignment or contact the coordinator. Check the dashboard again later.","x":-440,"y":610,"width":330,"height":150,"color":"1"},
+		{"id":"accept-task","type":"text","text":"## Can the volunteer take the task?\n\nConfirm whether they can complete it.","x":0,"y":1040,"width":360,"height":120},
+		{"id":"decline-task","type":"text","text":"## No — Notify Club Leader\n\nTell the Club Leader that the task cannot be taken so it can be reassigned.","x":-440,"y":1040,"width":330,"height":150,"color":"1"},
+		{"id":"expense-check","type":"text","text":"## Expense incurred?\n\nDid the volunteer spend personal money for the club task?","x":0,"y":1480,"width":360,"height":120},
+		{"id":"submit-expense","type":"text","text":"## 5A. Submit Expense\n\n- Enter amount and expense details\n- Attach receipt, if available/required\n- Submit the reimbursement claim\n- Track review and payment status","x":-440,"y":1690,"width":360,"height":210},
+		{"id":"more-tasks","type":"text","text":"## More tasks to do?\n\nCheck whether another assigned task remains.","x":520,"y":2240,"width":360,"height":120},
+		{"id":"task-history","type":"text","text":"## Task Summary\n\nReview completed tasks and any outstanding reimbursement claims.","x":940,"y":2240,"width":330,"height":140},
+		{"id":"sign-out","type":"text","text":"## 7. Sign Out\n\nEnd the volunteer session.","x":940,"y":2470,"width":330,"height":110},
+		{"id":"volunteer-start","type":"text","text":"# Volunteer Workflow\n\nA volunteer signs in to view assigned work, complete tasks, report progress, and submit expenses when needed.","x":0,"y":-280,"width":360,"height":150,"color":"5"},
+		{"id":"sign-in","type":"text","text":"## 1. Sign In\n\nOpen the club website and sign in with the volunteer's account.","x":0,"y":40,"width":360,"height":130},
+		{"id":"dashboard","type":"text","text":"## 2. Volunteer Dashboard\n\nView assigned tasks, deadlines, task progress, and reimbursement status.","x":0,"y":280,"width":360,"height":140,"color":"5"},
+		{"id":"has-tasks","type":"text","text":"## Assigned tasks available?\n\nCheck the volunteer's task list.","x":0,"y":550,"width":360,"height":120},
+		{"id":"select-task","type":"text","text":"## 3. Select a Task\n\nOpen a task to view its instructions, responsible person, deadline, and current status.","x":0,"y":760,"width":360,"height":160},
+		{"id":"finish-task","type":"text","text":"## 6. Complete Task\n\nFinish the assigned work and mark the task as completed. The coordinator may review completion.","x":-240,"y":2000,"width":360,"height":170,"color":"5"},
+		{"id":"skip-expense","type":"text","text":"## 5B. No Expense\n\nContinue the task without submitting a reimbursement claim.","x":0,"y":1725,"width":360,"height":140},
+		{"id":"in-progress","type":"text","text":"## 4. Mark In Progress\n\nStart the work and update task status as work progresses.","x":0,"y":1240,"width":360,"height":140,"color":"5"}
+	],
+	"edges":[
+		{"id":"e1","fromNode":"volunteer-start","fromSide":"bottom","toNode":"sign-in","toSide":"top","label":"Open website"},
+		{"id":"e2","fromNode":"sign-in","fromSide":"bottom","toNode":"dashboard","toSide":"top","label":"Successful sign-in"},
+		{"id":"e3","fromNode":"dashboard","fromSide":"bottom","toNode":"has-tasks","toSide":"top","label":"View tasks"},
+		{"id":"e4","fromNode":"has-tasks","fromSide":"left","toNode":"no-tasks","toSide":"right","label":"No"},
+		{"id":"e5","fromNode":"no-tasks","fromSide":"top","toNode":"dashboard","toSide":"left","label":"Check again"},
+		{"id":"e6","fromNode":"has-tasks","fromSide":"bottom","toNode":"select-task","toSide":"top","label":"Yes"},
+		{"id":"e7","fromNode":"select-task","fromSide":"bottom","toNode":"accept-task","toSide":"top","label":"Review task"},
+		{"id":"e8","fromNode":"accept-task","fromSide":"left","toNode":"decline-task","toSide":"right","label":"No"},
+		{"id":"e9","fromNode":"decline-task","fromSide":"top","toNode":"dashboard","toSide":"left","label":"Return"},
+		{"id":"e10","fromNode":"accept-task","fromSide":"bottom","toNode":"in-progress","toSide":"top","label":"Yes"},
+		{"id":"e11","fromNode":"in-progress","fromSide":"bottom","toNode":"expense-check","toSide":"top","label":"Work underway"},
+		{"id":"e12","fromNode":"expense-check","fromSide":"left","toNode":"submit-expense","toSide":"top","label":"Yes"},
+		{"id":"e13","fromNode":"expense-check","fromSide":"bottom","toNode":"skip-expense","toSide":"top","label":"No"},
+		{"id":"e14","fromNode":"submit-expense","fromSide":"bottom","toNode":"finish-task","toSide":"left","label":"Claim submitted"},
+		{"id":"e15","fromNode":"skip-expense","fromSide":"bottom","toNode":"finish-task","toSide":"right","label":"Continue"},
+		{"id":"e16","fromNode":"finish-task","fromSide":"bottom","toNode":"more-tasks","toSide":"top","label":"Task completed"},
+		{"id":"e17","fromNode":"more-tasks","fromSide":"right","toNode":"task-history","toSide":"left","label":"No"},
+		{"id":"e18","fromNode":"task-history","fromSide":"bottom","toNode":"sign-out","toSide":"top","label":"Finish session"},
+		{"id":"e19","fromNode":"more-tasks","fromSide":"top","toNode":"dashboard","toSide":"right","label":"Yes — next task"}
+	]
+}

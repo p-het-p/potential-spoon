@@ -1,0 +1,19 @@
+@layer components {
+  :where([data-control-family="label"][data-slot="root"]) {
+    --cui-label-root-foreground: var(--foreground);
+    color: var(--cui-label-root-foreground);
+    font-size: var(--text-label);
+    font-weight: var(--font-weight-medium);
+  }
+
+  :where([data-control-family="label"][data-slot="root"]:has(:disabled, [data-disabled])) {
+    cursor: not-allowed;
+    opacity: var(--disabled-opacity);
+  }
+}
+
+@property --cui-label-root-foreground {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}

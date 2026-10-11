@@ -1,0 +1,28 @@
+﻿ schema |     view_name      |                                                      definition                                                       
+--------+--------------------+-----------------------------------------------------------------------------------------------------------------------
+ public | v_member_dashboard |  SELECT u.user_id,                                                                                                   +
+        |                    |     u.full_name,                                                                                                     +
+        |                    |     u.email,                                                                                                         +
+        |                    |     m.status AS membership_status,                                                                                   +
+        |                    |     p.name AS plan_name,                                                                                             +
+        |                    |     m.start_date,                                                                                                    +
+        |                    |     m.end_date                                                                                                       +
+        |                    |    FROM users u                                                                                                      +
+        |                    |      JOIN memberships m ON m.user_id = u.user_id                                                                     +
+        |                    |      JOIN membership_plans p ON p.id = m.plan_id;
+ public | v_public_events    |  SELECT e.id,                                                                                                        +
+        |                    |     e.title,                                                                                                         +
+        |                    |     e.description,                                                                                                   +
+        |                    |     e.venue,                                                                                                         +
+        |                    |     e.starts_at,                                                                                                     +
+        |                    |     e.ends_at,                                                                                                       +
+        |                    |     e.capacity,                                                                                                      +
+        |                    |     e.capacity - count(et.ticket_id) FILTER (WHERE et.status::text <> 'cancelled'::text) AS seats_left,              +
+        |                    |     p.non_member_price::numeric AS non_member_price                                                                  +
+        |                    |    FROM events e                                                                                                     +
+        |                    |      LEFT JOIN products p ON p.event_id = e.id AND p.product_type::text = 'event_ticket'::text AND p.is_active = true+
+        |                    |      LEFT JOIN event_tickets et ON et.event_id = e.id                                                                +
+        |                    |   WHERE e.is_public = true AND e.starts_at > now()                                                                   +
+        |                    |   GROUP BY e.id, e.title, e.description, e.venue, e.starts_at, e.ends_at, e.capacity, p.non_member_price;
+(2 rows)
+

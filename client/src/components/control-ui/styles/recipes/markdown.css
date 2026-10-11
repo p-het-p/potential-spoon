@@ -1,0 +1,327 @@
+@layer components {
+  :where([data-control-family="markdown"][data-slot="root"]) {
+    --cui-markdown-foreground: oklch(from var(--foreground) l c h / 0.9);
+    --cui-markdown-blockquote-border-color: var(--border);
+    --cui-markdown-blockquote-foreground: var(--muted-foreground);
+    --cui-markdown-inline-code-background: color-mix(in oklab, var(--foreground) 8%, transparent);
+    --cui-markdown-inline-code-foreground: var(--foreground);
+    --cui-markdown-inline-code-radius: 0.25rem;
+    --cui-markdown-image-outline-color: var(--image-outline);
+    --cui-markdown-link-foreground: var(--primary-text);
+    --cui-markdown-table-cell-border-color: var(--border);
+    --cui-markdown-table-header-background: var(--muted);
+    --cui-markdown-font-size: var(--text-body);
+    --cui-markdown-line-height: var(--leading-relaxed);
+    --cui-markdown-flow-gap: calc(var(--spacing) * 4);
+    --cui-markdown-heading-gap: calc(var(--spacing) * 6);
+    color: var(--cui-markdown-foreground);
+    font-size: var(--cui-markdown-font-size);
+    overflow-wrap: break-word;
+  }
+
+  :where([data-control-family="markdown"][data-slot="root"] img[data-streamdown="image"]) {
+    outline: 1px solid var(--cui-markdown-image-outline-color);
+    outline-offset: -1px;
+  }
+
+  :where([data-control-family="markdown"][data-slot="table-cell"]) {
+    padding-inline: calc(var(--spacing) * 3);
+    padding-block: calc(var(--spacing) * 1.5);
+    border-style: solid;
+    border-width: 1px;
+    border-color: var(--cui-markdown-table-cell-border-color);
+    font-variant-numeric: tabular-nums;
+  }
+
+  :where([data-control-family="markdown"][data-slot="table-header"]) {
+    padding-inline: calc(var(--spacing) * 3);
+    padding-block: calc(var(--spacing) * 1.5);
+    border-style: solid;
+    border-width: 1px;
+    border-color: var(--border);
+    background-color: var(--cui-markdown-table-header-background);
+    text-align: start;
+    font-weight: var(--font-weight-semibold);
+  }
+
+  :where([data-control-family="markdown"][data-slot="table"]) {
+    border-collapse: collapse;
+    font-size: var(--cui-markdown-font-size);
+  }
+
+  :where([data-control-family="markdown"][data-slot="emphasis"]) {
+    font-style: italic;
+  }
+
+  :where([data-control-family="markdown"][data-slot="strong"]) {
+    font-weight: var(--font-weight-semibold);
+    color: var(--foreground);
+  }
+
+  :where([data-control-family="markdown"][data-slot="separator"]) {
+    margin-block: calc(var(--spacing) * 6);
+    border-color: var(--border);
+  }
+
+  :where([data-control-family="markdown"][data-slot="blockquote"]) {
+    margin-block: calc(var(--spacing) * 4);
+    padding-inline-start: calc(var(--spacing) * 4);
+    border-color: var(--cui-markdown-blockquote-border-color);
+    border-inline-start-style: solid;
+    border-inline-start-width: 2px;
+    color: var(--cui-markdown-blockquote-foreground);
+    font-style: italic;
+  }
+
+  :where([data-control-family="markdown"][data-slot="link"]) {
+    font-weight: var(--font-weight-medium);
+    color: var(--cui-markdown-link-foreground);
+    --_markdown-link-decoration: underline;
+    text-decoration-line: var(--_markdown-link-decoration);
+    text-underline-offset: 2px;
+    overflow-wrap: anywhere;
+  }
+
+  @media (hover: hover) {
+    :where([data-control-family="markdown"][data-slot="link"]:hover) {
+      --_markdown-link-decoration: none;
+      text-decoration-line: var(--_markdown-link-decoration);
+    }
+  }
+
+  :where([data-control-family="markdown"][data-slot="list-item"]) {
+    line-height: var(--cui-markdown-line-height);
+  }
+
+  :where([data-control-family="markdown"][data-slot="paragraph"]) {
+    margin-block: calc(var(--spacing) * 3);
+    line-height: var(--cui-markdown-line-height);
+    text-wrap: pretty;
+  }
+
+  :where(
+    [data-control-family="markdown"]:is(
+      [data-slot="h1"],
+      [data-slot="h2"],
+      [data-slot="h3"],
+      [data-slot="h4"],
+      [data-slot="h5"],
+      [data-slot="h6"]
+    )
+  ) {
+    color: var(--foreground);
+    text-wrap: balance;
+    scroll-margin-block-start: calc(var(--spacing) * 6);
+  }
+
+  :where([data-control-family="markdown"]:is([data-slot="h3"], [data-slot="h4"], [data-slot="h5"], [data-slot="h6"])) {
+    margin-block: calc(var(--spacing) * 5) calc(var(--spacing) * 2);
+  }
+
+  :where([data-control-family="markdown"][data-slot="h1"]),
+  :where([data-control-family="markdown"][data-slot="h2"]) {
+    margin-block: calc(var(--spacing) * 6) calc(var(--spacing) * 3);
+  }
+
+  :where(
+    [data-control-family="markdown"]:is(
+      [data-slot="h1"],
+      [data-slot="h2"],
+      [data-slot="h3"],
+      [data-slot="h4"],
+      [data-slot="h5"],
+      [data-slot="h6"]
+    ):first-child
+  ) {
+    margin-block-start: 0;
+  }
+
+  :where([data-control-family="markdown"][data-slot="paragraph"]:first-child) {
+    margin-block-start: 0;
+  }
+
+  :where([data-control-family="markdown"][data-slot="paragraph"]:last-child) {
+    margin-block-end: 0;
+  }
+
+  :where([data-control-family="markdown"][data-slot="unordered-list"]),
+  :where([data-control-family="markdown"][data-slot="ordered-list"]) {
+    margin-block: calc(var(--spacing) * 3);
+    padding-inline-start: calc(var(--spacing) * 6);
+  }
+
+  :where([data-control-family="markdown"]:is([data-slot="unordered-list"], [data-slot="ordered-list"]) > * + *) {
+    margin-block-start: calc(var(--spacing) * 1);
+  }
+
+  :where([data-control-family="markdown"][data-slot="unordered-list"].contains-task-list) {
+    padding-inline-start: 0;
+  }
+
+  :where([data-control-family="markdown"][data-slot="list-item"].task-list-item) {
+    list-style-type: none;
+  }
+
+  :where([data-control-family="markdown"][data-slot="unordered-list"].contains-task-list > li:not(.task-list-item)) {
+    margin-inline-start: calc(var(--spacing) * 6);
+  }
+
+  :where(
+    [data-control-family="markdown"][data-slot="list-item"].task-list-item
+      [data-control-family="choice"][data-choice-kind="checkbox"][data-slot="root"]
+  ) {
+    vertical-align: middle;
+    margin-inline-end: calc(var(--spacing) * 2);
+  }
+
+  :where([data-control-family="markdown"][data-slot="table-scroll"]) {
+    margin-block: calc(var(--spacing) * 4);
+  }
+
+  :where([data-control-family="markdown"][data-slot="flow"] > .cui-markdown-streamdown) {
+    display: contents;
+  }
+
+  :where([data-control-family="markdown"][data-slot="flow"]) {
+    display: grid;
+    min-width: 0;
+    row-gap: var(--cui-markdown-flow-gap);
+  }
+
+  :where(
+    :is([data-control-family="markdown"][data-slot="flow"], .cui-markdown-streamdown)
+      > [data-control-family="markdown"]:is(
+        [data-slot="paragraph"],
+        [data-slot="unordered-list"],
+        [data-slot="ordered-list"],
+        [data-slot="blockquote"],
+        [data-slot="separator"],
+        [data-slot="table-scroll"]
+      )
+  ) {
+    margin-block: 0;
+  }
+
+  :where(
+    :is([data-control-family="markdown"][data-slot="flow"], .cui-markdown-streamdown)
+      > [data-control-family="markdown"]:is(
+        [data-slot="h1"],
+        [data-slot="h2"],
+        [data-slot="h3"],
+        [data-slot="h4"],
+        [data-slot="h5"],
+        [data-slot="h6"]
+      )
+  ) {
+    margin-block: max(0px, calc(var(--cui-markdown-heading-gap) - var(--cui-markdown-flow-gap))) 0;
+  }
+
+  :where(
+    :is([data-control-family="markdown"][data-slot="flow"], .cui-markdown-streamdown)
+      > [data-control-family="markdown"]:is(
+        [data-slot="h1"],
+        [data-slot="h2"],
+        [data-slot="h3"],
+        [data-slot="h4"],
+        [data-slot="h5"],
+        [data-slot="h6"]
+      ):first-child
+  ) {
+    margin-block-start: 0;
+  }
+
+  :where([data-control-family="markdown"][data-slot="inline-code"]) {
+    padding-inline: calc(var(--spacing) * 1);
+    padding-block: calc(var(--spacing) * 0.5);
+    border-radius: var(--cui-markdown-inline-code-radius);
+    background-color: var(--cui-markdown-inline-code-background);
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    overflow-wrap: anywhere;
+    color: var(--cui-markdown-inline-code-foreground);
+  }
+}
+
+@property --cui-markdown-foreground {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-markdown-blockquote-border-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-markdown-blockquote-foreground {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-markdown-inline-code-background {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-markdown-inline-code-foreground {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-markdown-inline-code-radius {
+  syntax: "<length-percentage>+";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --cui-markdown-link-foreground {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-markdown-image-outline-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-markdown-table-cell-border-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-markdown-table-header-background {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --cui-markdown-font-size {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --cui-markdown-line-height {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 1.5;
+}
+
+@property --cui-markdown-flow-gap {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --cui-markdown-heading-gap {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 0px;
+}

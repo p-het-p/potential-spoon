@@ -1,0 +1,19 @@
+﻿table_schema|table_type|table_name
+public|BASE TABLE|announcements
+public|BASE TABLE|cart_items
+public|BASE TABLE|carts
+public|BASE TABLE|club_info
+public|BASE TABLE|email_verifications
+public|BASE TABLE|event_tickets
+public|BASE TABLE|events
+public|BASE TABLE|membership_plans
+public|BASE TABLE|memberships
+public|BASE TABLE|non_member_attendees
+public|BASE TABLE|order_items
+public|BASE TABLE|orders
+public|BASE TABLE|payments
+public|BASE TABLE|products
+public|BASE TABLE|users
+public|VIEW|v_member_dashboard
+public|VIEW|v_public_events
+(17 rows)
